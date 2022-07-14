@@ -266,7 +266,85 @@ if ($action == 'create') {
 	print '<table class="border centpercent tableforfieldcreate">'."\n";
 
 	// Common attributes
-	include DOL_DOCUMENT_ROOT.'/core/tpl/commonfields_add.tpl.php';
+	//include DOL_DOCUMENT_ROOT.'/core/tpl/commonfields_add.tpl.php';
+
+	$object->fields = dol_sort_array($object->fields, 'position');
+	$prec_position;
+
+	foreach ($object->fields as $key => $val) {
+		/* Script pour afficher sur la même ligne plusieurs éléments si leurs position est identique */
+
+		if(floor($val['position']) != $prec_position || empty($prec_position))
+		{
+			print '</tr>';
+			print '<tr class="field_'.$key.'">';
+		}
+
+		/* fin */
+
+		// Discard if extrafield is a hidden field on form
+		if (abs($val['visible']) != 1 && abs($val['visible']) != 3) {
+			continue;
+		}
+
+		if (array_key_exists('enabled', $val) && isset($val['enabled']) && !verifCond($val['enabled'])) {
+			continue; // We don't want this field
+		}
+
+		print '<td';
+		print ' class="titlefieldcreate';
+		if (isset($val['notnull']) && $val['notnull'] > 0) {
+			print ' fieldrequired';
+		}
+		if ($val['type'] == 'text' || $val['type'] == 'html') {
+			print ' tdtop';
+		}
+		print '"';
+		print '>';
+
+		if (!empty($val['help'])) {
+			print $form->textwithpicto($langs->trans($val['label']), $langs->trans($val['help']));
+		} else {
+			print $langs->trans($val['label']);
+		}
+		print '</td>';
+		print '<td class="valuefieldcreate">';
+		if (!empty($val['picto'])) {
+			print img_picto('', $val['picto'], '', false, 0, 0, '', 'pictofixedwidth');
+		}
+		if (in_array($val['type'], array('int', 'integer'))) {
+			$value = GETPOST($key, 'int');
+		} elseif ($val['type'] == 'double') {
+			$value = price2num(GETPOST($key, 'alphanohtml'));
+		} elseif ($val['type'] == 'text' || $val['type'] == 'html') {
+			$value = GETPOST($key, 'restricthtml');
+		} elseif ($val['type'] == 'date') {
+			$value = dol_mktime(12, 0, 0, GETPOST($key.'month', 'int'), GETPOST($key.'day', 'int'), GETPOST($key.'year', 'int'));
+		} elseif ($val['type'] == 'datetime') {
+			$value = dol_mktime(GETPOST($key.'hour', 'int'), GETPOST($key.'min', 'int'), 0, GETPOST($key.'month', 'int'), GETPOST($key.'day', 'int'), GETPOST($key.'year', 'int'));
+		} elseif ($val['type'] == 'boolean') {
+			$value = (GETPOST($key) == 'on' ? 1 : 0);
+		} elseif ($val['type'] == 'price') {
+			$value = price2num(GETPOST($key));
+		} elseif ($key == 'lang') {
+			$value = GETPOST($key, 'aZ09');
+		} else {
+			$value = GETPOST($key, 'alphanohtml');
+		}
+		if (!empty($val['noteditable'])) {
+			print $object->showOutputField($val, $key, $value, '', '', '', 0);
+		} else {
+			if ($key == 'lang') {
+				print img_picto('', 'language', 'class="pictofixedwidth"');
+				print $formadmin->select_language($value, $key, 0, null, 1, 0, 0, 'minwidth300', 2);
+			} else {
+				print $object->showInputField($val, $key, $value, '', '', '', 0);
+			}
+		}
+		print '</td>';
+		$prec_position = floor($val['position']);
+
+	}
 
 	// Other attributes
 	include DOL_DOCUMENT_ROOT.'/core/tpl/extrafields_add.tpl.php';
@@ -275,15 +353,10 @@ if ($action == 'create') {
 
 	print dol_get_fiche_end();
 
-	print $form->buttonsSaveCancel("Create");
+	print $form->buttonsSaveCancel("Créer");
 
 	print '</form>';
 
-	print '
-	<script type="text/javascript">
-	document.write("Javascript Hello World machines_card.php r284");
-	document.querySelector(".field_label").children[0].style.color = "red";
-	</script>';
 
 	//dol_set_focus('input[name="ref"]');
 }
@@ -610,5 +683,8 @@ if ($object->id > 0 && (empty($action) || ($action != 'edit' && $action != 'crea
 }
 
 // End of page
+print '<script>';
+include DOL_DOCUMENT_ROOT.'/custom/gestionnaireparc/js/machines.js';
+print '</script>';
 llxFooter();
 $db->close();
