@@ -20,7 +20,6 @@ CREATE TABLE llx_gestionnaireparc_machines(
 	ref varchar(128) NOT NULL, 
 	label varchar(64), 
 	description text, 
-	note_private text, 
 	date_creation datetime NOT NULL, 
 	tms timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, 
 	fk_user_creat integer NOT NULL, 

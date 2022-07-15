@@ -124,7 +124,7 @@ class Machines extends CommonObject
 		'type_huile_moteur' => array('type'=>'varchar(64)', 'label'=>'TypeHuileMoteur', 'enabled'=>'1', 'position'=>16.1, 'notnull'=>0, 'visible'=>-1, 'help'=>"Type de l'huile moteur utilisée",),
 		'quantite_huile_moteur' => array('type'=>'integer', 'label'=>'QuantiteHuileMoteur', 'enabled'=>'1', 'position'=>16.2, 'notnull'=>0, 'visible'=>-1, 'isameasure'=>'1', 'help'=>"Quantité d'huile moteur requise (en Litres)",),
 		'type' => array('type'=>'integer', 'label'=>'Type', 'enabled'=>'1', 'position'=>3, 'notnull'=>1, 'visible'=>1, 'default'=>'0', 'arrayofkeyval'=>array('0'=>'Machine', '1'=>'Véhicule'),),
-		'immatriculation' => array('type'=>'varchar(7)', 'label'=>'Immatriculation', 'enabled'=>'1', 'position'=>11, 'notnull'=>0, 'visible'=>-1,),
+		'immatriculation' => array('type'=>'varchar(9)', 'label'=>'Immatriculation', 'enabled'=>'1', 'position'=>11, 'notnull'=>0, 'visible'=>-1,),
 		'kilometrage' => array('type'=>'integer', 'label'=>'Kilometrage', 'enabled'=>'1', 'position'=>12, 'notnull'=>0, 'visible'=>-1, 'help'=>"Kilométrage du véhicule relevé au moment de sa création en base de données",),
 		'derniere_revision' => array('type'=>'date', 'label'=>'DateDerniereRevision', 'enabled'=>'1', 'position'=>13, 'notnull'=>0, 'visible'=>-1, 'help'=>"Date de la dernière révision au moment de l'ajout en base",),
 		'type_huile_hydrau' => array('type'=>'varchar(64)', 'label'=>'TypeHuileHydrauliques', 'enabled'=>'1', 'position'=>18.1, 'notnull'=>0, 'visible'=>-1, 'help'=>"Type de l'huile pour hydrauliques utilisée",),

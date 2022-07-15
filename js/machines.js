@@ -1,4 +1,18 @@
-let type = document.querySelector('#type').value;
+const queryString = window.location.search;
+const urlParams = new URLSearchParams(queryString);
+
+//If creating element
+if(urlParams.get("action") == "create")
+{
+    type = document.querySelector('#type').value;
+}
+
+//If reading element
+if(urlParams.get("id") !== null)
+{
+    type = document.querySelector('td.fieldname_type:nth-child(2)').innerHTML;
+    console.log(type);
+}
 reloadFields();
 
 
@@ -9,7 +23,7 @@ $(document.body).on("change","#type",function(){
 
 function reloadFields()
 {
-    if(type == 0) //Machine
+    if(type == 0 || type == "Machine")
     {
         document.querySelector('.field_immatriculation').classList.add('hideobject');
         document.querySelector('.field_numero_serie').classList.remove('hideobject');
@@ -21,7 +35,7 @@ function reloadFields()
         document.querySelector('.field_ref_courroie_moteur').classList.remove('hideobject');
         document.querySelector('.field_ref_plateau_tondeuse').classList.remove('hideobject');
     }
-    if(type == 1) //Véhicule
+    if(type == 1 || type == "Véhicule")
     {
         document.querySelector('.field_immatriculation').classList.remove('hideobject');
         document.querySelector('.field_numero_serie').classList.add('hideobject');
