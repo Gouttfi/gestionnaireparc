@@ -11,7 +11,6 @@ if(urlParams.get("action") == "create")
 if(urlParams.get("id") !== null)
 {
     type = document.querySelector('td.fieldname_type:nth-child(2)').innerHTML;
-    console.log(type);
 }
 reloadFields();
 
@@ -21,6 +20,7 @@ $(document.body).on("change","#type",function(){
     reloadFields();
 });
 
+//Mises en formes conditionnelles ici
 function reloadFields()
 {
     if(type == 0 || type == "Machine")

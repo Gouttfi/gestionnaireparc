@@ -103,9 +103,7 @@ class Interventions extends CommonObject
 	 */
 	public $fields=array(
 		'rowid' => array('type'=>'integer', 'label'=>'TechnicalID', 'enabled'=>'1', 'position'=>1, 'notnull'=>1, 'visible'=>0, 'noteditable'=>'1', 'index'=>1, 'css'=>'left', 'comment'=>"Id"),
-		'compte_rendu' => array('type'=>'text', 'label'=>'CompteRendu', 'enabled'=>'1', 'position'=>60, 'notnull'=>0, 'visible'=>-4, 'validate'=>'1',),
-		'note_public' => array('type'=>'html', 'label'=>'NotePublic', 'enabled'=>'1', 'position'=>61, 'notnull'=>0, 'visible'=>0, 'cssview'=>'wordbreak', 'validate'=>'1',),
-		'note_private' => array('type'=>'html', 'label'=>'NotePrivate', 'enabled'=>'1', 'position'=>62, 'notnull'=>0, 'visible'=>0, 'cssview'=>'wordbreak', 'validate'=>'1',),
+		'compte_rendu' => array('type'=>'text', 'label'=>'CompteRendu', 'enabled'=>'1', 'position'=>40, 'notnull'=>0, 'visible'=>-4, 'validate'=>'1',),
 		'date_creation' => array('type'=>'datetime', 'label'=>'DateCreation', 'enabled'=>'1', 'position'=>500, 'notnull'=>1, 'visible'=>-2,),
 		'tms' => array('type'=>'timestamp', 'label'=>'DateModification', 'enabled'=>'1', 'position'=>501, 'notnull'=>0, 'visible'=>-2,),
 		'fk_user_creat' => array('type'=>'integer:User:user/class/user.class.php', 'label'=>'UserAuthor', 'enabled'=>'1', 'position'=>510, 'notnull'=>1, 'visible'=>-2, 'foreignkey'=>'user.rowid',),
@@ -113,22 +111,39 @@ class Interventions extends CommonObject
 		'last_main_doc' => array('type'=>'varchar(255)', 'label'=>'LastMainDoc', 'enabled'=>'1', 'position'=>600, 'notnull'=>0, 'visible'=>0,),
 		'import_key' => array('type'=>'varchar(14)', 'label'=>'ImportId', 'enabled'=>'1', 'position'=>1000, 'notnull'=>-1, 'visible'=>-2,),
 		'model_pdf' => array('type'=>'varchar(255)', 'label'=>'Model pdf', 'enabled'=>'1', 'position'=>1010, 'notnull'=>-1, 'visible'=>0,),
-		'intervention_type' => array('type'=>'integer', 'label'=>'TypeIntervention', 'enabled'=>'1', 'position'=>2, 'notnull'=>1, 'visible'=>1, 'arrayofkeyval'=>array('0'=>'Maintenance', '1'=>'Dépannage'),),
-		'fk_machine' => array('type'=>'integer:Machines:custom/gestionnaireparc/class/machines.class.php', 'label'=>'Machine', 'enabled'=>'1', 'position'=>3, 'notnull'=>1, 'visible'=>1,),
-		'resultat_intervention' => array('type'=>'integer', 'label'=>'ResultatIntervention', 'enabled'=>'1', 'position'=>4, 'notnull'=>1, 'visible'=>4, 'default'=>'0', 'arrayofkeyval'=>array('0'=>'En attente', '1'=>'Réussie', '2'=>'Vaine'),),
-		'date_intervention' => array('type'=>'date', 'label'=>'DateIntervention', 'enabled'=>'1', 'position'=>5, 'notnull'=>1, 'visible'=>1,),
-		'agent' => array('type'=>'integer:User:user/class/user.class.php', 'label'=>'AgentConcerne', 'enabled'=>'1', 'position'=>6, 'notnull'=>1, 'visible'=>1, 'default'=>'__USER_ID__',),
-		'duree_intervention' => array('type'=>'duration', 'label'=>'DureeIntervention', 'enabled'=>'1', 'position'=>7, 'notnull'=>1, 'visible'=>1,),
-		'operation1' => array('type'=>'integer:Operations:custom/gestionnaireparc/class/operations.class.php', 'label'=>'Operation1', 'enabled'=>'1', 'position'=>10, 'notnull'=>0, 'visible'=>3,),
-		'ref_operation1' => array('type'=>'varchar(64)', 'label'=>'RefOperation1', 'enabled'=>'1', 'position'=>11, 'notnull'=>0, 'visible'=>3,),
-		'fk_panne' => array('type'=>'integer:Pannes:custom/gestionnaireparc/class/pannes.class.php', 'label'=>'Panne', 'enabled'=>'1', 'position'=>3, 'notnull'=>1, 'visible'=>1,),
+		'intervention_type' => array('type'=>'integer', 'label'=>'TypeIntervention', 'enabled'=>'1', 'position'=>3, 'notnull'=>1, 'visible'=>1, 'default'=>'0', 'arrayofkeyval'=>array('0'=>'Maintenance', '1'=>'Dépannage'),),
+		'fk_machine' => array('type'=>'integer:Machines:custom/gestionnaireparc/class/machines.class.php', 'label'=>'Machine', 'enabled'=>'1', 'position'=>5, 'notnull'=>0, 'visible'=>1,),
+		'resultat_intervention' => array('type'=>'integer', 'label'=>'ResultatIntervention', 'enabled'=>'1', 'position'=>10, 'notnull'=>1, 'visible'=>4, 'default'=>'0', 'arrayofkeyval'=>array('0'=>'En attente', '1'=>'Réussie', '2'=>'Vaine'),),
+		'date_intervention' => array('type'=>'date', 'label'=>'DateIntervention', 'enabled'=>'1', 'position'=>6, 'notnull'=>1, 'visible'=>1,),
+		'agent' => array('type'=>'integer:User:user/class/user.class.php', 'label'=>'AgentConcerne', 'enabled'=>'1', 'position'=>7, 'notnull'=>1, 'visible'=>1, 'default'=>'__USER_ID__',),
+		'duree_intervention' => array('type'=>'duration', 'label'=>'DureeIntervention', 'enabled'=>'1', 'position'=>9, 'notnull'=>0, 'visible'=>1,),
+		'fk_panne' => array('type'=>'integer:Pannes:custom/gestionnaireparc/class/pannes.class.php', 'label'=>'Panne', 'enabled'=>'1', 'position'=>4, 'notnull'=>0, 'visible'=>1,),
 		'status' => array('type'=>'integer', 'label'=>'Status', 'enabled'=>'1', 'position'=>1000, 'notnull'=>1, 'visible'=>4, 'default'=>'0', 'index'=>1, 'arrayofkeyval'=>array('0'=>'Plannifiée', '1'=>'Réalisée', '2'=>'Clôturée'), 'validate'=>'1',),
 		'description' => array('type'=>'text', 'label'=>'DescriptionIntervention', 'enabled'=>'1', 'position'=>8, 'notnull'=>1, 'visible'=>3,),
+		'ref' => array('type'=>'integer', 'label'=>'RefAuto', 'enabled'=>'1', 'position'=>2, 'notnull'=>1, 'visible'=>1,),
+		'operation1' => array('type'=>'integer:Operations:custom/gestionnaireparc/class/operations.class.php', 'label'=>'Operation1', 'enabled'=>'1', 'position'=>20, 'notnull'=>0, 'visible'=>3,),
+		'ref_operation1' => array('type'=>'varchar(64)', 'label'=>'RefOperation1', 'enabled'=>'1', 'position'=>20.1, 'notnull'=>0, 'visible'=>3,),
+		'operation2' => array('type'=>'integer:Operations:custom/gestionnaireparc/class/operations.class.php', 'label'=>'Operation2', 'enabled'=>'1', 'position'=>21, 'notnull'=>0, 'visible'=>3,),
+		'ref_operation2' => array('type'=>'varchar(64)', 'label'=>'RefOperation2', 'enabled'=>'1', 'position'=>21.1, 'notnull'=>0, 'visible'=>3,),
+		'operation3' => array('type'=>'integer:Operations:custom/gestionnaireparc/class/operations.class.php', 'label'=>'Operation3', 'enabled'=>'1', 'position'=>22, 'notnull'=>0, 'visible'=>3,),
+		'ref_operation3' => array('type'=>'varchar(64)', 'label'=>'RefOperation3', 'enabled'=>'1', 'position'=>22.1, 'notnull'=>0, 'visible'=>3,),
+		'operation4' => array('type'=>'integer:Operations:custom/gestionnaireparc/class/operations.class.php', 'label'=>'Operation4', 'enabled'=>'1', 'position'=>23, 'notnull'=>0, 'visible'=>3,),
+		'ref_operation4' => array('type'=>'varchar(64)', 'label'=>'RefOperation4', 'enabled'=>'1', 'position'=>23.1, 'notnull'=>0, 'visible'=>3,),
+		'operation5' => array('type'=>'integer:Operations:custom/gestionnaireparc/class/operations.class.php', 'label'=>'Operation5', 'enabled'=>'1', 'position'=>24, 'notnull'=>0, 'visible'=>3,),
+		'ref_operation5' => array('type'=>'varchar(64)', 'label'=>'RefOperation5', 'enabled'=>'1', 'position'=>24.1, 'notnull'=>0, 'visible'=>3,),
+		'operation6' => array('type'=>'integer:Operations:custom/gestionnaireparc/class/operations.class.php', 'label'=>'Operation6', 'enabled'=>'1', 'position'=>25, 'notnull'=>0, 'visible'=>3,),
+		'ref_operation6' => array('type'=>'varchar(64)', 'label'=>'RefOperation6', 'enabled'=>'1', 'position'=>25.1, 'notnull'=>0, 'visible'=>3,),
+		'operation7' => array('type'=>'integer:Operations:custom/gestionnaireparc/class/operations.class.php', 'label'=>'Operation7', 'enabled'=>'1', 'position'=>26, 'notnull'=>0, 'visible'=>3,),
+		'ref_operation7' => array('type'=>'varchar(64)', 'label'=>'RefOperation7', 'enabled'=>'1', 'position'=>26.1, 'notnull'=>0, 'visible'=>3,),
+		'operation8' => array('type'=>'integer:Operations:custom/gestionnaireparc/class/operations.class.php', 'label'=>'Operation8', 'enabled'=>'1', 'position'=>27, 'notnull'=>0, 'visible'=>3,),
+		'ref_operation8' => array('type'=>'varchar(64)', 'label'=>'RefOperation8', 'enabled'=>'1', 'position'=>27.1, 'notnull'=>0, 'visible'=>3,),
+		'operation9' => array('type'=>'integer:Operations:custom/gestionnaireparc/class/operations.class.php', 'label'=>'Operation9', 'enabled'=>'1', 'position'=>28, 'notnull'=>0, 'visible'=>3,),
+		'ref_operation9' => array('type'=>'varchar(64)', 'label'=>'RefOperation9', 'enabled'=>'1', 'position'=>28.1, 'notnull'=>0, 'visible'=>3,),
+		'operation10' => array('type'=>'integer:Operations:custom/gestionnaireparc/class/operations.class.php', 'label'=>'Operation10', 'enabled'=>'1', 'position'=>29, 'notnull'=>0, 'visible'=>3,),
+		'ref_operation10' => array('type'=>'varchar(64)', 'label'=>'RefOperation10', 'enabled'=>'1', 'position'=>29.1, 'notnull'=>0, 'visible'=>3,),
 	);
 	public $rowid;
 	public $compte_rendu;
-	public $note_public;
-	public $note_private;
 	public $date_creation;
 	public $tms;
 	public $fk_user_creat;
@@ -142,11 +157,30 @@ class Interventions extends CommonObject
 	public $date_intervention;
 	public $agent;
 	public $duree_intervention;
-	public $operation1;
-	public $ref_operation1;
 	public $fk_panne;
 	public $status;
 	public $description;
+	public $ref;
+	public $operation1;
+	public $ref_operation1;
+	public $operation2;
+	public $ref_operation2;
+	public $operation3;
+	public $ref_operation3;
+	public $operation4;
+	public $ref_operation4;
+	public $operation5;
+	public $ref_operation5;
+	public $operation6;
+	public $ref_operation6;
+	public $operation7;
+	public $ref_operation7;
+	public $operation8;
+	public $ref_operation8;
+	public $operation9;
+	public $ref_operation9;
+	public $operation10;
+	public $ref_operation10;
 	// END MODULEBUILDER PROPERTIES
 
 

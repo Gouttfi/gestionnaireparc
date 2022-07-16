@@ -263,10 +263,10 @@ if ($action == 'create') {
 	// Set some default values
 	//if (! GETPOSTISSET('fieldname')) $_POST['fieldname'] = 'myvalue';
 
-	print '<table class="border centpercent tableforfieldcreate">'."\n";
+	print '<table class="conditionnal border centpercent tableforfieldcreate">'."\n";
 
 	// Common attributes
-	include DOL_DOCUMENT_ROOT.'/core/tpl/commonfields_add.tpl.php';
+	include 'tpl/commonfields_add.tpl.php';
 
 	// Other attributes
 	include DOL_DOCUMENT_ROOT.'/core/tpl/extrafields_add.tpl.php';
@@ -299,10 +299,10 @@ if (($id || $ref) && $action == 'edit') {
 
 	print dol_get_fiche_head();
 
-	print '<table class="border centpercent tableforfieldedit">'."\n";
+	print '<table class="conditionnal border centpercent tableforfieldedit">'."\n";
 
 	// Common attributes
-	include DOL_DOCUMENT_ROOT.'/core/tpl/commonfields_edit.tpl.php';
+	include 'tpl/commonfields_edit.tpl.php';
 
 	// Other attributes
 	include DOL_DOCUMENT_ROOT.'/core/tpl/extrafields_edit.tpl.php';
@@ -423,7 +423,7 @@ if ($object->id > 0 && (empty($action) || ($action != 'edit' && $action != 'crea
 	//$keyforbreak='fieldkeytoswitchonsecondcolumn';	// We change column just before this field
 	//unset($object->fields['fk_project']);				// Hide field already shown in banner
 	//unset($object->fields['fk_soc']);					// Hide field already shown in banner
-	include DOL_DOCUMENT_ROOT.'/core/tpl/commonfields_view.tpl.php';
+	include 'tpl/commonfields_view.tpl.php';
 
 	// Other attributes. Fields from hook formObjectOptions and Extrafields.
 	include DOL_DOCUMENT_ROOT.'/core/tpl/extrafields_view.tpl.php';
@@ -604,5 +604,8 @@ if ($object->id > 0 && (empty($action) || ($action != 'edit' && $action != 'crea
 }
 
 // End of page
+print '<script>';
+include DOL_DOCUMENT_ROOT.'/custom/gestionnaireparc/js/interventions.js';
+print '</script>';
 llxFooter();
 $db->close();
