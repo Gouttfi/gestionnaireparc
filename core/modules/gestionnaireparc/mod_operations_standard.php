@@ -18,17 +18,17 @@
  */
 
 /**
- *  \file       htdocs/core/modules/gestionnaireparc/mod_interventions_standard.php
+ *  \file       htdocs/core/modules/gestionnaireparc/mod_operations_standard.php
  *  \ingroup    gestionnaireparc
- *  \brief      File of class to manage Interventions numbering rules standard
+ *  \brief      File of class to manage Operations numbering rules standard
  */
-dol_include_once('/gestionnaireparc/core/modules/gestionnaireparc/modules_interventions.php');
+dol_include_once('/gestionnaireparc/core/modules/gestionnaireparc/modules_operations.php');
 
 
 /**
  *	Class to manage customer order numbering rules standard
  */
-class mod_interventions_standard extends ModeleNumRefInterventions
+class mod_operations_standard extends ModeleNumRefOperations
 {
 	/**
 	 * Dolibarr version of the loaded document
@@ -36,7 +36,7 @@ class mod_interventions_standard extends ModeleNumRefInterventions
 	 */
 	public $version = 'dolibarr'; // 'development', 'experimental', 'dolibarr'
 
-	public $prefix = 'INT-';
+	public $prefix = 'OPE-';
 
 	/**
 	 * @var string Error code (or message)
@@ -87,7 +87,7 @@ class mod_interventions_standard extends ModeleNumRefInterventions
 
 		$posindice = strlen($this->prefix) + 6;
 		$sql = "SELECT MAX(CAST(SUBSTRING(ref FROM ".$posindice.") AS SIGNED)) as max";
-		$sql .= " FROM ".MAIN_DB_PREFIX."gestionnaireparc_interventions";
+		$sql .= " FROM ".MAIN_DB_PREFIX."gestionnaireparc_operations";
 		$sql .= " WHERE ref LIKE '".$db->escape($this->prefix)."____-%'";
 		if ($object->ismultientitymanaged == 1) {
 			$sql .= " AND entity = ".$conf->entity;
@@ -124,7 +124,7 @@ class mod_interventions_standard extends ModeleNumRefInterventions
 		// first we get the max value
 		$posindice = strlen($this->prefix) + 6;
 		$sql = "SELECT MAX(CAST(SUBSTRING(ref FROM ".$posindice.") AS SIGNED)) as max";
-		$sql .= " FROM ".MAIN_DB_PREFIX."gestionnaireparc_interventions";
+		$sql .= " FROM ".MAIN_DB_PREFIX."gestionnaireparc_operations";
 		$sql .= " WHERE ref LIKE '".$db->escape($this->prefix)."____-%'";
 		if ($object->ismultientitymanaged == 1) {
 			$sql .= " AND entity = ".$conf->entity;
@@ -141,7 +141,7 @@ class mod_interventions_standard extends ModeleNumRefInterventions
 				$max = 0;
 			}
 		} else {
-			dol_syslog("mod_interventions_standard::getNextValue", LOG_DEBUG);
+			dol_syslog("mod_operations_standard::getNextValue", LOG_DEBUG);
 			return -1;
 		}
 
@@ -155,7 +155,7 @@ class mod_interventions_standard extends ModeleNumRefInterventions
 			$num = sprintf("%04s", $max + 1);
 		}
 
-		dol_syslog("mod_interventions_standard::getNextValue return ".$this->prefix.$yymm."-".$num);
+		dol_syslog("mod_operations_standard::getNextValue return ".$this->prefix.$yymm."-".$num);
 		return $this->prefix.$yymm."-".$num;
 	}
 }

@@ -266,7 +266,7 @@ if ($action == 'create') {
 	print '<table class="border centpercent tableforfieldcreate">'."\n";
 
 	// Common attributes
-	include DOL_DOCUMENT_ROOT.'/core/tpl/commonfields_add.tpl.php';
+	include 'tpl/commonfields_add.tpl.php';
 
 	// Other attributes
 	include DOL_DOCUMENT_ROOT.'/core/tpl/extrafields_add.tpl.php';

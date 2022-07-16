@@ -95,7 +95,7 @@ $backtopage = GETPOST('backtopage', 'alpha');
 $backtopageforcancel = GETPOST('backtopageforcancel', 'alpha');
 $lineid   = GETPOST('lineid', 'int');
 
-// Initialize technical objects
+// Initialize technical $s
 $object = new Interventions($db);
 $extrafields = new ExtraFields($db);
 $diroutputmassaction = $conf->gestionnaireparc->dir_output.'/temp/massgeneration/'.$user->id;

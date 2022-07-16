@@ -34,7 +34,7 @@ CREATE TABLE llx_gestionnaireparc_interventions(
 	fk_panne integer, 
 	status integer NOT NULL, 
 	description text NOT NULL, 
-	ref integer NOT NULL, 
+	ref varchar(64) DEFAULT '(AUTO)' NOT NULL, 
 	operation1 integer, 
 	ref_operation1 varchar(64), 
 	operation2 integer, 

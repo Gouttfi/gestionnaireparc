@@ -103,7 +103,7 @@ class Interventions extends CommonObject
 	 */
 	public $fields=array(
 		'rowid' => array('type'=>'integer', 'label'=>'TechnicalID', 'enabled'=>'1', 'position'=>1, 'notnull'=>1, 'visible'=>0, 'noteditable'=>'1', 'index'=>1, 'css'=>'left', 'comment'=>"Id"),
-		'compte_rendu' => array('type'=>'text', 'label'=>'CompteRendu', 'enabled'=>'1', 'position'=>40, 'notnull'=>0, 'visible'=>-4, 'validate'=>'1',),
+		'compte_rendu' => array('type'=>'text', 'label'=>'CompteRendu', 'enabled'=>'1', 'position'=>40, 'notnull'=>0, 'visible'=>-4,),
 		'date_creation' => array('type'=>'datetime', 'label'=>'DateCreation', 'enabled'=>'1', 'position'=>500, 'notnull'=>1, 'visible'=>-2,),
 		'tms' => array('type'=>'timestamp', 'label'=>'DateModification', 'enabled'=>'1', 'position'=>501, 'notnull'=>0, 'visible'=>-2,),
 		'fk_user_creat' => array('type'=>'integer:User:user/class/user.class.php', 'label'=>'UserAuthor', 'enabled'=>'1', 'position'=>510, 'notnull'=>1, 'visible'=>-2, 'foreignkey'=>'user.rowid',),
@@ -118,9 +118,9 @@ class Interventions extends CommonObject
 		'agent' => array('type'=>'integer:User:user/class/user.class.php', 'label'=>'AgentConcerne', 'enabled'=>'1', 'position'=>7, 'notnull'=>1, 'visible'=>1, 'default'=>'__USER_ID__',),
 		'duree_intervention' => array('type'=>'duration', 'label'=>'DureeIntervention', 'enabled'=>'1', 'position'=>9, 'notnull'=>1, 'visible'=>4,),
 		'fk_panne' => array('type'=>'integer:Pannes:custom/gestionnaireparc/class/pannes.class.php', 'label'=>'Panne', 'enabled'=>'1', 'position'=>4, 'notnull'=>0, 'visible'=>1,),
-		'status' => array('type'=>'integer', 'label'=>'Status', 'enabled'=>'1', 'position'=>1000, 'notnull'=>1, 'visible'=>4, 'default'=>'0', 'index'=>1, 'arrayofkeyval'=>array('0'=>'Plannifiée', '1'=>'Réalisée', '2'=>'Clôturée'), 'validate'=>'1',),
+		'status' => array('type'=>'integer', 'label'=>'Status', 'enabled'=>'1', 'position'=>1000, 'notnull'=>1, 'visible'=>4, 'default'=>'0', 'index'=>1, 'arrayofkeyval'=>array('0'=>'Plannifiée', '1'=>'Réalisée', '2'=>'Clôturée'),),
 		'description' => array('type'=>'text', 'label'=>'DescriptionIntervention', 'enabled'=>'1', 'position'=>8, 'notnull'=>1, 'visible'=>3,),
-		'ref' => array('type'=>'integer', 'label'=>'RefAuto', 'enabled'=>'1', 'position'=>2, 'notnull'=>1, 'visible'=>1,),
+		'ref' => array('type'=>'varchar(64)', 'label'=>'RefAuto', 'enabled'=>'1', 'position'=>2, 'notnull'=>1, 'visible'=>1, 'default'=>'(AUTO)',),
 		'operation1' => array('type'=>'integer:Operations:custom/gestionnaireparc/class/operations.class.php', 'label'=>'Operation1', 'enabled'=>'1', 'position'=>20, 'notnull'=>0, 'visible'=>3,),
 		'ref_operation1' => array('type'=>'varchar(64)', 'label'=>'RefOperation1', 'enabled'=>'1', 'position'=>20.1, 'notnull'=>0, 'visible'=>3,),
 		'operation2' => array('type'=>'integer:Operations:custom/gestionnaireparc/class/operations.class.php', 'label'=>'Operation2', 'enabled'=>'1', 'position'=>21, 'notnull'=>0, 'visible'=>3,),
@@ -421,6 +421,8 @@ class Interventions extends CommonObject
 	 */
 	public function fetchAll($sortorder = '', $sortfield = '', $limit = 0, $offset = 0, array $filter = array(), $filtermode = 'AND')
 	{
+
+		echo ('fectchej');
 		global $conf;
 
 		dol_syslog(__METHOD__, LOG_DEBUG);
@@ -654,6 +656,7 @@ class Interventions extends CommonObject
 			$this->db->rollback();
 			return -1;
 		}
+
 	}
 
 

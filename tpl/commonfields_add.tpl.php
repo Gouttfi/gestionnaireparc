@@ -41,6 +41,7 @@ foreach ($object->fields as $key => $val) {
     if(floor($val['position']) != $prec_position || empty($prec_position))
     {
         print '</tr>';
+
         print '<tr class="field_'.$key.'">';
     }
 
@@ -102,6 +103,10 @@ foreach ($object->fields as $key => $val) {
             print img_picto('', 'language', 'class="pictofixedwidth"');
             print $formadmin->select_language($value, $key, 0, null, 1, 0, 0, 'minwidth300', 2);
         } else {
+			if($key == "ref" && $value=="(AUTO)")
+			{
+				$value = $object->getNextNumRef();
+			}
             print $object->showInputField($val, $key, $value, '', '', '', 0);
         }
     }

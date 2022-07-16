@@ -120,6 +120,7 @@ class Pannes extends CommonObject
 		'agent' => array('type'=>'integer:User:user/class/user.class.php', 'label'=>'AgentDetecteur', 'enabled'=>'1', 'position'=>6, 'notnull'=>1, 'visible'=>1, 'default'=>'__USER_ID__',),
 		'statut_panne' => array('type'=>'integer', 'label'=>'StatutPanne', 'enabled'=>'1', 'position'=>7, 'notnull'=>1, 'visible'=>5, 'noteditable'=>'1', 'default'=>'0', 'arrayofkeyval'=>array('0'=>'En cours', '1'=>'Terminée'),),
 		'fk_date_intervention' => array('type'=>'date', 'label'=>'DateReparation', 'enabled'=>'1', 'position'=>8, 'notnull'=>-1, 'visible'=>5, 'noteditable'=>'1',),
+		'ref' => array('type'=>'integer', 'label'=>'Ref', 'enabled'=>'1', 'position'=>1, 'notnull'=>1, 'visible'=>1, 'default'=>'(AUTO)',),
 	);
 	public $rowid;
 	public $description;
@@ -139,6 +140,7 @@ class Pannes extends CommonObject
 	public $agent;
 	public $statut_panne;
 	public $fk_date_intervention;
+	public $ref;
 	// END MODULEBUILDER PROPERTIES
 
 

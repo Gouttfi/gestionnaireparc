@@ -34,6 +34,6 @@ CREATE TABLE llx_gestionnaireparc_pannes(
 	agent integer NOT NULL, 
 	statut_panne integer NOT NULL, 
 	fk_date_intervention date, 
-	ref integer NOT NULL
+	ref varchar(64) DEFAULT '(AUTO)' NOT NULL
 	-- END MODULEBUILDER FIELDS
 ) ENGINE=innodb;
