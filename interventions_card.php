@@ -128,7 +128,7 @@ $enablepermissioncheck = 0;
 if ($enablepermissioncheck) {
 	$permissiontoread = $user->rights->gestionnaireparc->interventions->read;
 	$permissiontoadd = $user->rights->gestionnaireparc->interventions->write; // Used by the include of actions_addupdatedelete.inc.php and actions_lineupdown.inc.php
-	$permissiontodelete = $user->rights->gestionnaireparc->interventions->delete || ($permissiontoadd && isset($object->status) && $object->status == $object::STATUS_DRAFT);
+	$permissiontodelete = $user->rights->gestionnaireparc->interventions->delete || ($permissiontoadd && isset($object->status) && $object->status == $object::STATUS_PROGRAMMEE);
 	$permissionnote = $user->rights->gestionnaireparc->interventions->write; // Used by the include of actions_setnotes.inc.php
 	$permissiondellink = $user->rights->gestionnaireparc->interventions->write; // Used by the include of actions_dellink.inc.php
 } else {
@@ -144,7 +144,7 @@ $upload_dir = $conf->gestionnaireparc->multidir_output[isset($object->entity) ? 
 // Security check (enable the most restrictive one)
 //if ($user->socid > 0) accessforbidden();
 //if ($user->socid > 0) $socid = $user->socid;
-//$isdraft = (isset($object->status) && ($object->status == $object::STATUS_DRAFT) ? 1 : 0);
+//$isdraft = (isset($object->status) && ($object->status == $object::STATUS_PROGRAMMEE) ? 1 : 0);
 //restrictedArea($user, $object->element, $object->id, $object->table_element, '', 'fk_soc', 'rowid', $isdraft);
 if (empty($conf->gestionnaireparc->enabled)) accessforbidden();
 if (!$permissiontoread) accessforbidden();
@@ -179,6 +179,9 @@ if (empty($reshook)) {
 
 	// Actions cancel, add, update, update_extras, confirm_validate, confirm_delete, confirm_deleteline, confirm_clone, confirm_close, confirm_setdraft, confirm_reopen
 	include DOL_DOCUMENT_ROOT.'/core/actions_addupdatedelete.inc.php';
+
+	// Action pour éditer avant validation
+	include 'core/actions_interventions.inc.php';
 
 	// Actions when linking object each other
 	include DOL_DOCUMENT_ROOT.'/core/actions_dellink.inc.php';
@@ -283,10 +286,10 @@ if ($action == 'create') {
 }
 
 // Part to edit record
-if (($id || $ref) && $action == 'edit') {
+if (($id || $ref) && $action == 'edit' || $action == 'edit_avant_realiser') {
 	print load_fiche_titre($langs->trans("Interventions"), '', 'object_'.$object->picto);
 
-	print '<form method="POST" action="'.$_SERVER["PHP_SELF"].'">';
+	print '<form method="POST" action="'.$_SERVER['PHP_SELF'].'?id='.$object->id.'&action=confirm_realisation&confirm=yes&token='.newToken().'">';
 	print '<input type="hidden" name="token" value="'.newToken().'">';
 	print '<input type="hidden" name="action" value="update">';
 	print '<input type="hidden" name="id" value="'.$object->id.'">';
@@ -311,13 +314,15 @@ if (($id || $ref) && $action == 'edit') {
 
 	print dol_get_fiche_end();
 
-	print $form->buttonsSaveCancel();
+	print '<input type="submit" class="button button-save " name="save" value="Enregistrer">';
+	//print dolGetButtonAction($langs->trans('BoutonRealiser'), '', 'default', $_SERVER['PHP_SELF'].'?id='.$object->id.'&action=confirm_realisation&confirm=yes&token='.newToken(), '', $permissiontoadd);
+	print dolGetButtonAction($langs->trans('BoutonRetour'), '', 'default', $_SERVER['PHP_SELF'].'?id='.$object->id, '', $permissiontoadd);
 
 	print '</form>';
 }
 
 // Part to show record
-if ($object->id > 0 && (empty($action) || ($action != 'edit' && $action != 'create'))) {
+if ($object->id > 0 && (empty($action) || ($action != 'edit' && $action != 'create' && $action != 'edit_avant_realiser'))) {
 	$res = $object->fetch_optionals();
 
 	$head = interventionsPrepareHead($object);
@@ -410,8 +415,31 @@ if ($object->id > 0 && (empty($action) || ($action != 'edit' && $action != 'crea
 	 }*/
 	$morehtmlref .= '</div>';
 
+	//Récupération du statut de l'élément//
+	$statut_intervention = $object->statut_intervention;
+	$status_class;
+	$status_label;
+	switch($statut_intervention) {
+		case 0:
+			$status_class = 1;
+			$status_label = "Programmée";
+		break;
+		case 1:
+			$status_class = 4;
+			$status_label = "Réalisée";
+		break;
+		case 2:
+			$status_class = 8;
+			$status_label = "Vaine";
+		break;
+		case 3:
+			$status_class = 9;
+			$status_label = "Clôturée";
+		break;
+	}
 
-	dol_banner_tab($object, 'ref', $linkback, 1, 'ref', 'ref', $morehtmlref);
+	dol_banner_tab($object, 'ref', $linkback, 1, 'ref', 'ref', $morehtmlref,'','','',dolGetStatus($status_label,'','','status'.$status_class,2));
+	//print dolGetStatus('coucou','','','status1',2);
 
 
 	print '<div class="fichecenter">';
@@ -458,7 +486,7 @@ if ($object->id > 0 && (empty($action) || ($action != 'edit' && $action != 'crea
 		}
 
 		print '<div class="div-table-responsive-no-min">';
-		if (!empty($object->lines) || ($object->status == $object::STATUS_DRAFT && $permissiontoadd && $action != 'selectlines' && $action != 'editline')) {
+		if (!empty($object->lines) || ($object->status == $object::STATUS_PROGRAMMEE && $permissiontoadd && $action != 'selectlines' && $action != 'editline')) {
 			print '<table id="tablelines" class="noborder noshadow" width="100%">';
 		}
 
@@ -479,7 +507,7 @@ if ($object->id > 0 && (empty($action) || ($action != 'edit' && $action != 'crea
 			}
 		}
 
-		if (!empty($object->lines) || ($object->status == $object::STATUS_DRAFT && $permissiontoadd && $action != 'selectlines' && $action != 'editline')) {
+		if (!empty($object->lines) || ($object->status == $object::STATUS_PROGRAMMEE && $permissiontoadd && $action != 'selectlines' && $action != 'editline')) {
 			print '</table>';
 		}
 		print '</div>';
@@ -500,21 +528,25 @@ if ($object->id > 0 && (empty($action) || ($action != 'edit' && $action != 'crea
 
 		if (empty($reshook)) {
 			// Send
-			if (empty($user->socid)) {
+			/*if (empty($user->socid)) {
 				print dolGetButtonAction($langs->trans('SendMail'), '', 'default', $_SERVER["PHP_SELF"].'?id='.$object->id.'&action=presend&mode=init&token='.newToken().'#formmailbeforetitle');
 			}
 
 			// Back to draft
-			if ($object->status == $object::STATUS_VALIDATED) {
+			/*if ($object->status == $object::STATUS_REALISEE) {
 				print dolGetButtonAction($langs->trans('SetToDraft'), '', 'default', $_SERVER["PHP_SELF"].'?id='.$object->id.'&action=confirm_setdraft&confirm=yes&token='.newToken(), '', $permissiontoadd);
+			}*/
+
+			// Si l'intervention est réalisée, bouton pour modifier et cloturer uniquement si manager
+			if($object->resultat_intervention != 0 && $object->statut_intervention != 3 && $permissiontoadd) {
+				print dolGetButtonAction($langs->trans('BoutonModifier'), '', 'default', $_SERVER["PHP_SELF"].'?id='.$object->id.'&action=edit&token='.newToken(), '', $permissiontoadd);
+				print dolGetButtonAction($langs->trans('BoutonCloturer'), '', 'default', $_SERVER["PHP_SELF"].'?id='.$object->id.'&action=cloturer&confirm=yes&token='.newToken(), '', $permissiontoadd);
 			}
 
-			print dolGetButtonAction($langs->trans('Modify'), '', 'default', $_SERVER["PHP_SELF"].'?id='.$object->id.'&action=edit&token='.newToken(), '', $permissiontoadd);
-
-			// Validate
-			if ($object->status == $object::STATUS_DRAFT) {
+			// Si l'intervention a été complétée (tous les champs remplis), bouton pour réaliser
+			if ($statut_intervention == 0) {
 				if (empty($object->table_element_line) || (is_array($object->lines) && count($object->lines) > 0)) {
-					print dolGetButtonAction($langs->trans('Validate'), '', 'default', $_SERVER['PHP_SELF'].'?id='.$object->id.'&action=confirm_validate&confirm=yes&token='.newToken(), '', $permissiontoadd);
+					print dolGetButtonAction($langs->trans('BoutonRealiser'), '', 'default', $_SERVER['PHP_SELF'].'?id='.$object->id.'&action=edit_avant_realiser&confirm=yes&token='.newToken(), '', $permissiontoadd);
 				} else {
 					$langs->load("errors");
 					print dolGetButtonAction($langs->trans("ErrorAddAtLeastOneLineFirst"), $langs->trans("Validate"), 'default', '#', '', 0);
@@ -522,7 +554,7 @@ if ($object->id > 0 && (empty($action) || ($action != 'edit' && $action != 'crea
 			}
 
 			// Clone
-			print dolGetButtonAction($langs->trans('ToClone'), '', 'default', $_SERVER['PHP_SELF'].'?id='.$object->id.(!empty($object->socid)?'&socid='.$object->socid:'').'&action=clone&token='.newToken(), '', $permissiontoadd);
+			//print dolGetButtonAction($langs->trans('ToClone'), '', 'default', $_SERVER['PHP_SELF'].'?id='.$object->id.(!empty($object->socid)?'&socid='.$object->socid:'').'&action=clone&token='.newToken(), '', $permissiontoadd);
 
 			/*
 			if ($permissiontoadd) {
@@ -533,7 +565,7 @@ if ($object->id > 0 && (empty($action) || ($action != 'edit' && $action != 'crea
 				}
 			}
 			if ($permissiontoadd) {
-				if ($object->status == $object::STATUS_VALIDATED) {
+				if ($object->status == $object::STATUS_REALISEE) {
 					print dolGetButtonAction($langs->trans('Cancel'), '', 'default', $_SERVER['PHP_SELF'].'?id='.$object->id.'&action=close&token='.newToken(), '', $permissiontoadd);
 				} else {
 					print dolGetButtonAction($langs->trans('Re-Open'), '', 'default', $_SERVER['PHP_SELF'].'?id='.$object->id.'&action=reopen&token='.newToken(), '', $permissiontoadd);
@@ -542,7 +574,9 @@ if ($object->id > 0 && (empty($action) || ($action != 'edit' && $action != 'crea
 			*/
 
 			// Delete (need delete permission, or if draft, just need create/modify permission)
-			print dolGetButtonAction($langs->trans('Delete'), '', 'delete', $_SERVER['PHP_SELF'].'?id='.$object->id.'&action=delete&token='.newToken(), '', $permissiontodelete || ($object->status == $object::STATUS_DRAFT && $permissiontoadd));
+			if ($object->statut_intervention != 3) {
+				print dolGetButtonAction($langs->trans('Delete'), '', 'delete', $_SERVER['PHP_SELF'].'?id='.$object->id.'&action=delete&token='.newToken(), '', $permissiontodelete);
+			}
 		}
 		print '</div>'."\n";
 	}

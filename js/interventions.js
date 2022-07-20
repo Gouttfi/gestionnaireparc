@@ -2,7 +2,7 @@ const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
 
 //If reading element
-if(urlParams.get("id") !== null && urlParams.get("action") !== "edit")
+if(urlParams.get("id") !== null && urlParams.get("action") !== "edit" && urlParams.get("action") !== "edit_avant_realiser")
 {
     type = document.querySelector('td.fieldname_intervention_type:nth-child(2)').innerHTML;
     op1_value = document.querySelector('td.fieldname_operation1:nth-child(2)').innerHTML;
@@ -49,7 +49,7 @@ observer.observe(targetNode, config);
 function reloadFields()
 {
     //Si mode création ou édition, lecture des valeurs de tous les champs surveillés pour le traitement conditonnel
-    if(urlParams.get("action") == "create" || urlParams.get("action") == "edit")
+    if(urlParams.get("action") == "create" || urlParams.get("action") == "edit" || urlParams.get("action") == "edit_avant_realiser")
     {
         type = document.querySelector('#intervention_type').value;
         op1_value = document.querySelector('#operation1').value;

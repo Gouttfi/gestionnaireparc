@@ -17,7 +17,7 @@
 -- BEGIN MODULEBUILDER INDEXES
 ALTER TABLE llx_gestionnaireparc_interventions ADD INDEX idx_gestionnaireparc_interventions_rowid (rowid);
 ALTER TABLE llx_gestionnaireparc_interventions ADD CONSTRAINT llx_gestionnaireparc_interventions_fk_user_creat FOREIGN KEY (fk_user_creat) REFERENCES llx_user(rowid);
-ALTER TABLE llx_gestionnaireparc_interventions ADD INDEX idx_gestionnaireparc_interventions_status (status);
+ALTER TABLE llx_gestionnaireparc_interventions ADD INDEX idx_gestionnaireparc_interventions_statut_intervention (statut_intervention);
 -- END MODULEBUILDER INDEXES
 
 --ALTER TABLE llx_gestionnaireparc_interventions ADD UNIQUE INDEX uk_gestionnaireparc_interventions_fieldxy(fieldx, fieldy);
