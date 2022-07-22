@@ -24,7 +24,7 @@ CREATE TABLE llx_gestionnaireparc_operations(
 	last_main_doc varchar(255), 
 	import_key varchar(14), 
 	model_pdf varchar(255), 
-	ref integer NOT NULL, 
+	ref varchar(64) DEFAULT '(AUTO)' NOT NULL, 
 	nb_real integer NOT NULL, 
 	label varchar(128) NOT NULL
 	-- END MODULEBUILDER FIELDS

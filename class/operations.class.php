@@ -111,8 +111,8 @@ class Operations extends CommonObject
 		'import_key' => array('type'=>'varchar(14)', 'label'=>'ImportId', 'enabled'=>'1', 'position'=>1000, 'notnull'=>-1, 'visible'=>-2,),
 		'model_pdf' => array('type'=>'varchar(255)', 'label'=>'Model pdf', 'enabled'=>'1', 'position'=>1010, 'notnull'=>-1, 'visible'=>0,),
 		'ref' => array('type'=>'varchar(64)', 'label'=>'Ref', 'enabled'=>'1', 'position'=>2, 'notnull'=>1, 'visible'=>1, 'default'=>'(AUTO)',),
-		'nb_real' => array('type'=>'integer', 'label'=>'NombreRealisation', 'enabled'=>'1', 'position'=>100, 'notnull'=>1, 'visible'=>2, 'default'=>'0',),
-		'label' => array('type'=>'varchar(128)', 'label'=>'NomOperation', 'enabled'=>'1', 'position'=>3, 'notnull'=>1, 'visible'=>1,),
+		'nb_real' => array('type'=>'integer', 'label'=>'NombreRealisation', 'enabled'=>'1', 'position'=>100, 'notnull'=>1, 'visible'=>5, 'default'=>'0',),
+		'label' => array('type'=>'varchar(128)', 'label'=>'NomOperation', 'enabled'=>'1', 'position'=>3, 'notnull'=>1, 'visible'=>3, 'showoncombobox'=>'2',),
 	);
 	public $rowid;
 	public $date_creation;
@@ -769,7 +769,7 @@ class Operations extends CommonObject
 		}
 
 		if ($withpicto != 2) {
-			$result .= $this->ref;
+			$result .= $this->label;
 		}
 
 		$result .= $linkend;

@@ -31,7 +31,7 @@ CREATE TABLE llx_gestionnaireparc_interventions(
 	agent integer NOT NULL, 
 	duree_intervention integer NOT NULL, 
 	fk_panne integer, 
-	statut_intervention integer DEFAULT 1 NOT NULL, 
+	statut_intervention integer NOT NULL, 
 	description text NOT NULL, 
 	ref varchar(64) DEFAULT '(AUTO)' NOT NULL, 
 	operation1 integer, 
@@ -57,3 +57,48 @@ CREATE TABLE llx_gestionnaireparc_interventions(
 	resultat_intervention integer NOT NULL
 	-- END MODULEBUILDER FIELDS
 ) ENGINE=innodb;
+
+-- Trigger pour mettre à jour le statut d'une panne après la modification d'une intervention
+DROP TRIGGER IF EXISTS `calcul_StatutPanne_apres_modif_intervention`;
+CREATE DEFINER=`sc1bkem9394`@`localhost` TRIGGER `calcul_StatutPanne_apres_modif_intervention`
+AFTER UPDATE ON `llxsm_gestionnaireparc_interventions`
+FOR EACH ROW IF (new.`fk_panne` IS NOT NULL AND new.`statut_intervention` >= 1) THEN
+UPDATE `llxsm_gestionnaireparc_pannes` SET `statut_panne` = '1', `fk_date_intervention` = new.`date_intervention`
+WHERE `llxsm_gestionnaireparc_pannes`.`rowid` = new.`fk_panne`;
+END IF
+
+-- Trigger pour mettre à jour le nombre d'opérations utilisées après la cloture d'une intervention
+DROP TRIGGER IF EXISTS `calcul_utilisations_operations`;CREATE DEFINER=`sc1bkem9394`@`localhost` TRIGGER `calcul_utilisations_operations` AFTER UPDATE ON `llxsm_gestionnaireparc_interventions` FOR EACH ROW IF (new.`statut_intervention` = 3) THEN
+
+IF (new.`operation1` IS NOT NULL) THEN
+UPDATE `llxsm_gestionnaireparc_operations` SET `nb_real` = `nb_real`+1 WHERE `llxsm_gestionnaireparc_operations`.`rowid` = new.`operation1`;
+END IF;
+IF (new.`operation2` IS NOT NULL) THEN
+UPDATE `llxsm_gestionnaireparc_operations` SET `nb_real` = `nb_real`+1 WHERE `llxsm_gestionnaireparc_operations`.`rowid` = new.`operation2`;
+END IF;
+IF (new.`operation3` IS NOT NULL) THEN
+UPDATE `llxsm_gestionnaireparc_operations` SET `nb_real` = `nb_real`+1 WHERE `llxsm_gestionnaireparc_operations`.`rowid` = new.`operation3`;
+END IF;
+IF (new.`operation4` IS NOT NULL) THEN
+UPDATE `llxsm_gestionnaireparc_operations` SET `nb_real` = `nb_real`+1 WHERE `llxsm_gestionnaireparc_operations`.`rowid` = new.`operation4`;
+END IF;
+IF (new.`operation5` IS NOT NULL) THEN
+UPDATE `llxsm_gestionnaireparc_operations` SET `nb_real` = `nb_real`+1 WHERE `llxsm_gestionnaireparc_operations`.`rowid` = new.`operation5`;
+END IF;
+IF (new.`operation6` IS NOT NULL) THEN
+UPDATE `llxsm_gestionnaireparc_operations` SET `nb_real` = `nb_real`+1 WHERE `llxsm_gestionnaireparc_operations`.`rowid` = new.`operation6`;
+END IF;
+IF (new.`operation7` IS NOT NULL) THEN
+UPDATE `llxsm_gestionnaireparc_operations` SET `nb_real` = `nb_real`+1 WHERE `llxsm_gestionnaireparc_operations`.`rowid` = new.`operation7`;
+END IF;
+IF (new.`operation8` IS NOT NULL) THEN
+UPDATE `llxsm_gestionnaireparc_operations` SET `nb_real` = `nb_real`+1 WHERE `llxsm_gestionnaireparc_operations`.`rowid` = new.`operation8`;
+END IF;
+IF (new.`operation9` IS NOT NULL) THEN
+UPDATE `llxsm_gestionnaireparc_operations` SET `nb_real` = `nb_real`+1 WHERE `llxsm_gestionnaireparc_operations`.`rowid` = new.`operation9`;
+END IF;
+IF (new.`operation10` IS NOT NULL) THEN
+UPDATE `llxsm_gestionnaireparc_operations` SET `nb_real` = `nb_real`+1 WHERE `llxsm_gestionnaireparc_operations`.`rowid` = new.`operation10`;
+END IF;
+
+END IF

@@ -658,8 +658,21 @@ while ($i < ($limit ? min($num, $limit) : $num)) {
 
 		if (!empty($arrayfields['t.'.$key]['checked'])) {
 			print '<td'.($cssforfield ? ' class="'.$cssforfield.'"' : '').'>';
-			if ($key == 'status') {
-				print $object->getLibStatut(5);
+			if ($key == 'statut_panne') {
+				if($object->$key == 0)
+				{
+					$status = 8;
+				}
+				else if($object->$key == 1)
+				{
+					$status = 4;
+				}
+				else
+				{
+					$status = 0;
+				}
+				print '<span class="badge  badge-status'.$status.' badge-status" title="'.$object->showOutputField($val, $key, $object->$key, '').'">'.$object->showOutputField($val, $key, $object->$key, '').'</span>';
+				//print $object->getLibStatut(5);
 			} elseif ($key == 'rowid') {
 				print $object->showOutputField($val, $key, $object->id, '');
 			} else {

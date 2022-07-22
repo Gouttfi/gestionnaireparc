@@ -658,8 +658,25 @@ while ($i < ($limit ? min($num, $limit) : $num)) {
 
 		if (!empty($arrayfields['t.'.$key]['checked'])) {
 			print '<td'.($cssforfield ? ' class="'.$cssforfield.'"' : '').'>';
-			if ($key == 'status') {
-				print $object->getLibStatut(5);
+			if ($key == 'statut_intervention') {
+				switch($object->$key) {
+					case 0:
+						$status = 1;
+					break;
+					case 1:
+						$status = 4;
+					break;
+					case 2:
+						$status = 8;
+					break;
+					case 3:
+						$status = 9;
+					break;
+					default:
+						$status = 0;
+					break;
+				}
+				print '<span class="badge  badge-status'.$status.' badge-status" title="'.$object->showOutputField($val, $key, $object->$key, '').'">'.$object->showOutputField($val, $key, $object->$key, '').'</span>';
 			} elseif ($key == 'rowid') {
 				print $object->showOutputField($val, $key, $object->id, '');
 			} else {

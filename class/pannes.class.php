@@ -115,7 +115,7 @@ class Pannes extends CommonObject
 		'model_pdf' => array('type'=>'varchar(255)', 'label'=>'Model pdf', 'enabled'=>'1', 'position'=>1010, 'notnull'=>-1, 'visible'=>0,),
 		'fk_machines' => array('type'=>'integer:Machines:custom/gestionnaireparc/class/machines.class.php', 'label'=>'Machine', 'enabled'=>'1', 'position'=>2, 'notnull'=>1, 'visible'=>1,),
 		'date' => array('type'=>'date', 'label'=>'DatePanne', 'enabled'=>'1', 'position'=>3, 'notnull'=>1, 'visible'=>1,),
-		'cause' => array('type'=>'varchar(128)', 'label'=>'CausePanne', 'enabled'=>'1', 'position'=>4, 'notnull'=>1, 'visible'=>1, 'showoncombobox'=>'2',),
+		'cause' => array('type'=>'varchar(128)', 'label'=>'CausePanne', 'enabled'=>'1', 'position'=>4, 'notnull'=>1, 'visible'=>3, 'showoncombobox'=>'2',),
 		'gravite_panne' => array('type'=>'integer', 'label'=>'GravitePanne', 'enabled'=>'1', 'position'=>5, 'notnull'=>1, 'visible'=>1, 'arrayofkeyval'=>array('0'=>'Légère', '1'=>'Lourde'),),
 		'agent' => array('type'=>'integer:User:user/class/user.class.php', 'label'=>'AgentDetecteur', 'enabled'=>'1', 'position'=>6, 'notnull'=>1, 'visible'=>1, 'default'=>'__USER_ID__',),
 		'statut_panne' => array('type'=>'integer', 'label'=>'StatutPanne', 'enabled'=>'1', 'position'=>7, 'notnull'=>1, 'visible'=>5, 'noteditable'=>'1', 'default'=>'0', 'arrayofkeyval'=>array('0'=>'En cours', '1'=>'Terminée'),),
@@ -785,7 +785,7 @@ class Pannes extends CommonObject
 		}
 
 		if ($withpicto != 2) {
-			$result .= $this->ref;
+			$result .= $this->cause;
 		}
 
 		$result .= $linkend;

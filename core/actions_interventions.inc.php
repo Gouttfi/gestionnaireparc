@@ -48,6 +48,7 @@ if ($cancel) {
 
 // Action pour valider les dernières modifications effectuées PUIS réaliser l'intervention
 if ($action == 'confirm_realisation' && $confirm == 'yes' && $permissiontoadd) {
+
     // Valider les modifications
     foreach ($object->fields as $key => $val) {
         // Check if field was submited to be edited
@@ -118,7 +119,6 @@ if ($action == 'confirm_realisation' && $confirm == 'yes' && $permissiontoadd) {
             $error++;
             setEventMessages($langs->trans("ErrorFieldRequired", $langs->transnoentitiesnoconv($val['label'])), null, 'errors');
         }
-
         // Validation of fields values
         if (getDolGlobalInt('MAIN_FEATURES_LEVEL') >= 2 || !empty($conf->global->MAIN_ACTIVATE_VALIDATION_RESULT)) {
             if (!$error && !empty($val['validate']) && is_callable(array($object, 'validateField'))) {
@@ -157,7 +157,15 @@ if ($action == 'confirm_realisation' && $confirm == 'yes' && $permissiontoadd) {
     } else {
         //$action = 'edit';
     }
+
     // Réaliser l'intervention
+	//S'il y a eu une erreur à l'update, die de l'action pour corriger l'erreur avant de passer à la suite
+	if($error)
+	{
+		header("Location: ".$_SERVER['PHP_SELF'].'?id='.$object->id);
+		die();
+	}
+	$error = 0;
 	$result = $object->confirm_realisation($user);
 	if ($result >= 0) {
 		// Define output language

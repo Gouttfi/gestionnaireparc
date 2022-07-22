@@ -38,7 +38,7 @@ CREATE TABLE llx_gestionnaireparc_machines(
 	type_huile_moteur varchar(64), 
 	quantite_huile_moteur integer, 
 	type integer NOT NULL, 
-	immatriculation varchar(7), 
+	immatriculation varchar(9), 
 	kilometrage integer, 
 	derniere_revision date, 
 	type_huile_hydrau varchar(64), 

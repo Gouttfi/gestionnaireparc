@@ -141,7 +141,7 @@ class Machines extends CommonObject
 		'ref_courroie_moteur' => array('type'=>'varchar(64)', 'label'=>'RefCourroieMoteur', 'enabled'=>'1', 'position'=>29, 'notnull'=>0, 'visible'=>-1,),
 		'ref_plateau_tondeuse' => array('type'=>'varchar(64)', 'label'=>'RefPlateauTondeuse', 'enabled'=>'1', 'position'=>30, 'notnull'=>0, 'visible'=>-1,),
 		'instructions_maintenance' => array('type'=>'html', 'label'=>'InstructionsMaintenance', 'enabled'=>'1', 'position'=>31, 'notnull'=>0, 'visible'=>-1, 'help'=>"Indiquer ici les instructions spécifiques à la machine à réaliser pour la maintenance.",),
-		'etat_actuel' => array('type'=>'integer', 'label'=>'EtatActuel', 'enabled'=>'1', 'position'=>35, 'notnull'=>1, 'visible'=>2, 'noteditable'=>'1', 'default'=>'0', 'arrayofkeyval'=>array('0'=>'Fonctionnelle', '1'=>'En panne'),),
+		'etat_actuel' => array('type'=>'integer', 'label'=>'EtatActuel', 'enabled'=>'1', 'position'=>35, 'notnull'=>1, 'visible'=>2, 'noteditable'=>'1', 'default'=>'0', 'csslist'=>'clm', 'arrayofkeyval'=>array('0'=>'Fonctionnelle', '1'=>'En panne'),),
 	);
 	public $rowid;
 	public $ref;

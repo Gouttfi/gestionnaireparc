@@ -67,13 +67,13 @@ function reloadFields()
     {
         document.querySelector('.field_fk_panne').classList.add('hideobject');
         document.querySelector('.field_fk_machine').classList.remove('hideobject');
-        document.querySelector('.field_duree_intervention').classList.remove('hideobject');
+        //document.querySelector('.field_duree_intervention').classList.remove('hideobject');
     }
     if(type == 1 || type == "Dépannage")
     {
         document.querySelector('.field_fk_panne').classList.remove('hideobject');
         document.querySelector('.field_fk_machine').classList.add('hideobject');
-        document.querySelector('.field_duree_intervention').classList.add('hideobject');
+        //document.querySelector('.field_duree_intervention').classList.add('hideobject');
     }
 
     //Affichage des opérations remplies

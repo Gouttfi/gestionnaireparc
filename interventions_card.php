@@ -606,10 +606,10 @@ if ($object->id > 0 && (empty($action) || ($action != 'edit' && $action != 'crea
 
 		// Show links to link elements
 		$linktoelem = $form->showLinkToObjectBlock($object, null, array('interventions'));
-		$somethingshown = $form->showLinkedObjectBlock($object, $linktoelem);
+		//$somethingshown = $form->showLinkedObjectBlock($object, $linktoelem);
 
 
-		print '</div><div class="fichehalfright">';
+		/*print '</div><div class="fichehalfright">';
 
 		$MAXEVENT = 10;
 
@@ -620,7 +620,7 @@ if ($object->id > 0 && (empty($action) || ($action != 'edit' && $action != 'crea
 		$formactions = new FormActions($db);
 		$somethingshown = $formactions->showactions($object, $object->element.'@'.$object->module, (is_object($object->thirdparty) ? $object->thirdparty->id : 0), 1, '', $MAXEVENT, '', $morehtmlcenter);
 
-		print '</div></div>';
+		print '</div></div>';*/
 	}
 
 	//Select mail models is same action as presend
