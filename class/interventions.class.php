@@ -273,9 +273,55 @@ class Interventions extends CommonObject
 	 */
 	public function create(User $user, $notrigger = false)
 	{
+
+		//Création de l'intervention
 		$resultcreate = $this->createCommon($user, $notrigger);
 
-		//$resultvalidate = $this->validate($user, $notrigger);
+		//Si erreur à la création de l'intervention
+		if($resultcreate < 0)
+		{
+			return $resultcreate;
+		}
+
+		//Création de l'événement dans l'agenda
+		require_once DOL_DOCUMENT_ROOT.'/comm/action/class/actioncomm.class.php';
+		require_once DOL_DOCUMENT_ROOT.'/comm/action/class/actioncommreminder.class.php';
+
+		$agenda = new ActionComm($this->db);
+
+		// Définition des paramètres
+		$agenda->userownerid = $this->agent;
+		$agenda->datep = $this->date_intervention;
+		$agenda->datef = $this->date_intervention+3600*2;
+		$agenda->durationp = '-1';
+		$agenda->fk_project = '0';
+		$agenda->note_private = $this->description."<br> Accéder à l'intervention : ".$this->getNomUrl();
+		$agenda->label = "Intervention planifiée : ".$this->ref;
+		$agenda->percentage = '-1';
+		$agenda->priority = '0';
+		$agenda->fulldayevent = '0';
+		$agenda->location = '';
+		$agenda->transparency = '1';
+		$agenda->type_code = '50';
+		$resultcreateevent = $agenda->create($user, $notrigger);
+
+		if($resultcreateevent)
+		{
+			//Création du reminder dans l'agenda
+			$reminder = new ActionCommReminder($this->db);
+
+			// Définition des paramètres
+			$reminder->dateremind = $this->date_intervention;
+			$reminder->typeremind = 'email';
+			$reminder->fk_user = $this->agent;
+			$reminder->offsetvalue = '2';
+			$reminder->offsetunit = 'd';
+			$reminder->status = '0';
+			$reminder->fk_actioncomm = $resultcreateevent;
+			$reminder->fk_email_template = '0';
+			$resultcreatereminder = $reminder->create($user, $notrigger);
+		}
+
 
 		return $resultcreate;
 	}
