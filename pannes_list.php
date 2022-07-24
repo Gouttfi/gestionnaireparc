@@ -658,7 +658,16 @@ while ($i < ($limit ? min($num, $limit) : $num)) {
 
 		if (!empty($arrayfields['t.'.$key]['checked'])) {
 			print '<td'.($cssforfield ? ' class="'.$cssforfield.'"' : '').'>';
-			if ($key == 'statut_panne') {
+			if ($key == 'gravite_panne') {
+				if($object->$key == 1) //Gravité lourde
+				{
+					print '<span style="color: red;">'.$object->showOutputField($val, $key, $object->$key, '').'</span>';
+				}
+				else
+				{
+					print $object->showOutputField($val, $key, $object->$key, '');
+				}
+			} elseif ($key == 'statut_panne') {
 				if($object->$key == 0)
 				{
 					$status = 8;

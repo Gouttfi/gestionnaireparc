@@ -439,7 +439,6 @@ if ($object->id > 0 && (empty($action) || ($action != 'edit' && $action != 'crea
 	}
 
 	dol_banner_tab($object, 'ref', $linkback, 1, 'ref', 'ref', $morehtmlref,'','','',dolGetStatus($status_label,'','','status'.$status_class,2));
-	//print dolGetStatus('coucou','','','status1',2);
 
 
 	print '<div class="fichecenter">';

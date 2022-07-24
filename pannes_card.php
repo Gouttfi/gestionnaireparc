@@ -410,9 +410,22 @@ if ($object->id > 0 && (empty($action) || ($action != 'edit' && $action != 'crea
 	 }*/
 	$morehtmlref .= '</div>';
 
+	//Récupération du statut de la panne//
+	$statut_panne = $object->statut_panne;
+	$status_class;
+	$status_label;
+	switch($statut_panne) {
+		case 0:
+			$status_class = 8;
+			$status_label = "En cours";
+		break;
+		case 1:
+			$status_class = 4;
+			$status_label = "Terminée";
+		break;
+	}
 
-	dol_banner_tab($object, 'ref', $linkback, 1, 'ref', 'ref', $morehtmlref);
-
+	dol_banner_tab($object, 'ref', $linkback, 1, 'ref', 'ref', $morehtmlref,'','','',dolGetStatus($status_label,'','','status'.$status_class,2));
 
 	print '<div class="fichecenter">';
 	print '<div class="fichehalfleft">';
@@ -490,7 +503,7 @@ if ($object->id > 0 && (empty($action) || ($action != 'edit' && $action != 'crea
 
 	// Buttons for actions
 
-	if ($action != 'presend' && $action != 'editline') {
+	/*if ($action != 'presend' && $action != 'editline') {
 		print '<div class="tabsAction">'."\n";
 		$parameters = array();
 		$reshook = $hookmanager->executeHooks('addMoreActionsButtons', $parameters, $object, $action); // Note that $action and $object may have been modified by hook
@@ -539,13 +552,13 @@ if ($object->id > 0 && (empty($action) || ($action != 'edit' && $action != 'crea
 					print dolGetButtonAction($langs->trans('Re-Open'), '', 'default', $_SERVER['PHP_SELF'].'?id='.$object->id.'&action=reopen&token='.newToken(), '', $permissiontoadd);
 				}
 			}
-			*/
+
 
 			// Delete (need delete permission, or if draft, just need create/modify permission)
 			print dolGetButtonAction($langs->trans('Delete'), '', 'delete', $_SERVER['PHP_SELF'].'?id='.$object->id.'&action=delete&token='.newToken(), '', $permissiontodelete || ($object->status == $object::STATUS_DRAFT && $permissiontoadd));
 		}
 		print '</div>'."\n";
-	}
+	}*/
 
 
 	// Select mail models is same action as presend
@@ -557,7 +570,7 @@ if ($object->id > 0 && (empty($action) || ($action != 'edit' && $action != 'crea
 		print '<div class="fichecenter"><div class="fichehalfleft">';
 		print '<a name="builddoc"></a>'; // ancre
 
-		$includedocgeneration = 1;
+		$includedocgeneration = 0;
 
 		// Documents
 		if ($includedocgeneration) {
@@ -571,11 +584,11 @@ if ($object->id > 0 && (empty($action) || ($action != 'edit' && $action != 'crea
 		}
 
 		// Show links to link elements
-		$linktoelem = $form->showLinkToObjectBlock($object, null, array('pannes'));
-		$somethingshown = $form->showLinkedObjectBlock($object, $linktoelem);
+		//$linktoelem = $form->showLinkToObjectBlock($object, null, array('pannes'));
+		//$somethingshown = $form->showLinkedObjectBlock($object, $linktoelem);
 
 
-		print '</div><div class="fichehalfright">';
+		/*print '</div><div class="fichehalfright">';
 
 		$MAXEVENT = 10;
 
@@ -586,7 +599,7 @@ if ($object->id > 0 && (empty($action) || ($action != 'edit' && $action != 'crea
 		$formactions = new FormActions($db);
 		$somethingshown = $formactions->showactions($object, $object->element.'@'.$object->module, (is_object($object->thirdparty) ? $object->thirdparty->id : 0), 1, '', $MAXEVENT, '', $morehtmlcenter);
 
-		print '</div></div>';
+		print '</div></div>';*/
 	}
 
 	//Select mail models is same action as presend

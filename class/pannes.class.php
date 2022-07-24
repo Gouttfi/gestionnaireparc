@@ -118,7 +118,7 @@ class Pannes extends CommonObject
 		'cause' => array('type'=>'varchar(128)', 'label'=>'CausePanne', 'enabled'=>'1', 'position'=>4, 'notnull'=>1, 'visible'=>3, 'showoncombobox'=>'2',),
 		'gravite_panne' => array('type'=>'integer', 'label'=>'GravitePanne', 'enabled'=>'1', 'position'=>5, 'notnull'=>1, 'visible'=>1, 'arrayofkeyval'=>array('0'=>'Légère', '1'=>'Lourde'),),
 		'agent' => array('type'=>'integer:User:user/class/user.class.php', 'label'=>'AgentDetecteur', 'enabled'=>'1', 'position'=>6, 'notnull'=>1, 'visible'=>1, 'default'=>'__USER_ID__',),
-		'statut_panne' => array('type'=>'integer', 'label'=>'StatutPanne', 'enabled'=>'1', 'position'=>7, 'notnull'=>1, 'visible'=>5, 'noteditable'=>'1', 'default'=>'0', 'arrayofkeyval'=>array('0'=>'En cours', '1'=>'Terminée'),),
+		'statut_panne' => array('type'=>'integer', 'label'=>'StatutPanne', 'enabled'=>'1', 'position'=>7, 'notnull'=>1, 'visible'=>2, 'noteditable'=>'1', 'default'=>'0', 'showoncombobox'=>'3', 'arrayofkeyval'=>array('0'=>'En cours', '1'=>'Terminée'),),
 		'fk_date_intervention' => array('type'=>'date', 'label'=>'DateReparation', 'enabled'=>'1', 'position'=>8, 'notnull'=>-1, 'visible'=>5, 'noteditable'=>'1',),
 		'ref' => array('type'=>'varchar(64)', 'label'=>'Ref', 'enabled'=>'1', 'position'=>1, 'notnull'=>1, 'visible'=>1, 'default'=>'(AUTO)',),
 	);
