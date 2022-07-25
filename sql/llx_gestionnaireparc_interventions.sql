@@ -27,7 +27,7 @@ CREATE TABLE llx_gestionnaireparc_interventions(
 	model_pdf varchar(255), 
 	intervention_type integer NOT NULL, 
 	fk_machine integer, 
-	date_intervention date NOT NULL, 
+	date_intervention datetime NOT NULL, 
 	agent integer NOT NULL, 
 	duree_intervention integer NOT NULL, 
 	fk_panne integer, 
@@ -54,7 +54,8 @@ CREATE TABLE llx_gestionnaireparc_interventions(
 	ref_operation9 varchar(64), 
 	operation10 integer, 
 	ref_operation10 varchar(64), 
-	resultat_intervention integer NOT NULL
+	resultat_intervention integer NOT NULL, 
+	fk_actioncomm integer NOT NULL
 	-- END MODULEBUILDER FIELDS
 ) ENGINE=innodb;
 

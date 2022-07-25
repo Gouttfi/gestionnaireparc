@@ -117,7 +117,7 @@ class Interventions extends CommonObject
 		'date_intervention' => array('type'=>'date', 'label'=>'DateIntervention', 'enabled'=>'1', 'position'=>6, 'notnull'=>1, 'visible'=>1,),
 		'agent' => array('type'=>'integer:User:user/class/user.class.php', 'label'=>'AgentConcerne', 'enabled'=>'1', 'position'=>7, 'notnull'=>1, 'visible'=>1, 'default'=>'__USER_ID__',),
 		'duree_intervention' => array('type'=>'duration', 'label'=>'DureeIntervention', 'enabled'=>'1', 'position'=>9, 'notnull'=>1, 'visible'=>4,),
-		'fk_panne' => array('type'=>'integer:Pannes:custom/gestionnaireparc/class/pannes.class.php[:1[:statut_panne=0]]', 'label'=>'Panne', 'enabled'=>'1', 'position'=>4, 'notnull'=>0, 'visible'=>1,),
+		'fk_panne' => array('type'=>'integer:Pannes:custom/gestionnaireparc/class/pannes.class.php', 'label'=>'Panne', 'enabled'=>'1', 'position'=>4, 'notnull'=>0, 'visible'=>1,),
 		'statut_intervention' => array('type'=>'integer', 'label'=>'StatutIntervention', 'enabled'=>'1', 'position'=>1000, 'notnull'=>1, 'visible'=>2, 'arrayofkeyval'=>array('0'=>'Programmée', '1'=>'Réalisée', '2'=>'Vaine', '3'=>'Clôturée'),),
 		'description' => array('type'=>'text', 'label'=>'DescriptionIntervention', 'enabled'=>'1', 'position'=>8, 'notnull'=>1, 'visible'=>3,),
 		'ref' => array('type'=>'varchar(64)', 'label'=>'RefAuto', 'enabled'=>'1', 'position'=>2, 'notnull'=>1, 'visible'=>1, 'default'=>'(AUTO)',),
@@ -142,6 +142,7 @@ class Interventions extends CommonObject
 		'operation10' => array('type'=>'integer:Operations:custom/gestionnaireparc/class/operations.class.php', 'label'=>'Operation10', 'enabled'=>'1', 'position'=>29, 'notnull'=>0, 'visible'=>3,),
 		'ref_operation10' => array('type'=>'varchar(64)', 'label'=>'RefOperation10', 'enabled'=>'1', 'position'=>29.1, 'notnull'=>0, 'visible'=>3,),
 		'resultat_intervention' => array('type'=>'integer', 'label'=>'ResultatIntervention', 'enabled'=>'1', 'position'=>10, 'notnull'=>1, 'visible'=>-4, 'default'=>'0', 'arrayofkeyval'=>array('0'=>'En attente', '1'=>'Réussie', '2'=>'Vaine'),),
+		'fk_actioncomm' => array('type'=>'integer:ActionComm:comm/action/class/actioncomm.class.php', 'label'=>'Agenda', 'enabled'=>'1', 'position'=>50, 'notnull'=>1, 'visible'=>0, 'noteditable'=>'1',),
 	);
 	public $rowid;
 	public $compte_rendu;
@@ -182,6 +183,7 @@ class Interventions extends CommonObject
 	public $operation10;
 	public $ref_operation10;
 	public $resultat_intervention;
+	public $fk_actioncomm_ref;
 	// END MODULEBUILDER PROPERTIES
 
 
@@ -273,9 +275,54 @@ class Interventions extends CommonObject
 	 */
 	public function create(User $user, $notrigger = false)
 	{
-		$resultcreate = $this->createCommon($user, $notrigger);
 
-		//$resultvalidate = $this->validate($user, $notrigger);
+		//Création de l'événement dans l'agenda
+		require_once DOL_DOCUMENT_ROOT.'/comm/action/class/actioncomm.class.php';
+		require_once DOL_DOCUMENT_ROOT.'/comm/action/class/actioncommreminder.class.php';
+
+		$agenda = new ActionComm($this->db);
+
+		// Définition des paramètres
+		$agenda->userownerid = $this->agent;
+		$agenda->datep = $this->date_intervention;
+		$agenda->datef = $this->date_intervention+3600*2;
+		$agenda->durationp = '-1';
+		$agenda->fk_project = '0';
+		$agenda->note_private = $this->description."<br> Accéder à l'intervention : ".$this->getNomUrl();
+		$agenda->label = "Intervention planifiée : ".$this->ref;
+		$agenda->percentage = '-1';
+		$agenda->priority = '0';
+		$agenda->fulldayevent = '0';
+		$agenda->location = '';
+		$agenda->transparency = '1';
+		$agenda->type_code = '50';
+		$resultcreateevent = $agenda->create($user, $notrigger);
+
+		if($resultcreateevent > 0)
+		{
+			//Création du reminder dans l'agenda
+			$reminder = new ActionCommReminder($this->db);
+
+			// Définition des paramètres
+			$reminder->dateremind = $this->date_intervention;
+			$reminder->typeremind = 'email';
+			$reminder->fk_user = $this->agent;
+			$reminder->offsetvalue = '2';
+			$reminder->offsetunit = 'd';
+			$reminder->status = '0';
+			$reminder->fk_actioncomm = $resultcreateevent;
+			$reminder->fk_email_template = '0';
+			$resultcreatereminder = $reminder->create($user, $notrigger);
+		}
+
+		if($resultcreatereminder > 0)
+		{
+			$this->fk_actioncomm = $resultcreateevent;
+
+			//Création de l'intervention
+			$resultcreate = $this->createCommon($user, $notrigger);
+
+		}
 
 		return $resultcreate;
 	}
@@ -500,6 +547,36 @@ class Interventions extends CommonObject
 	 */
 	public function update(User $user, $notrigger = false)
 	{
+
+		//Import des fichiers pour mettre à jour l'agenda
+		require_once DOL_DOCUMENT_ROOT.'/comm/action/class/actioncomm.class.php';
+		require_once DOL_DOCUMENT_ROOT.'/comm/action/class/actioncommreminder.class.php';
+
+		$agenda = new ActionComm($this->db);
+
+		// Définition des paramètres
+		$agenda->userownerid = $this->agent;
+		$agenda->userassigned[$this->agent] = array('id'=>$this->agent, 'transparency'=>'1');
+		$agenda->datep = $this->date_intervention;
+		$agenda->datef = $this->date_intervention+$this->duree_intervention;
+		$agenda->durationp = '-1';
+		$agenda->fk_project = '0';
+		$agenda->note_private = $this->description."<br> Accéder à l'intervention : ".$this->getNomUrl();
+		$agenda->label = "Intervention planifiée : ".$this->ref;
+		$agenda->percentage = '-1';
+		$agenda->priority = '0';
+		$agenda->fulldayevent = '0';
+		//$agenda->location = '';
+		$agenda->transparency = '1';
+		$agenda->type_code = '50';
+		$agenda->id = $this->fk_actioncomm;
+		$resultupdateevent = $agenda->update($user);
+
+		if($resultupdateevent < 0)
+		{
+			return -1;
+		}
+
 		return $this->updateCommon($user, $notrigger);
 	}
 
