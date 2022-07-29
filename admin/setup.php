@@ -79,8 +79,8 @@ $scandir = GETPOST('scan_dir', 'alpha');
 $type = 'myobject';
 
 $arrayofparameters = array(
-	'GESTIONNAIREPARC_MYPARAM1'=>array('type'=>'string', 'css'=>'minwidth500' ,'enabled'=>1),
-	'GESTIONNAIREPARC_MYPARAM2'=>array('type'=>'textarea','enabled'=>1),
+	//'GESTIONNAIREPARC_MYPARAM1'=>array('type'=>'string', 'css'=>'minwidth500' ,'enabled'=>1),
+	//'GESTIONNAIREPARC_MYPARAM2'=>array('type'=>'textarea','enabled'=>1),
 	//'GESTIONNAIREPARC_MYPARAM3'=>array('type'=>'category:'.Categorie::TYPE_CUSTOMER, 'enabled'=>1),
 	//'GESTIONNAIREPARC_MYPARAM4'=>array('type'=>'emailtemplate:thirdparty', 'enabled'=>1),
 	//'GESTIONNAIREPARC_MYPARAM5'=>array('type'=>'yesno', 'enabled'=>1),
@@ -186,7 +186,6 @@ if ($action == 'updateMask') {
 		require_once $file;
 
 		$module = new $classname($db);
-
 		if ($module->write_file($tmpobject, $langs) > 0) {
 			header("Location: ".DOL_URL_ROOT."/document.php?modulepart=gestionnaireparc-".strtolower($tmpobjectkey)."&file=SPECIMEN.pdf");
 			return;
@@ -465,9 +464,9 @@ $myTmpObjects['MyObject'] = array('includerefgeneration'=>0, 'includedocgenerati
 
 
 foreach ($myTmpObjects as $myTmpObjectKey => $myTmpObjectArray) {
-	if ($myTmpObjectKey == 'MyObject') {
+	/*if ($myTmpObjectKey == 'MyObject') {
 		continue;
-	}
+	}*/
 	if ($myTmpObjectArray['includerefgeneration']) {
 		/*
 		 * Orders Numbering model

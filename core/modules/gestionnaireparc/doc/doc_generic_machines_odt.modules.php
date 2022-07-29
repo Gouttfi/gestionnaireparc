@@ -71,19 +71,19 @@ class doc_generic_machines_odt extends ModelePDFMachines
 		$langs->loadLangs(array("main", "companies"));
 
 		$this->db = $db;
-		$this->name = "ODT templates";
+		$this->name = "Template ODT machines";
 		$this->description = $langs->trans("DocumentModelOdt");
 		$this->scandir = 'GESTIONNAIREPARC_MACHINES_ADDON_PDF_ODT_PATH'; // Name of constant that is used to save list of directories to scan
 
 		// Page size for A4 format
 		$this->type = 'odt';
-		$this->page_largeur = 0;
-		$this->page_hauteur = 0;
+		$this->page_largeur = 10;
+		$this->page_hauteur = 10;
 		$this->format = array($this->page_largeur, $this->page_hauteur);
-		$this->marge_gauche = 0;
-		$this->marge_droite = 0;
-		$this->marge_haute = 0;
-		$this->marge_basse = 0;
+		$this->marge_gauche = 1;
+		$this->marge_droite = 1;
+		$this->marge_haute = 1;
+		$this->marge_basse = 1;
 
 		$this->option_logo = 1; // Display logo
 		$this->option_tva = 0; // Manage the vat option FACTURE_TVAOPTION
@@ -219,6 +219,7 @@ class doc_generic_machines_odt extends ModelePDFMachines
 	 */
 	public function write_file($object, $outputlangs, $srctemplatepath, $hidedetails = 0, $hidedesc = 0, $hideref = 0)
 	{
+
 		// phpcs:enable
 		global $user, $langs, $conf, $mysoc, $hookmanager;
 
@@ -258,6 +259,7 @@ class doc_generic_machines_odt extends ModelePDFMachines
 			$object->fetch_thirdparty();
 
 			$dir = $conf->gestionnaireparc->multidir_output[isset($object->entity) ? $object->entity : 1];
+			$dir = $dir."/machines";
 			$objectref = dol_sanitizeFileName($object->ref);
 			if (!preg_match('/specimen/i', $objectref)) {
 				$dir .= "/".$objectref;

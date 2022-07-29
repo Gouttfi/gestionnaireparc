@@ -278,6 +278,10 @@ class Machines extends CommonObject
 
 		//$resultvalidate = $this->validate($user, $notrigger);
 
+		if($resultcreate > 0)
+		{
+			$resultgeneratedocument = $this->generateDocument($this->model_pdf, $langs);
+		}
 		return $resultcreate;
 	}
 
@@ -499,6 +503,14 @@ class Machines extends CommonObject
 	 */
 	public function update(User $user, $notrigger = false)
 	{
+
+		$resultupdate = $this->updateCommon($user, $notrigger);
+
+		if($resultupdate > 0)
+		{
+			$resultgeneratedocument = $this->generateDocument($this->model_pdf, $langs);
+		}
+
 		return $this->updateCommon($user, $notrigger);
 	}
 
@@ -1059,7 +1071,9 @@ class Machines extends CommonObject
 		$langs->load("gestionnaireparc@gestionnaireparc");
 
 		if (!dol_strlen($modele)) {
-			$modele = 'standard_machines';
+			$modele = 'generic_machines_odt:'.dol_buildpath($reldir.'custom/gestionnaireparc/core/modules/gestionnaireparc/doc/template_machines.odt');
+			//$modele = 'generic_machines_odt';
+			//$modele = 'standard_machines';
 
 			if (!empty($this->model_pdf)) {
 				$modele = $this->model_pdf;

@@ -158,7 +158,16 @@ class modGestionnaireParc extends DolibarrModules
 		// Example: $this->const=array(1 => array('GESTIONNAIREPARC_MYNEWCONST1', 'chaine', 'myvalue', 'This is a constant to add', 1),
 		//                             2 => array('GESTIONNAIREPARC_MYNEWCONST2', 'chaine', 'myvalue', 'This is another constant to add', 0, 'current', 1)
 		// );
+		// Constants
 		$this->const = array();
+		$r = 0;
+
+		$this->const[$r][0] = "GESTIONNAIREPARC_MACHINES_ADDON_PDF_ODT_PATH";
+		$this->const[$r][1] = "chaine";
+		$this->const[$r][2] = "DOL_DATA_ROOT/doctemplates/gestionnaireparc/machines";
+		$this->const[$r][3] = "";
+		$this->const[$r][4] = 0;
+		$r++;
 
 		// Some keys to add into the overwriting translation tables
 		/*$this->overwrite_translation = array(
@@ -228,11 +237,11 @@ class modGestionnaireParc extends DolibarrModules
 		// Boxes/Widgets
 		// Add here list of php file(s) stored in gestionnaireparc/core/boxes that contains a class to show a widget.
 		$this->boxes = array(
-			//  0 => array(
-			//      'file' => 'gestionnaireparcwidget1.php@gestionnaireparc',
-			//      'note' => 'Widget provided by GestionnaireParc',
-			//      'enabledbydefaulton' => 'Home',
-			//  ),
+			  0 => array(
+			      'file' => 'gestionnaireparcwidget1.php@gestionnaireparc',
+			      'note' => 'Widget provided by GestionnaireParc',
+			      'enabledbydefaulton' => 'Home',
+			  ),
 			//  ...
 		);
 
@@ -264,19 +273,68 @@ class modGestionnaireParc extends DolibarrModules
 		$r = 0;
 		// Add here entries to declare new permissions
 		/* BEGIN MODULEBUILDER PERMISSIONS */
+		//Machines
 		$this->rights[$r][0] = $this->numero . sprintf("%02d", $r + 1); // Permission id (must not be already used)
-		$this->rights[$r][1] = 'Read objects of GestionnaireParc'; // Permission label
+		$this->rights[$r][1] = 'Read objects of machines'; // Permission label
 		$this->rights[$r][4] = 'machines';
 		$this->rights[$r][5] = 'read'; // In php code, permission will be checked by test if ($user->rights->gestionnaireparc->machines->read)
 		$r++;
 		$this->rights[$r][0] = $this->numero . sprintf("%02d", $r + 1); // Permission id (must not be already used)
-		$this->rights[$r][1] = 'Create/Update objects of GestionnaireParc'; // Permission label
+		$this->rights[$r][1] = 'Create/Update objects of machines'; // Permission label
 		$this->rights[$r][4] = 'machines';
 		$this->rights[$r][5] = 'write'; // In php code, permission will be checked by test if ($user->rights->gestionnaireparc->machines->write)
 		$r++;
 		$this->rights[$r][0] = $this->numero . sprintf("%02d", $r + 1); // Permission id (must not be already used)
-		$this->rights[$r][1] = 'Delete objects of GestionnaireParc'; // Permission label
+		$this->rights[$r][1] = 'Delete objects of machines'; // Permission label
 		$this->rights[$r][4] = 'machines';
+		$this->rights[$r][5] = 'delete'; // In php code, permission will be checked by test if ($user->rights->gestionnaireparc->machines->delete)
+		$r++;
+		//Pannes
+		$this->rights[$r][0] = $this->numero . sprintf("%02d", $r + 1); // Permission id (must not be already used)
+		$this->rights[$r][1] = 'Read objects of pannes'; // Permission label
+		$this->rights[$r][4] = 'pannes';
+		$this->rights[$r][5] = 'read'; // In php code, permission will be checked by test if ($user->rights->gestionnaireparc->machines->read)
+		$r++;
+		$this->rights[$r][0] = $this->numero . sprintf("%02d", $r + 1); // Permission id (must not be already used)
+		$this->rights[$r][1] = 'Create/Update objects of pannes'; // Permission label
+		$this->rights[$r][4] = 'pannes';
+		$this->rights[$r][5] = 'write'; // In php code, permission will be checked by test if ($user->rights->gestionnaireparc->machines->write)
+		$r++;
+		$this->rights[$r][0] = $this->numero . sprintf("%02d", $r + 1); // Permission id (must not be already used)
+		$this->rights[$r][1] = 'Delete objects of pannes'; // Permission label
+		$this->rights[$r][4] = 'pannes';
+		$this->rights[$r][5] = 'delete'; // In php code, permission will be checked by test if ($user->rights->gestionnaireparc->machines->delete)
+		$r++;
+		//Interventions
+		$this->rights[$r][0] = $this->numero . sprintf("%02d", $r + 1); // Permission id (must not be already used)
+		$this->rights[$r][1] = 'Read objects of interventions'; // Permission label
+		$this->rights[$r][4] = 'interventions';
+		$this->rights[$r][5] = 'read'; // In php code, permission will be checked by test if ($user->rights->gestionnaireparc->machines->read)
+		$r++;
+		$this->rights[$r][0] = $this->numero . sprintf("%02d", $r + 1); // Permission id (must not be already used)
+		$this->rights[$r][1] = 'Create/Update objects of interventions'; // Permission label
+		$this->rights[$r][4] = 'interventions';
+		$this->rights[$r][5] = 'write'; // In php code, permission will be checked by test if ($user->rights->gestionnaireparc->machines->write)
+		$r++;
+		$this->rights[$r][0] = $this->numero . sprintf("%02d", $r + 1); // Permission id (must not be already used)
+		$this->rights[$r][1] = 'Delete objects of interventions'; // Permission label
+		$this->rights[$r][4] = 'interventions';
+		$this->rights[$r][5] = 'delete'; // In php code, permission will be checked by test if ($user->rights->gestionnaireparc->machines->delete)
+		$r++;
+		//Opérations
+		$this->rights[$r][0] = $this->numero . sprintf("%02d", $r + 1); // Permission id (must not be already used)
+		$this->rights[$r][1] = 'Read objects of operations'; // Permission label
+		$this->rights[$r][4] = 'operations';
+		$this->rights[$r][5] = 'read'; // In php code, permission will be checked by test if ($user->rights->gestionnaireparc->machines->read)
+		$r++;
+		$this->rights[$r][0] = $this->numero . sprintf("%02d", $r + 1); // Permission id (must not be already used)
+		$this->rights[$r][1] = 'Create/Update objects of operations'; // Permission label
+		$this->rights[$r][4] = 'operations';
+		$this->rights[$r][5] = 'write'; // In php code, permission will be checked by test if ($user->rights->gestionnaireparc->machines->write)
+		$r++;
+		$this->rights[$r][0] = $this->numero . sprintf("%02d", $r + 1); // Permission id (must not be already used)
+		$this->rights[$r][1] = 'Delete objects of operations'; // Permission label
+		$this->rights[$r][4] = 'operations';
 		$this->rights[$r][5] = 'delete'; // In php code, permission will be checked by test if ($user->rights->gestionnaireparc->machines->delete)
 		$r++;
 		/* END MODULEBUILDER PERMISSIONS */
@@ -364,7 +422,7 @@ class modGestionnaireParc extends DolibarrModules
             // Define condition to show or hide menu entry. Use '$conf->gestionnaireparc->enabled' if entry must be visible if module is enabled. Use '$leftmenu==\'system\'' to show if leftmenu system is selected.
             'enabled'=>'$conf->gestionnaireparc->enabled',
             // Use 'perms'=>'$user->rights->gestionnaireparc->level1->level2' if you want your menu with a permission rules
-            'perms'=>'1',
+            'perms'=>'$user->rights->gestionnaireparc->machines->read',
             'target'=>'',
             // 0=Menu for internal users, 1=external users, 2=both
             'user'=>2,
@@ -384,7 +442,7 @@ class modGestionnaireParc extends DolibarrModules
             // Define condition to show or hide menu entry. Use '$conf->gestionnaireparc->enabled' if entry must be visible if module is enabled. Use '$leftmenu==\'system\'' to show if leftmenu system is selected.
             'enabled'=>'$conf->gestionnaireparc->enabled',
             // Use 'perms'=>'$user->rights->gestionnaireparc->level1->level2' if you want your menu with a permission rules
-            'perms'=>'1',
+            'perms'=>'$user->rights->gestionnaireparc->machines->write',
             'target'=>'',
             // 0=Menu for internal users, 1=external users, 2=both
             'user'=>2
@@ -406,7 +464,7 @@ class modGestionnaireParc extends DolibarrModules
             // Define condition to show or hide menu entry. Use '$conf->gestionnaireparc->enabled' if entry must be visible if module is enabled. Use '$leftmenu==\'system\'' to show if leftmenu system is selected.
             'enabled'=>'$conf->gestionnaireparc->enabled',
             // Use 'perms'=>'$user->rights->gestionnaireparc->level1->level2' if you want your menu with a permission rules
-            'perms'=>'1',
+            'perms'=>'$user->rights->gestionnaireparc->pannes->read',
             'target'=>'',
             // 0=Menu for internal users, 1=external users, 2=both
             'user'=>2,
@@ -426,7 +484,7 @@ class modGestionnaireParc extends DolibarrModules
             // Define condition to show or hide menu entry. Use '$conf->gestionnaireparc->enabled' if entry must be visible if module is enabled. Use '$leftmenu==\'system\'' to show if leftmenu system is selected.
             'enabled'=>'$conf->gestionnaireparc->enabled',
             // Use 'perms'=>'$user->rights->gestionnaireparc->level1->level2' if you want your menu with a permission rules
-            'perms'=>'1',
+            'perms'=>'$user->rights->gestionnaireparc->pannes->write',
             'target'=>'',
             // 0=Menu for internal users, 1=external users, 2=both
             'user'=>2
@@ -448,7 +506,7 @@ class modGestionnaireParc extends DolibarrModules
             // Define condition to show or hide menu entry. Use '$conf->gestionnaireparc->enabled' if entry must be visible if module is enabled. Use '$leftmenu==\'system\'' to show if leftmenu system is selected.
             'enabled'=>'$conf->gestionnaireparc->enabled',
             // Use 'perms'=>'$user->rights->gestionnaireparc->level1->level2' if you want your menu with a permission rules
-            'perms'=>'1',
+            'perms'=>'$user->rights->gestionnaireparc->interventions->read',
             'target'=>'',
             // 0=Menu for internal users, 1=external users, 2=both
             'user'=>2,
@@ -468,7 +526,7 @@ class modGestionnaireParc extends DolibarrModules
             // Define condition to show or hide menu entry. Use '$conf->gestionnaireparc->enabled' if entry must be visible if module is enabled. Use '$leftmenu==\'system\'' to show if leftmenu system is selected.
             'enabled'=>'$conf->gestionnaireparc->enabled',
             // Use 'perms'=>'$user->rights->gestionnaireparc->level1->level2' if you want your menu with a permission rules
-            'perms'=>'1',
+            'perms'=>'$user->rights->gestionnaireparc->interventions->write',
             'target'=>'',
             // 0=Menu for internal users, 1=external users, 2=both
             'user'=>2
@@ -490,7 +548,7 @@ class modGestionnaireParc extends DolibarrModules
             // Define condition to show or hide menu entry. Use '$conf->gestionnaireparc->enabled' if entry must be visible if module is enabled. Use '$leftmenu==\'system\'' to show if leftmenu system is selected.
             'enabled'=>'$conf->gestionnaireparc->enabled',
             // Use 'perms'=>'$user->rights->gestionnaireparc->level1->level2' if you want your menu with a permission rules
-            'perms'=>'1',
+            'perms'=>'$user->rights->gestionnaireparc->operations->read',
             'target'=>'',
             // 0=Menu for internal users, 1=external users, 2=both
             'user'=>2,
@@ -510,7 +568,7 @@ class modGestionnaireParc extends DolibarrModules
             // Define condition to show or hide menu entry. Use '$conf->gestionnaireparc->enabled' if entry must be visible if module is enabled. Use '$leftmenu==\'system\'' to show if leftmenu system is selected.
             'enabled'=>'$conf->gestionnaireparc->enabled',
             // Use 'perms'=>'$user->rights->gestionnaireparc->level1->level2' if you want your menu with a permission rules
-            'perms'=>'1',
+            'perms'=>'$user->rights->gestionnaireparc->operations->write',
             'target'=>'',
             // 0=Menu for internal users, 1=external users, 2=both
             'user'=>2
