@@ -668,18 +668,22 @@ while ($i < ($limit ? min($num, $limit) : $num)) {
 					print $object->showOutputField($val, $key, $object->$key, '');
 				}
 			} elseif ($key == 'statut_panne') {
-				if($object->$key == 0)
+				switch($object->$key)
 				{
-					$status = 8;
+					case 0:
+						$status = 8;
+					break;
+					case 1:
+						$status = 1;
+					break;
+					case 2:
+						$status = 4;
+					break;
+					default:
+						$status = 0;
+					break;
 				}
-				else if($object->$key == 1)
-				{
-					$status = 4;
-				}
-				else
-				{
-					$status = 0;
-				}
+				
 				print '<span class="badge  badge-status'.$status.' badge-status" title="'.$object->showOutputField($val, $key, $object->$key, '').'">'.$object->showOutputField($val, $key, $object->$key, '').'</span>';
 				//print $object->getLibStatut(5);
 			} elseif ($key == 'rowid') {

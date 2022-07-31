@@ -91,18 +91,22 @@ class gestionnaireparcwidget1 extends ModeleBoxes
 	 */
 	public function __construct(DoliDB $db, $param = '')
 	{
+
 		global $user, $conf, $langs;
 		// Translations
 		$langs->loadLangs(array("boxes", "gestionnaireparc@gestionnaireparc"));
 
 		parent::__construct($db, $param);
 
-		$this->boxlabel = $langs->transnoentitiesnoconv("MyWidget");
+		$this->boxlabel = $langs->transnoentitiesnoconv("GestionnaireParcTableauDeBord");
 
 		$this->param = $param;
 
 		//$this->enabled = $conf->global->FEATURES_LEVEL > 0;         // Condition when module is enabled or not
 		//$this->hidden = ! ($user->rights->gestionnaireparc->myobject->read);   // Condition when module is visible by user (test on permission)
+
+		$this->enabled = 1;
+		$this->hidden = false;
 	}
 
 	/**
@@ -126,7 +130,7 @@ class gestionnaireparcwidget1 extends ModeleBoxes
 			// Title text
 			'text' => $text,
 			// Add a link
-			'sublink' => 'http://example.com',
+			'sublink' => 'http://dev.sc1bkem9394.universe.wf/custom/gestionnaireparc/gestionnaireparcindex.php?idmenu=6321&mainmenu=gestionnaireparc&leftmenu=',
 			// Sublink icon placed after the text
 			'subpicto' => 'object_gestionnaireparc@gestionnaireparc',
 			// Sublink icon HTML alt text
@@ -141,6 +145,14 @@ class gestionnaireparcwidget1 extends ModeleBoxes
 			'graph' => false
 		);
 
+		//Chargement des classes d'objets pour compter les éléments
+		dol_include_once('/gestionnaireparc/class/machines.class.php');
+		dol_include_once('/gestionnaireparc/class/pannes.class.php');
+		dol_include_once('/gestionnaireparc/class/interventions.class.php');
+		$machines = new Machines($this->db);
+		$pannes = new Pannes($this->db);
+		$interventions = new Interventions($this->db);
+
 		// Populate the contents at runtime
 		$this->info_box_contents = array(
 			0 => array( // First line
@@ -151,11 +163,11 @@ class gestionnaireparcwidget1 extends ModeleBoxes
 					'td' => '',
 
 					// Main text for content of cell
-					'text' => 'First cell of first line',
+					'text' => 'Machines dans le parc',
 					// Link on 'text' and 'logo' elements
-					'url' => 'http://example.com',
+					//'url' => 'http://dev.sc1bkem9394.universe.wf/custom/gestionnaireparc/machines_list.php?idmenu=6322&mainmenu=gestionnaireparc&leftmenu=',
 					// Link's target HTML property
-					'target' => '_blank',
+					//'target' => '_blank',
 					// Fist line logo (deprecated. Include instead logo html code into text or text2, and set asis property to true to avoid HTML cleaning)
 					//'logo' => 'monmodule@monmodule',
 					// Unformatted text, added after text. Usefull to add/load javascript code
@@ -174,28 +186,99 @@ class gestionnaireparcwidget1 extends ModeleBoxes
 				1 => array( // Another column
 					// No TR for n≠0
 					'td' => '',
-					'text' => 'Second cell',
+					'text' => '<span class="badge  badge-status4 badge-status">'.count($machines->fetchAll('','',0,0,array('etat_actuel'=>0))).'</span> Fonctionnelle·s',
+					'url' => 'http://dev.sc1bkem9394.universe.wf/custom/gestionnaireparc/machines_list.php?idmenu=6322&mainmenu=gestionnaireparc&search_etat_actuel=0',
+				),
+				2 => array( // Another column
+					// No TR for n≠0
+					'td' => '',
+					'text' => '<span class="badge  badge-status8 badge-status">'.count($machines->fetchAll('','',0,0,array('etat_actuel'=>1))).'</span> En panne',
+					'url' => 'http://dev.sc1bkem9394.universe.wf/custom/gestionnaireparc/machines_list.php?idmenu=6322&mainmenu=gestionnaireparc&search_etat_actuel=1',
 				)
 			),
 			1 => array( // Another line
-				0 => array( // TR
+				0 => array( // First Column
 					'tr' => 'class="left"',
-					'text' => 'Another line'
+					'td' => '',
+					'text' => 'Pannes en cours',
+					'textnoformat' => '',
+					'maxlength' => 0,
+					'asis' => false,
+					'asis2' => true
 				),
-				1 => array( // TR
-					'tr' => 'class="left"',
-					'text' => ''
+				1 => array( // Another column
+					'td' => '',
+					'text' => '<span class="badge  badge-status1 badge-status">'.count($pannes->fetchAll('','',0,0,array('gravite_panne'=>0,'customsql'=>'statut_panne != 2'))).'</span> Légère·s',
+					'url' => 'http://dev.sc1bkem9394.universe.wf/custom/gestionnaireparc/pannes_list.php?idmenu=6322&mainmenu=gestionnaireparc&search_gravite_panne=0',
+				),
+				2 => array( // Another column
+					// No TR for n≠0
+					'td' => '',
+					'text' => '<span class="badge  badge-status8 badge-status">'.count($pannes->fetchAll('','',0,0,array('gravite_panne'=>1,'customsql'=>'statut_panne != 2'))).'</span> Lourde·s',
+					'url' => 'http://dev.sc1bkem9394.universe.wf/custom/gestionnaireparc/pannes_list.php?idmenu=6322&mainmenu=gestionnaireparc&search_gravite_panne=1',
 				)
 			),
 			2 => array( // Another line
-				0 => array( // TR
+				0 => array( // First Column
 					'tr' => 'class="left"',
-					'text' => ''
+					'td' => '',
+					'text' => 'Dépannages à programmer',
+					'textnoformat' => '',
+					'maxlength' => 0,
+					'asis' => false,
+					'asis2' => true
 				),
-				1 => array( // TR
+				1 => array( // Another column
+					'td' => '',
+					'text' => '<span class="badge  badge-status8 badge-status">'.count($pannes->fetchAll('','',0,0,array('statut_panne'=>0))).'</span> Panne·s',
+					'url' => 'http://dev.sc1bkem9394.universe.wf/custom/gestionnaireparc/pannes_list.php?idmenu=6322&mainmenu=gestionnaireparc&search_statut_panne=0',
+				),
+				2 => array( // Another column
+					'td' => '',
+					'text' => '',
+				),
+			),
+			3 => array( // Another line
+				0 => array( // First Column
 					'tr' => 'class="left"',
-					'text' => ''
-				)
+					'td' => '',
+					'text' => 'Interventions programmées',
+					'textnoformat' => '',
+					'maxlength' => 0,
+					'asis' => false,
+					'asis2' => true
+				),
+				1 => array( // Another column
+					'td' => '',
+					'text' => '<span class="badge  badge-status4 badge-status">'.count($interventions->fetchAll('','',0,0,array('intervention_type'=>0,'statut_intervention'=>0))).'</span> Maintenances',
+					'url' => 'http://dev.sc1bkem9394.universe.wf/custom/gestionnaireparc/interventions_list.php?idmenu=6322&mainmenu=gestionnaireparc&search_intervention_type=0&search_statut_intervention=0',
+				),
+				2 => array( // Another column
+					'td' => '',
+					'text' => '<span class="badge  badge-status1 badge-status">'.count($interventions->fetchAll('','',0,0,array('intervention_type'=>1,'statut_intervention'=>0))).'</span> Dépannages',
+					'url' => 'http://dev.sc1bkem9394.universe.wf/custom/gestionnaireparc/interventions_list.php?idmenu=6322&mainmenu=gestionnaireparc&search_intervention_type=1&search_statut_intervention=0',
+				),
+			),
+			4 => array( // Another line
+				0 => array( // First Column
+					'tr' => 'class="left"',
+					'td' => '',
+					'text' => 'Interventions à cloturer',
+					'textnoformat' => '',
+					'maxlength' => 0,
+					'asis' => false,
+					'asis2' => true
+				),
+				1 => array( // Another column
+					'td' => '',
+					'text' => '<span class="badge  badge-status4 badge-status">'.count($interventions->fetchAll('','',0,0,array('statut_intervention'=>1))).'</span> Réalisée',
+					'url' => 'http://dev.sc1bkem9394.universe.wf/custom/gestionnaireparc/interventions_list.php?idmenu=6322&mainmenu=gestionnaireparc&search_statut_intervention=1',
+				),
+				2 => array( // Another column
+					'td' => '',
+					'text' => '<span class="badge  badge-status8 badge-status">'.count($interventions->fetchAll('','',0,0,array('statut_intervention'=>2))).'</span> Vaines',
+					'url' => 'http://dev.sc1bkem9394.universe.wf/custom/gestionnaireparc/interventions_list.php?idmenu=6322&mainmenu=gestionnaireparc&search_statut_intervention=2',
+				),
 			),
 		);
 	}

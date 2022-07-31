@@ -239,7 +239,7 @@ class modGestionnaireParc extends DolibarrModules
 		$this->boxes = array(
 			  0 => array(
 			      'file' => 'gestionnaireparcwidget1.php@gestionnaireparc',
-			      'note' => 'Widget provided by GestionnaireParc',
+			      'note' => 'Tableau de bord du parc de machines',
 			      'enabledbydefaulton' => 'Home',
 			  ),
 			//  ...
@@ -275,65 +275,70 @@ class modGestionnaireParc extends DolibarrModules
 		/* BEGIN MODULEBUILDER PERMISSIONS */
 		//Machines
 		$this->rights[$r][0] = $this->numero . sprintf("%02d", $r + 1); // Permission id (must not be already used)
-		$this->rights[$r][1] = 'Read objects of machines'; // Permission label
+		$this->rights[$r][1] = 'Lire la liste des machines'; // Permission label
 		$this->rights[$r][4] = 'machines';
 		$this->rights[$r][5] = 'read'; // In php code, permission will be checked by test if ($user->rights->gestionnaireparc->machines->read)
 		$r++;
 		$this->rights[$r][0] = $this->numero . sprintf("%02d", $r + 1); // Permission id (must not be already used)
-		$this->rights[$r][1] = 'Create/Update objects of machines'; // Permission label
+		$this->rights[$r][1] = 'Créer/Mettre à jour une machine'; // Permission label
 		$this->rights[$r][4] = 'machines';
 		$this->rights[$r][5] = 'write'; // In php code, permission will be checked by test if ($user->rights->gestionnaireparc->machines->write)
 		$r++;
 		$this->rights[$r][0] = $this->numero . sprintf("%02d", $r + 1); // Permission id (must not be already used)
-		$this->rights[$r][1] = 'Delete objects of machines'; // Permission label
+		$this->rights[$r][1] = 'Supprimer une machine'; // Permission label
 		$this->rights[$r][4] = 'machines';
 		$this->rights[$r][5] = 'delete'; // In php code, permission will be checked by test if ($user->rights->gestionnaireparc->machines->delete)
 		$r++;
 		//Pannes
 		$this->rights[$r][0] = $this->numero . sprintf("%02d", $r + 1); // Permission id (must not be already used)
-		$this->rights[$r][1] = 'Read objects of pannes'; // Permission label
+		$this->rights[$r][1] = 'Lire la liste des pannes'; // Permission label
 		$this->rights[$r][4] = 'pannes';
 		$this->rights[$r][5] = 'read'; // In php code, permission will be checked by test if ($user->rights->gestionnaireparc->machines->read)
 		$r++;
 		$this->rights[$r][0] = $this->numero . sprintf("%02d", $r + 1); // Permission id (must not be already used)
-		$this->rights[$r][1] = 'Create/Update objects of pannes'; // Permission label
+		$this->rights[$r][1] = 'Créer/Mettre à jour une panne'; // Permission label
 		$this->rights[$r][4] = 'pannes';
 		$this->rights[$r][5] = 'write'; // In php code, permission will be checked by test if ($user->rights->gestionnaireparc->machines->write)
 		$r++;
 		$this->rights[$r][0] = $this->numero . sprintf("%02d", $r + 1); // Permission id (must not be already used)
-		$this->rights[$r][1] = 'Delete objects of pannes'; // Permission label
+		$this->rights[$r][1] = 'Supprimer une panne'; // Permission label
 		$this->rights[$r][4] = 'pannes';
 		$this->rights[$r][5] = 'delete'; // In php code, permission will be checked by test if ($user->rights->gestionnaireparc->machines->delete)
 		$r++;
 		//Interventions
 		$this->rights[$r][0] = $this->numero . sprintf("%02d", $r + 1); // Permission id (must not be already used)
-		$this->rights[$r][1] = 'Read objects of interventions'; // Permission label
+		$this->rights[$r][1] = 'Lire la liste des interventions'; // Permission label
 		$this->rights[$r][4] = 'interventions';
 		$this->rights[$r][5] = 'read'; // In php code, permission will be checked by test if ($user->rights->gestionnaireparc->machines->read)
 		$r++;
 		$this->rights[$r][0] = $this->numero . sprintf("%02d", $r + 1); // Permission id (must not be already used)
-		$this->rights[$r][1] = 'Create/Update objects of interventions'; // Permission label
+		$this->rights[$r][1] = 'Créer/Mettre à jour une intervention'; // Permission label
 		$this->rights[$r][4] = 'interventions';
 		$this->rights[$r][5] = 'write'; // In php code, permission will be checked by test if ($user->rights->gestionnaireparc->machines->write)
 		$r++;
 		$this->rights[$r][0] = $this->numero . sprintf("%02d", $r + 1); // Permission id (must not be already used)
-		$this->rights[$r][1] = 'Delete objects of interventions'; // Permission label
+		$this->rights[$r][1] = 'Cloturer une intervention'; // Permission label
+		$this->rights[$r][4] = 'interventions';
+		$this->rights[$r][5] = 'close'; // In php code, permission will be checked by test if ($user->rights->gestionnaireparc->machines->write)
+		$r++;
+		$this->rights[$r][0] = $this->numero . sprintf("%02d", $r + 1); // Permission id (must not be already used)
+		$this->rights[$r][1] = 'Supprimer une intervention'; // Permission label
 		$this->rights[$r][4] = 'interventions';
 		$this->rights[$r][5] = 'delete'; // In php code, permission will be checked by test if ($user->rights->gestionnaireparc->machines->delete)
 		$r++;
 		//Opérations
 		$this->rights[$r][0] = $this->numero . sprintf("%02d", $r + 1); // Permission id (must not be already used)
-		$this->rights[$r][1] = 'Read objects of operations'; // Permission label
+		$this->rights[$r][1] = 'Lire la liste des operations'; // Permission label
 		$this->rights[$r][4] = 'operations';
 		$this->rights[$r][5] = 'read'; // In php code, permission will be checked by test if ($user->rights->gestionnaireparc->machines->read)
 		$r++;
 		$this->rights[$r][0] = $this->numero . sprintf("%02d", $r + 1); // Permission id (must not be already used)
-		$this->rights[$r][1] = 'Create/Update objects of operations'; // Permission label
+		$this->rights[$r][1] = 'Créer/Mettre à jour une operation'; // Permission label
 		$this->rights[$r][4] = 'operations';
 		$this->rights[$r][5] = 'write'; // In php code, permission will be checked by test if ($user->rights->gestionnaireparc->machines->write)
 		$r++;
 		$this->rights[$r][0] = $this->numero . sprintf("%02d", $r + 1); // Permission id (must not be already used)
-		$this->rights[$r][1] = 'Delete objects of operations'; // Permission label
+		$this->rights[$r][1] = 'Supprimer une operation'; // Permission label
 		$this->rights[$r][4] = 'operations';
 		$this->rights[$r][5] = 'delete'; // In php code, permission will be checked by test if ($user->rights->gestionnaireparc->machines->delete)
 		$r++;

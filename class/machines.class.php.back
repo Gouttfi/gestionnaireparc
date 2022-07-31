@@ -103,7 +103,7 @@ class Machines extends CommonObject
 	 */
 	public $fields=array(
 		'rowid' => array('type'=>'integer', 'label'=>'TechnicalID', 'enabled'=>'1', 'position'=>1, 'notnull'=>1, 'visible'=>0, 'noteditable'=>'1', 'index'=>1, 'css'=>'left', 'comment'=>"Id"),
-		'ref' => array('type'=>'varchar(128)', 'label'=>'Ref', 'enabled'=>'1', 'position'=>2, 'notnull'=>1, 'visible'=>1, 'index'=>1, 'searchall'=>1, 'validate'=>'1',),
+		'ref' => array('type'=>'varchar(128)', 'label'=>'Ref', 'enabled'=>'1', 'position'=>2, 'notnull'=>1, 'visible'=>1, 'index'=>1, 'searchall'=>1, 'cssview'=>'colspan5', 'validate'=>'1',),
 		'label' => array('type'=>'varchar(64)', 'label'=>'Nom', 'enabled'=>'1', 'position'=>4, 'notnull'=>0, 'visible'=>1, 'searchall'=>1, 'css'=>'minwidth300', 'cssview'=>'wordbreak', 'help'=>"Nom de la machine", 'validate'=>'1',),
 		'description' => array('type'=>'text', 'label'=>'Observations', 'enabled'=>'1', 'position'=>32, 'notnull'=>0, 'visible'=>3, 'validate'=>'1',),
 		'date_creation' => array('type'=>'datetime', 'label'=>'DateCreation', 'enabled'=>'1', 'position'=>36, 'notnull'=>1, 'visible'=>-2,),
@@ -141,7 +141,7 @@ class Machines extends CommonObject
 		'ref_courroie_moteur' => array('type'=>'varchar(64)', 'label'=>'RefCourroieMoteur', 'enabled'=>'1', 'position'=>29, 'notnull'=>0, 'visible'=>-1,),
 		'ref_plateau_tondeuse' => array('type'=>'varchar(64)', 'label'=>'RefPlateauTondeuse', 'enabled'=>'1', 'position'=>30, 'notnull'=>0, 'visible'=>-1,),
 		'instructions_maintenance' => array('type'=>'html', 'label'=>'InstructionsMaintenance', 'enabled'=>'1', 'position'=>31, 'notnull'=>0, 'visible'=>-1, 'help'=>"Indiquer ici les instructions spécifiques à la machine à réaliser pour la maintenance.",),
-		'etat_actuel' => array('type'=>'integer', 'label'=>'EtatActuel', 'enabled'=>'1', 'position'=>35, 'notnull'=>1, 'visible'=>2, 'noteditable'=>'1', 'default'=>'0', 'csslist'=>'badge', 'arrayofkeyval'=>array('0'=>'Fonctionnelle', '1'=>'En panne'),),
+		'etat_actuel' => array('type'=>'integer', 'label'=>'EtatActuel', 'enabled'=>'1', 'position'=>35, 'notnull'=>1, 'visible'=>2, 'noteditable'=>'1', 'default'=>'0', 'csslist'=>'clm', 'arrayofkeyval'=>array('0'=>'Fonctionnelle', '1'=>'En panne'),),
 	);
 	public $rowid;
 	public $ref;
@@ -278,6 +278,10 @@ class Machines extends CommonObject
 
 		//$resultvalidate = $this->validate($user, $notrigger);
 
+		if($resultcreate > 0)
+		{
+			$resultgeneratedocument = $this->generateDocument($this->model_pdf, $langs);
+		}
 		return $resultcreate;
 	}
 
@@ -499,6 +503,14 @@ class Machines extends CommonObject
 	 */
 	public function update(User $user, $notrigger = false)
 	{
+
+		$resultupdate = $this->updateCommon($user, $notrigger);
+
+		if($resultupdate > 0)
+		{
+			$resultgeneratedocument = $this->generateDocument($this->model_pdf, $langs);
+		}
+
 		return $this->updateCommon($user, $notrigger);
 	}
 
@@ -1059,7 +1071,9 @@ class Machines extends CommonObject
 		$langs->load("gestionnaireparc@gestionnaireparc");
 
 		if (!dol_strlen($modele)) {
-			$modele = 'standard_machines';
+			$modele = 'generic_machines_odt:'.dol_buildpath($reldir.'custom/gestionnaireparc/core/modules/gestionnaireparc/doc/template_machines.odt');
+			//$modele = 'generic_machines_odt';
+			//$modele = 'standard_machines';
 
 			if (!empty($this->model_pdf)) {
 				$modele = $this->model_pdf;

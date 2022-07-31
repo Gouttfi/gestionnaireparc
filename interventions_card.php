@@ -128,12 +128,14 @@ $enablepermissioncheck = 1;
 if ($enablepermissioncheck) {
 	$permissiontoread = $user->rights->gestionnaireparc->interventions->read;
 	$permissiontoadd = $user->rights->gestionnaireparc->interventions->write; // Used by the include of actions_addupdatedelete.inc.php and actions_lineupdown.inc.php
+	$permissiontoclose = $user->rights->gestionnaireparc->interventions->close;
 	$permissiontodelete = $user->rights->gestionnaireparc->interventions->delete || ($permissiontoadd && isset($object->status) && $object->status == $object::STATUS_PROGRAMMEE);
 	$permissionnote = $user->rights->gestionnaireparc->interventions->write; // Used by the include of actions_setnotes.inc.php
 	$permissiondellink = $user->rights->gestionnaireparc->interventions->write; // Used by the include of actions_dellink.inc.php
 } else {
 	$permissiontoread = 1;
 	$permissiontoadd = 1; // Used by the include of actions_addupdatedelete.inc.php and actions_lineupdown.inc.php
+	$permissiontoclose = 1;
 	$permissiontodelete = 1;
 	$permissionnote = 1;
 	$permissiondellink = 1;
@@ -537,7 +539,7 @@ if ($object->id > 0 && (empty($action) || ($action != 'edit' && $action != 'crea
 			}*/
 
 			// Si l'intervention est réalisée, bouton pour modifier et cloturer uniquement si manager
-			if($object->resultat_intervention != 0 && $object->statut_intervention != 3 && $permissiontoadd) {
+			if($object->resultat_intervention != 0 && $object->statut_intervention != 3 && $permissiontoclose) {
 				print dolGetButtonAction($langs->trans('BoutonModifier'), '', 'default', $_SERVER["PHP_SELF"].'?id='.$object->id.'&action=edit&token='.newToken(), '', $permissiontoadd);
 				print dolGetButtonAction($langs->trans('BoutonCloturer'), '', 'default', $_SERVER["PHP_SELF"].'?id='.$object->id.'&action=cloturer&confirm=yes&token='.newToken(), '', $permissiontoadd);
 			}

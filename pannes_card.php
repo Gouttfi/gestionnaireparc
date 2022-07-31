@@ -417,11 +417,19 @@ if ($object->id > 0 && (empty($action) || ($action != 'edit' && $action != 'crea
 	switch($statut_panne) {
 		case 0:
 			$status_class = 8;
-			$status_label = "En cours";
+			$status_label = "Dépannage à programmer";
 		break;
 		case 1:
+			$status_class = 1;
+			$status_label = "Dépannage programmé";
+		break;
+		case 2:
 			$status_class = 4;
-			$status_label = "Terminée";
+			$status_label = "Terminé";
+		break;
+		default:
+			$status_class = 0;
+			$status_label = "Statut inconnu";
 		break;
 	}
 
