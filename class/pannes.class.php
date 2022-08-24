@@ -121,7 +121,7 @@ class Pannes extends CommonObject
 		'phase_reparation' => array('type'=>'integer', 'label'=>'PhaseReparation', 'enabled'=>'1', 'position'=>7, 'notnull'=>1, 'visible'=>2, 'noteditable'=>'1', 'default'=>'0', 'arrayofkeyval'=>array('0'=>'Dépannage à programmer', '1'=>'Dépannage programmé', '2'=>'Réparé'),),
 		'etat' => array('type'=>'integer', 'label'=>'EtatPanne', 'enabled'=>'1', 'position'=>8, 'notnull'=>1, 'visible'=>2, 'noteditable'=>'1', 'default'=>'0', 'arrayofkeyval'=>array('0'=>'En cours', '1'=>'Terminé'),),
 		'fk_date_intervention' => array('type'=>'date', 'label'=>'DateIntervention', 'enabled'=>'1', 'position'=>8, 'notnull'=>-1, 'visible'=>5, 'noteditable'=>'1',),
-		'ref' => array('type'=>'varchar(64)', 'label'=>'Ref', 'enabled'=>'1', 'position'=>1, 'notnull'=>1, 'visible'=>1, 'default'=>'(AUTO)',),
+		'ref' => array('type'=>'varchar(64)', 'label'=>'Ref', 'enabled'=>'1', 'position'=>1, 'notnull'=>1, 'visible'=>5,),
 	);
 	public $rowid;
 	public $description;
@@ -234,6 +234,7 @@ class Pannes extends CommonObject
 	 */
 	public function create(User $user, $notrigger = false)
 	{
+		$this->ref = $this->getNextNumRef();
 		$resultcreate = $this->createCommon($user, $notrigger);
 
 		//$resultvalidate = $this->validate($user, $notrigger);

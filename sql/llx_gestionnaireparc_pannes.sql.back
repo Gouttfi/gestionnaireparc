@@ -16,25 +16,25 @@
 
 CREATE TABLE llx_gestionnaireparc_pannes(
 	-- BEGIN MODULEBUILDER FIELDS
-	rowid integer AUTO_INCREMENT PRIMARY KEY NOT NULL, 
-	description text, 
-	note_public text, 
-	note_private text, 
-	date_creation datetime NOT NULL, 
-	tms timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, 
-	fk_user_creat integer NOT NULL, 
-	fk_user_modif integer, 
-	last_main_doc varchar(255), 
-	import_key varchar(14), 
-	model_pdf varchar(255), 
-	fk_machine integer NOT NULL, 
-	date date NOT NULL, 
-	cause varchar(128) NOT NULL, 
-	gravite integer NOT NULL, 
-	agent integer NOT NULL, 
-	phase_reparation integer NOT NULL, 
-	etat integer NOT NULL, 
-	fk_date_intervention date, 
+	rowid integer AUTO_INCREMENT PRIMARY KEY NOT NULL,
+	description text,
+	note_public text,
+	note_private text,
+	date_creation datetime NOT NULL,
+	tms timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	fk_user_creat integer NOT NULL,
+	fk_user_modif integer,
+	last_main_doc varchar(255),
+	import_key varchar(14),
+	model_pdf varchar(255),
+	fk_machine integer NOT NULL,
+	date date NOT NULL,
+	cause varchar(128) NOT NULL,
+	gravite integer NOT NULL,
+	agent integer NOT NULL,
+	phase_reparation integer NOT NULL,
+	etat integer NOT NULL,
+	fk_date_intervention date,
 	ref varchar(64) DEFAULT '(AUTO)' NOT NULL
 	-- END MODULEBUILDER FIELDS
 ) ENGINE=innodb;
@@ -44,7 +44,7 @@ DROP TRIGGER IF EXISTS `calcul_EtatActuel_machine_apres_nouvelle_panne`;
 DELIMITER $$
 CREATE TRIGGER `calcul_EtatActuel_machine_apres_nouvelle_panne`
 AFTER INSERT ON `llxsm_gestionnaireparc_pannes`
-FOR EACH ROW UPDATE `llxsm_gestionnaireparc_machines` SET `etat_actuel` = '1'
+FOR EACH ROW UPDATE `llxsm_gestionnaireparc_machines` SET `etat_actuel` = '1', `stat_nb_pannes` = `stat_nb_pannes`+1
 WHERE `llxsm_gestionnaireparc_machines`.`rowid` = new.`fk_machine`;
 $$
 DELIMITER ;

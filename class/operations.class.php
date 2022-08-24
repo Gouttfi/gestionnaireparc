@@ -112,7 +112,7 @@ class Operations extends CommonObject
 		'model_pdf' => array('type'=>'varchar(255)', 'label'=>'Model pdf', 'enabled'=>'1', 'position'=>1010, 'notnull'=>-1, 'visible'=>0,),
 		'nb_real' => array('type'=>'integer', 'label'=>'NombreRealisation', 'enabled'=>'1', 'position'=>100, 'notnull'=>1, 'visible'=>5, 'default'=>'0',),
 		'label' => array('type'=>'varchar(128)', 'label'=>'NomOperation', 'enabled'=>'1', 'position'=>3, 'notnull'=>1, 'visible'=>3, 'showoncombobox'=>'2',),
-		'ref' => array('type'=>'varchar(64)', 'label'=>'Ref', 'enabled'=>'1', 'position'=>2, 'notnull'=>1, 'visible'=>1, 'default'=>'(AUTO)',),
+		'ref' => array('type'=>'varchar(64)', 'label'=>'Ref', 'enabled'=>'1', 'position'=>2, 'notnull'=>1, 'visible'=>5,),
 	);
 	public $rowid;
 	public $date_creation;
@@ -216,6 +216,7 @@ class Operations extends CommonObject
 	 */
 	public function create(User $user, $notrigger = false)
 	{
+		$this->ref = $this->getNextNumRef();
 		$resultcreate = $this->createCommon($user, $notrigger);
 
 		//$resultvalidate = $this->validate($user, $notrigger);

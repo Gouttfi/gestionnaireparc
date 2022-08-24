@@ -120,7 +120,7 @@ class Interventions extends CommonObject
 		'fk_panne' => array('type'=>'integer:Pannes:custom/gestionnaireparc/class/pannes.class.php:0:etat=0', 'label'=>'Panne', 'enabled'=>'1', 'position'=>4, 'notnull'=>0, 'visible'=>1,),
 		'statut_intervention' => array('type'=>'integer', 'label'=>'StatutIntervention', 'enabled'=>'1', 'position'=>1000, 'notnull'=>1, 'visible'=>2, 'arrayofkeyval'=>array('0'=>'Programmée', '1'=>'Réalisée', '2'=>'Vaine', '3'=>'Clôturée'),),
 		'description' => array('type'=>'text', 'label'=>'DescriptionIntervention', 'enabled'=>'1', 'position'=>8, 'notnull'=>1, 'visible'=>3,),
-		'ref' => array('type'=>'varchar(64)', 'label'=>'RefAuto', 'enabled'=>'1', 'position'=>2, 'notnull'=>1, 'visible'=>1, 'default'=>'(AUTO)',),
+		'ref' => array('type'=>'varchar(64)', 'label'=>'Ref', 'enabled'=>'1', 'position'=>2, 'notnull'=>1, 'visible'=>5,),
 		'operation1' => array('type'=>'integer:Operations:custom/gestionnaireparc/class/operations.class.php', 'label'=>'Operation1', 'enabled'=>'1', 'position'=>20, 'notnull'=>0, 'visible'=>3,),
 		'ref_operation1' => array('type'=>'varchar(64)', 'label'=>'RefOperation1', 'enabled'=>'1', 'position'=>20.1, 'notnull'=>0, 'visible'=>3,),
 		'operation2' => array('type'=>'integer:Operations:custom/gestionnaireparc/class/operations.class.php', 'label'=>'Operation2', 'enabled'=>'1', 'position'=>21, 'notnull'=>0, 'visible'=>3,),
@@ -275,7 +275,7 @@ class Interventions extends CommonObject
 	 */
 	public function create(User $user, $notrigger = false)
 	{
-
+		$this->ref = $this->getNextNumRef();
 		//S'il s'agit d'un dépannage, récupération de la machine concernée par la panne
 		if($this->intervention_type == 1)
 		{

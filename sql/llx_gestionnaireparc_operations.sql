@@ -26,6 +26,6 @@ CREATE TABLE llx_gestionnaireparc_operations(
 	model_pdf varchar(255), 
 	nb_real integer NOT NULL, 
 	label varchar(128) NOT NULL, 
-	ref varchar(64) DEFAULT '(AUTO)' NOT NULL
+	ref varchar(64) NOT NULL
 	-- END MODULEBUILDER FIELDS
 ) ENGINE=innodb;

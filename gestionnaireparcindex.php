@@ -56,6 +56,7 @@ if (!$res) {
 }
 
 require_once DOL_DOCUMENT_ROOT.'/core/class/html.formfile.class.php';
+dol_include_once('/gestionnaireparc/class/machines.class.php');
 
 // Load translation files required by the page
 $langs->loadLangs(array("gestionnaireparc@gestionnaireparc"));
@@ -64,7 +65,7 @@ $action = GETPOST('action', 'aZ09');
 
 
 // Security check
-// if (! $user->rights->gestionnaireparc->myobject->read) {
+// if (! $user->rights->gestionnaireparc->statistiques->read) {
 // 	accessforbidden();
 // }
 $socid = GETPOST('socid', 'int');
@@ -93,27 +94,20 @@ $formfile = new FormFile($db);
 
 llxHeader("", $langs->trans("GestionnaireParcArea"));
 
-print load_fiche_titre($langs->trans("GestionnaireParcArea"), '', 'gestionnaireparc.png@gestionnaireparc');
+print load_fiche_titre($langs->trans("GestionnaireParcArea"), '', 'gestionnaireparc@gestionnaireparc');
 
 print '<div class="fichecenter"><div class="fichethirdleft">';
 
+// Security check
+ if (! $user->rights->gestionnaireparc->statistiques->read) {
+ 	//accessforbidden();
+	echo "Naviguez à travers les éléments du module via le menu de gauche.";
+ }
 
-/* BEGIN MODULEBUILDER DRAFT MYOBJECT
-// Draft MyObject
-if (! empty($conf->gestionnaireparc->enabled) && $user->rights->gestionnaireparc->read)
+// Classement des machines les plus en pannes
+if (! empty($conf->gestionnaireparc->enabled) && $user->rights->gestionnaireparc->statistiques->read)
 {
-	$langs->load("orders");
-
-	$sql = "SELECT c.rowid, c.ref, c.ref_client, c.total_ht, c.tva as total_tva, c.total_ttc, s.rowid as socid, s.nom as name, s.client, s.canvas";
-	$sql.= ", s.code_client";
-	$sql.= " FROM ".MAIN_DB_PREFIX."commande as c";
-	$sql.= ", ".MAIN_DB_PREFIX."societe as s";
-	if (! $user->rights->societe->client->voir && ! $socid) $sql.= ", ".MAIN_DB_PREFIX."societe_commerciaux as sc";
-	$sql.= " WHERE c.fk_soc = s.rowid";
-	$sql.= " AND c.fk_statut = 0";
-	$sql.= " AND c.entity IN (".getEntity('commande').")";
-	if (! $user->rights->societe->client->voir && ! $socid) $sql.= " AND s.rowid = sc.fk_soc AND sc.fk_user = ".((int) $user->id);
-	if ($socid)	$sql.= " AND c.fk_soc = ".((int) $socid);
+	$sql = "SELECT rowid, ref, etat_general, stat_nb_pannes FROM ".MAIN_DB_PREFIX."gestionnaireparc_machines ORDER BY `stat_nb_pannes` DESC";
 
 	$resql = $db->query($sql);
 	if ($resql)
@@ -123,37 +117,43 @@ if (! empty($conf->gestionnaireparc->enabled) && $user->rights->gestionnaireparc
 
 		print '<table class="noborder centpercent">';
 		print '<tr class="liste_titre">';
-		print '<th colspan="3">'.$langs->trans("DraftMyObjects").($num?'<span class="badge marginleftonlyshort">'.$num.'</span>':'').'</th></tr>';
+		print '<th colspan="2">';
+		print $langs->trans("ClassementMachinesPannes", $max);
+		print '</th>';
+		print '<th class="right">'.$langs->trans("EtatGeneral").'</th>';
+		print '<th class="right">'.$langs->trans("NombrePannes").'</th>';
+		print '</tr>';
 
-		$var = true;
 		if ($num > 0)
 		{
 			$i = 0;
 			while ($i < $num)
 			{
+				ini_set('display_errors', 1);
+				ini_set('display_startup_errors', 1);
+				error_reporting(E_ALL);
 
 				$obj = $db->fetch_object($resql);
-				print '<tr class="oddeven"><td class="nowrap">';
 
-				$myobjectstatic->id=$obj->rowid;
-				$myobjectstatic->ref=$obj->ref;
-				$myobjectstatic->ref_client=$obj->ref_client;
-				$myobjectstatic->total_ht = $obj->total_ht;
-				$myobjectstatic->total_tva = $obj->total_tva;
-				$myobjectstatic->total_ttc = $obj->total_ttc;
+				$myobjectstatic = new Machines($db);
+				$myobjectstatic->id = $obj->rowid;
+				$myobjectstatic->ref = $obj->ref;
+
+				print '<tr class="oddeven"><td class="nowrap">';
 
 				print $myobjectstatic->getNomUrl(1);
 				print '</td>';
 				print '<td class="nowrap">';
 				print '</td>';
-				print '<td class="right" class="nowrap">'.price($obj->total_ttc).'</td></tr>';
+				print '<td class="right" class="nowrap">'.$myobjectstatic->showOutputField($myobjectstatic->fields["etat_general"], $obj->rowid, $obj->etat_general, '', '', '', 0).'</td>';
+				print '<td class="right" class="nowrap">'.$obj->stat_nb_pannes.'</td></tr>';
 				$i++;
-				$total += $obj->total_ttc;
+				$total += $obj->stat_nb_pannes;
 			}
 			if ($total>0)
 			{
 
-				print '<tr class="liste_total"><td>'.$langs->trans("Total").'</td><td colspan="2" class="right">'.price($total)."</td></tr>";
+				print '<tr class="liste_total"><td>'.$langs->trans("Total").'</td><td colspan="3" class="right">'.$total."</td></tr>";
 			}
 		}
 		else
@@ -170,69 +170,82 @@ if (! empty($conf->gestionnaireparc->enabled) && $user->rights->gestionnaireparc
 		dol_print_error($db);
 	}
 }
-END MODULEBUILDER DRAFT MYOBJECT */
+
+echo "TODO : <br>
+LES N INTERVENTIONS A VENIR <br>
+LES N INTERVENTIONS REALISEES <br>
+CLASSEMENT OPERATIONS REALISEES <br>
+";
 
 
 print '</div><div class="fichetwothirdright">';
 
 
-$NBMAX = $conf->global->MAIN_SIZE_SHORTLIST_LIMIT;
-$max = $conf->global->MAIN_SIZE_SHORTLIST_LIMIT;
-
-/* BEGIN MODULEBUILDER LASTMODIFIED MYOBJECT
-// Last modified myobject
-if (! empty($conf->gestionnaireparc->enabled) && $user->rights->gestionnaireparc->read)
+// Classement des machines avec le plus de temps d'intervention cumulé
+if (! empty($conf->gestionnaireparc->enabled) && $user->rights->gestionnaireparc->statistiques->read)
 {
-	$sql = "SELECT s.rowid, s.ref, s.label, s.date_creation, s.tms";
-	$sql.= " FROM ".MAIN_DB_PREFIX."gestionnaireparc_myobject as s";
-	//if (! $user->rights->societe->client->voir && ! $socid) $sql.= ", ".MAIN_DB_PREFIX."societe_commerciaux as sc";
-	$sql.= " WHERE s.entity IN (".getEntity($myobjectstatic->element).")";
-	//if (! $user->rights->societe->client->voir && ! $socid) $sql.= " AND s.rowid = sc.fk_soc AND sc.fk_user = ".((int) $user->id);
-	//if ($socid)	$sql.= " AND s.rowid = $socid";
-	$sql .= " ORDER BY s.tms DESC";
-	$sql .= $db->plimit($max, 0);
+	$sql = "SELECT rowid, ref, stat_cumul_temps_intervention FROM ".MAIN_DB_PREFIX."gestionnaireparc_machines ORDER BY `stat_cumul_temps_intervention` DESC";
 
 	$resql = $db->query($sql);
 	if ($resql)
 	{
+		$total = 0;
 		$num = $db->num_rows($resql);
-		$i = 0;
 
 		print '<table class="noborder centpercent">';
 		print '<tr class="liste_titre">';
 		print '<th colspan="2">';
-		print $langs->trans("BoxTitleLatestModifiedMyObjects", $max);
+		print $langs->trans("ClassementMachinesCumulDureeIntervention", $max);
 		print '</th>';
-		print '<th class="right">'.$langs->trans("DateModificationShort").'</th>';
+		print '<th class="right">'.$langs->trans("CumulTempsIntervention").'</th>';
 		print '</tr>';
-		if ($num)
+
+		if ($num > 0)
 		{
+			$i = 0;
 			while ($i < $num)
 			{
-				$objp = $db->fetch_object($resql);
+				ini_set('display_errors', 1);
+				ini_set('display_startup_errors', 1);
+				error_reporting(E_ALL);
 
-				$myobjectstatic->id=$objp->rowid;
-				$myobjectstatic->ref=$objp->ref;
-				$myobjectstatic->label=$objp->label;
-				$myobjectstatic->status = $objp->status;
+				$obj = $db->fetch_object($resql);
 
-				print '<tr class="oddeven">';
-				print '<td class="nowrap">'.$myobjectstatic->getNomUrl(1).'</td>';
-				print '<td class="right nowrap">';
-				print "</td>";
-				print '<td class="right nowrap">'.dol_print_date($db->jdate($objp->tms), 'day')."</td>";
-				print '</tr>';
+				$myobjectstatic = new Machines($db);
+				$myobjectstatic->id = $obj->rowid;
+				$myobjectstatic->ref = $obj->ref;
+				$myobjectstatic->stat_cumul_temps_intervention = $obj->stat_cumul_temps_intervention;
+
+				print '<tr class="oddeven"><td class="nowrap">';
+
+				print $myobjectstatic->getNomUrl(1);
+				print '</td>';
+				print '<td class="nowrap">';
+				print '</td>';
+				print '<td class="right" class="nowrap">'.convertSecondToTime($myobjectstatic->stat_cumul_temps_intervention, 'allhourmin').'</td></tr>';
 				$i++;
+				$total += $myobjectstatic->stat_cumul_temps_intervention;
 			}
+			if ($total>0)
+			{
 
-			$db->free($resql);
-		} else {
-			print '<tr class="oddeven"><td colspan="3" class="opacitymedium">'.$langs->trans("None").'</td></tr>';
+				print '<tr class="liste_total"><td>'.$langs->trans("Total").'</td><td colspan="2" class="right">'.convertSecondToTime($total, 'allhourmin')."</td></tr>";
+			}
+		}
+		else
+		{
+
+			print '<tr class="oddeven"><td colspan="3" class="opacitymedium">'.$langs->trans("NoOrder").'</td></tr>';
 		}
 		print "</table><br>";
+
+		$db->free($resql);
+	}
+	else
+	{
+		dol_print_error($db);
 	}
 }
-*/
 
 print '</div></div>';
 
