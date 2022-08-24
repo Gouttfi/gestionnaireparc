@@ -110,9 +110,9 @@ class Operations extends CommonObject
 		'last_main_doc' => array('type'=>'varchar(255)', 'label'=>'LastMainDoc', 'enabled'=>'1', 'position'=>600, 'notnull'=>0, 'visible'=>0,),
 		'import_key' => array('type'=>'varchar(14)', 'label'=>'ImportId', 'enabled'=>'1', 'position'=>1000, 'notnull'=>-1, 'visible'=>-2,),
 		'model_pdf' => array('type'=>'varchar(255)', 'label'=>'Model pdf', 'enabled'=>'1', 'position'=>1010, 'notnull'=>-1, 'visible'=>0,),
-		'ref' => array('type'=>'varchar(64)', 'label'=>'Ref', 'enabled'=>'1', 'position'=>2, 'notnull'=>1, 'visible'=>1, 'default'=>'(AUTO)',),
 		'nb_real' => array('type'=>'integer', 'label'=>'NombreRealisation', 'enabled'=>'1', 'position'=>100, 'notnull'=>1, 'visible'=>5, 'default'=>'0',),
 		'label' => array('type'=>'varchar(128)', 'label'=>'NomOperation', 'enabled'=>'1', 'position'=>3, 'notnull'=>1, 'visible'=>3, 'showoncombobox'=>'2',),
+		'ref' => array('type'=>'varchar(64)', 'label'=>'Ref', 'enabled'=>'1', 'position'=>2, 'notnull'=>1, 'visible'=>1, 'default'=>'(AUTO)',),
 	);
 	public $rowid;
 	public $date_creation;
@@ -122,9 +122,9 @@ class Operations extends CommonObject
 	public $last_main_doc;
 	public $import_key;
 	public $model_pdf;
-	public $ref;
 	public $nb_real;
 	public $label;
+	public $ref;
 	// END MODULEBUILDER PROPERTIES
 
 
@@ -693,7 +693,7 @@ class Operations extends CommonObject
 
 		$result = '';
 
-		$label = img_picto('', $this->picto).' <u>'.$langs->trans("Operations").'</u>';
+		$label = img_picto('', "object_".$this->picto).' <u>'.$langs->trans("Operations").'</u>';
 		if (isset($this->status)) {
 			$label .= ' '.$this->getLibStatut(5);
 		}

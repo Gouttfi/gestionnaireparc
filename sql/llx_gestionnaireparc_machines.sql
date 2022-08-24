@@ -55,6 +55,8 @@ CREATE TABLE llx_gestionnaireparc_machines(
 	ref_courroie_moteur varchar(64), 
 	ref_plateau_tondeuse varchar(64), 
 	instructions_maintenance text, 
-	etat_actuel integer NOT NULL
+	etat_actuel integer NOT NULL, 
+	stat_nb_pannes integer NOT NULL, 
+	stat_cumul_temps_intervention integer NOT NULL
 	-- END MODULEBUILDER FIELDS
 ) ENGINE=innodb;

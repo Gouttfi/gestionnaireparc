@@ -105,11 +105,16 @@ foreach ($object->fields as $key => $val) {
         $labellang = ($value ? $langs->trans('Language_'.$value) : '');
         print picto_from_langcode($value, 'class="paddingrightonly saturatemedium opacitylow"');
         print $labellang;
-    } else {
+    }
+	else if (strpos($key, 'stat') !== false)
+	{
+		print '<a target="_blank" href='.$val['comment'].$object->id.'>'.$object->showOutputField($val, $key, $value, '', '', '', 0).'</a> <i class="fas fa-external-link-alt"></i>';
+	}
+	else {
         if (isset($val['copytoclipboard']) && $val['copytoclipboard'] == 2) {
             $out = $object->showOutputField($val, $key, $value, '', '', '', 0);
             print showValueWithClipboardCPButton($out, 0, $out);
-        } else {
+		} else {
             print $object->showOutputField($val, $key, $value, '', '', '', 0);
         }
     }

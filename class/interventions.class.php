@@ -117,7 +117,7 @@ class Interventions extends CommonObject
 		'date_intervention' => array('type'=>'datetime', 'label'=>'DateIntervention', 'enabled'=>'1', 'position'=>6, 'notnull'=>1, 'visible'=>1,),
 		'agent' => array('type'=>'integer:User:user/class/user.class.php', 'label'=>'AgentConcerne', 'enabled'=>'1', 'position'=>7, 'notnull'=>1, 'visible'=>1, 'default'=>'__USER_ID__',),
 		'duree_intervention' => array('type'=>'duration', 'label'=>'DureeIntervention', 'enabled'=>'1', 'position'=>9, 'notnull'=>1, 'visible'=>4,),
-		'fk_panne' => array('type'=>'integer:Pannes:custom/gestionnaireparc/class/pannes.class.php', 'label'=>'Panne', 'enabled'=>'1', 'position'=>4, 'notnull'=>0, 'visible'=>1,),
+		'fk_panne' => array('type'=>'integer:Pannes:custom/gestionnaireparc/class/pannes.class.php:0:etat=0', 'label'=>'Panne', 'enabled'=>'1', 'position'=>4, 'notnull'=>0, 'visible'=>1,),
 		'statut_intervention' => array('type'=>'integer', 'label'=>'StatutIntervention', 'enabled'=>'1', 'position'=>1000, 'notnull'=>1, 'visible'=>2, 'arrayofkeyval'=>array('0'=>'Programmée', '1'=>'Réalisée', '2'=>'Vaine', '3'=>'Clôturée'),),
 		'description' => array('type'=>'text', 'label'=>'DescriptionIntervention', 'enabled'=>'1', 'position'=>8, 'notnull'=>1, 'visible'=>3,),
 		'ref' => array('type'=>'varchar(64)', 'label'=>'RefAuto', 'enabled'=>'1', 'position'=>2, 'notnull'=>1, 'visible'=>1, 'default'=>'(AUTO)',),
@@ -275,6 +275,14 @@ class Interventions extends CommonObject
 	 */
 	public function create(User $user, $notrigger = false)
 	{
+
+		//S'il s'agit d'un dépannage, récupération de la machine concernée par la panne
+		if($this->intervention_type == 1)
+		{
+			dol_include_once('/gestionnaireparc/class/pannes.class.php');
+			$pannes = new Pannes($this->db);
+			$this->fk_machine = $pannes->fetchAll('','',0,0,array('rowid'=>$this->fk_panne))[$this->fk_panne]->fk_machine;
+		}
 
 		//Création de l'événement dans l'agenda
 		require_once DOL_DOCUMENT_ROOT.'/comm/action/class/actioncomm.class.php';
@@ -993,7 +1001,7 @@ class Interventions extends CommonObject
 
 		$result = '';
 
-		$label = img_picto('', $this->picto).' <u>'.$langs->trans("Interventions").'</u>';
+		$label = img_picto('', "object_".$this->picto).' <u>'.$langs->trans("Interventions").'</u>';
 		if (isset($this->status)) {
 			$label .= ' '.$this->getLibStatut(5);
 		}

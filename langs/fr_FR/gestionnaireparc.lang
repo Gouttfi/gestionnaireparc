@@ -45,6 +45,7 @@ GestionnaireParcAboutPage = GestionnaireParc about page
 # Sample page
 #
 MyPageName = My page name
+ListeMachines = Liste des machines
 
 #
 # Sample widget

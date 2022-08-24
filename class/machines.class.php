@@ -123,7 +123,7 @@ class Machines extends CommonObject
 		'etat_general' => array('type'=>'integer', 'label'=>'EtatGeneral', 'enabled'=>'1', 'position'=>15, 'notnull'=>1, 'visible'=>1, 'default'=>'4', 'help'=>"Notation sur 5 de l'état général de la machine", 'arrayofkeyval'=>array('0'=>'1/5', '1'=>'2/5', '2'=>'3/5', '3'=>'4/5', '4'=>'5/5'), 'comment'=>"Notation état général"),
 		'type_huile_moteur' => array('type'=>'varchar(64)', 'label'=>'TypeHuileMoteur', 'enabled'=>'1', 'position'=>16.1, 'notnull'=>0, 'visible'=>-1, 'help'=>"Type de l'huile moteur utilisée",),
 		'quantite_huile_moteur' => array('type'=>'integer', 'label'=>'QuantiteHuileMoteur', 'enabled'=>'1', 'position'=>16.2, 'notnull'=>0, 'visible'=>-1, 'isameasure'=>'1', 'help'=>"Quantité d'huile moteur requise (en Litres)",),
-		'type' => array('type'=>'integer', 'label'=>'Type', 'enabled'=>'1', 'position'=>3, 'notnull'=>1, 'visible'=>1, 'default'=>'0', 'arrayofkeyval'=>array('0'=>'Machine', '1'=>'Véhicule'),),
+		'type' => array('type'=>'integer', 'label'=>'Type', 'enabled'=>'1', 'position'=>3, 'notnull'=>1, 'visible'=>1, 'default'=>'0', 'arrayofkeyval'=>array('0'=>'Véhicule', '1'=>'Taille haie', '2'=>'Tondeuse', '3'=>'Tronçonneuse', '4'=>'Souffleur', '5'=>'Rotofil', '6'=>'Tracteur', '7'=>'Autres machines'),),
 		'immatriculation' => array('type'=>'varchar(9)', 'label'=>'Immatriculation', 'enabled'=>'1', 'position'=>11, 'notnull'=>0, 'visible'=>-1,),
 		'kilometrage' => array('type'=>'integer', 'label'=>'Kilometrage', 'enabled'=>'1', 'position'=>12, 'notnull'=>0, 'visible'=>-1, 'help'=>"Kilométrage du véhicule relevé au moment de sa création en base de données",),
 		'derniere_revision' => array('type'=>'date', 'label'=>'DateDerniereRevision', 'enabled'=>'1', 'position'=>13, 'notnull'=>0, 'visible'=>-1, 'help'=>"Date de la dernière révision au moment de l'ajout en base",),
@@ -142,6 +142,8 @@ class Machines extends CommonObject
 		'ref_plateau_tondeuse' => array('type'=>'varchar(64)', 'label'=>'RefPlateauTondeuse', 'enabled'=>'1', 'position'=>30, 'notnull'=>0, 'visible'=>-1,),
 		'instructions_maintenance' => array('type'=>'html', 'label'=>'InstructionsMaintenance', 'enabled'=>'1', 'position'=>31, 'notnull'=>0, 'visible'=>-1, 'help'=>"Indiquer ici les instructions spécifiques à la machine à réaliser pour la maintenance.",),
 		'etat_actuel' => array('type'=>'integer', 'label'=>'EtatActuel', 'enabled'=>'1', 'position'=>35, 'notnull'=>1, 'visible'=>2, 'noteditable'=>'1', 'default'=>'0', 'csslist'=>'clm', 'arrayofkeyval'=>array('0'=>'Fonctionnelle', '1'=>'En panne'),),
+		'stat_nb_pannes' => array('type'=>'integer', 'label'=>'NombrePannes', 'enabled'=>'1', 'position'=>43, 'notnull'=>1, 'visible'=>5, 'default'=>'0', 'help'=>"Cliquez pour voir les pannes associées à la machine", 'comment'=>"/custom/gestionnaireparc/pannes_list.php?idmenu=6322&mainmenu=gestionnaireparc&search_fk_machine="),
+		'stat_cumul_temps_intervention' => array('type'=>'duration', 'label'=>'CumulTempsIntervention', 'enabled'=>'1', 'position'=>44, 'notnull'=>1, 'visible'=>5, 'default'=>'0', 'help'=>"Cliquez pour voir les interventions associées à la machine", 'comment'=>"/custom/gestionnaireparc/interventions_list.php?idmenu=6322&mainmenu=gestionnaireparc&search_fk_machine="),
 	);
 	public $rowid;
 	public $ref;
@@ -183,6 +185,8 @@ class Machines extends CommonObject
 	public $ref_plateau_tondeuse;
 	public $instructions_maintenance;
 	public $etat_actuel;
+	public $stat_nb_pannes;
+	public $stat_cumul_temps_intervention;
 	// END MODULEBUILDER PROPERTIES
 
 
@@ -763,7 +767,7 @@ class Machines extends CommonObject
 
 		$result = '';
 
-		$label = img_picto('', $this->picto).' <u>'.$langs->trans("Machines").'</u>';
+		$label = img_picto('', "object_".$this->picto).' <u>'.$langs->trans("Machines").'</u>';
 		if (isset($this->status)) {
 			$label .= ' '.$this->getLibStatut(5);
 		}

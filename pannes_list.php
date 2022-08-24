@@ -658,7 +658,7 @@ while ($i < ($limit ? min($num, $limit) : $num)) {
 
 		if (!empty($arrayfields['t.'.$key]['checked'])) {
 			print '<td'.($cssforfield ? ' class="'.$cssforfield.'"' : '').'>';
-			if ($key == 'gravite_panne') {
+			if ($key == 'gravite') {
 				if($object->$key == 1) //Gravité lourde
 				{
 					print '<span style="color: red;">'.$object->showOutputField($val, $key, $object->$key, '').'</span>';
@@ -667,7 +667,7 @@ while ($i < ($limit ? min($num, $limit) : $num)) {
 				{
 					print $object->showOutputField($val, $key, $object->$key, '');
 				}
-			} elseif ($key == 'statut_panne') {
+			} elseif ($key == 'phase_reparation') {
 				switch($object->$key)
 				{
 					case 0:
@@ -683,7 +683,20 @@ while ($i < ($limit ? min($num, $limit) : $num)) {
 						$status = 0;
 					break;
 				}
-				
+
+				print '<span class="badge  badge-status'.$status.' badge-status" title="'.$object->showOutputField($val, $key, $object->$key, '').'">'.$object->showOutputField($val, $key, $object->$key, '').'</span>';
+				//print $object->getLibStatut(5);
+			} elseif ($key == 'etat') {
+				switch($object->$key)
+				{
+					case 0:
+						$status = 8;
+					break;
+					case 1:
+						$status = 4;
+					break;
+				}
+
 				print '<span class="badge  badge-status'.$status.' badge-status" title="'.$object->showOutputField($val, $key, $object->$key, '').'">'.$object->showOutputField($val, $key, $object->$key, '').'</span>';
 				//print $object->getLibStatut(5);
 			} elseif ($key == 'rowid') {

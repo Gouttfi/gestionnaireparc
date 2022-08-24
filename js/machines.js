@@ -2,7 +2,7 @@ const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
 
 //If creating element
-if(urlParams.get("action") == "create")
+if(document.querySelector('#type') !== null)
 {
     type = document.querySelector('#type').value;
 }
@@ -14,6 +14,8 @@ if(urlParams.get("id") !== null)
 }
 reloadFields();
 
+console.log(type);
+
 
 $(document.body).on("change","#type",function(){
     type = this.value;
@@ -23,7 +25,18 @@ $(document.body).on("change","#type",function(){
 //Mises en formes conditionnelles ici
 function reloadFields()
 {
-    if(type == 0 || type == "Machine")
+    if(type == 0 || type == "Véhicule")
+    {
+        document.querySelector('.field_immatriculation').classList.remove('hideobject');
+        document.querySelector('.field_numero_serie').classList.add('hideobject');
+        document.querySelector('.field_kilometrage').classList.remove('hideobject');
+        document.querySelector('.field_heures').classList.add('hideobject');
+        document.querySelector('.field_derniere_revision').classList.remove('hideobject');
+        document.querySelector('.field_ref_lames').classList.add('hideobject');
+        document.querySelector('.field_ref_courroie_moteur').classList.add('hideobject');
+        document.querySelector('.field_ref_plateau_tondeuse').classList.add('hideobject');
+    }
+    else
     {
         document.querySelector('.field_immatriculation').classList.add('hideobject');
         document.querySelector('.field_numero_serie').classList.remove('hideobject');
@@ -34,16 +47,5 @@ function reloadFields()
         document.querySelector('.field_ref_lames').classList.remove('hideobject');
         document.querySelector('.field_ref_courroie_moteur').classList.remove('hideobject');
         document.querySelector('.field_ref_plateau_tondeuse').classList.remove('hideobject');
-    }
-    if(type == 1 || type == "Véhicule")
-    {
-        document.querySelector('.field_immatriculation').classList.remove('hideobject');
-        document.querySelector('.field_numero_serie').classList.add('hideobject');
-        document.querySelector('.field_kilometrage').classList.remove('hideobject');
-        document.querySelector('.field_heures').classList.add('hideobject');
-        document.querySelector('.field_derniere_revision').classList.remove('hideobject');
-        document.querySelector('.field_ref_lames').classList.add('hideobject');
-        document.querySelector('.field_ref_courroie_moteur').classList.add('hideobject');
-        document.querySelector('.field_ref_plateau_tondeuse').classList.add('hideobject');
     }
 }

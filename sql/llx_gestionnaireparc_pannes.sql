@@ -27,12 +27,13 @@ CREATE TABLE llx_gestionnaireparc_pannes(
 	last_main_doc varchar(255),
 	import_key varchar(14),
 	model_pdf varchar(255),
-	fk_machines integer NOT NULL,
+	fk_machine integer NOT NULL,
 	date date NOT NULL,
 	cause varchar(128) NOT NULL,
-	gravite_panne integer NOT NULL,
+	gravite integer NOT NULL,
 	agent integer NOT NULL,
-	statut_panne integer NOT NULL,
+	phase_reparation integer NOT NULL,
+	etat integer NOT NULL,
 	fk_date_intervention date,
 	ref varchar(64) DEFAULT '(AUTO)' NOT NULL
 	-- END MODULEBUILDER FIELDS
@@ -43,7 +44,23 @@ DROP TRIGGER IF EXISTS `calcul_EtatActuel_machine_apres_nouvelle_panne`;
 DELIMITER $$
 CREATE TRIGGER `calcul_EtatActuel_machine_apres_nouvelle_panne`
 AFTER INSERT ON `llxsm_gestionnaireparc_pannes`
-FOR EACH ROW UPDATE `llxsm_gestionnaireparc_machines` SET `etat_actuel` = '1'
-WHERE `llxsm_gestionnaireparc_machines`.`rowid` = new.`fk_machines`;
+FOR EACH ROW UPDATE `llxsm_gestionnaireparc_machines` SET `etat_actuel` = '1', `stat_nb_pannes` = `stat_nb_pannes`+1
+WHERE `llxsm_gestionnaireparc_machines`.`rowid` = new.`fk_machine`;
+$$
+DELIMITER ;
+
+-- Trigger pour vérifier le statut d'une machine quand une panne est terminée
+DROP TRIGGER IF EXISTS `calcul_EtatActuel_machine_apres_intervention_realisee`;
+DELIMITER $$
+CREATE TRIGGER `calcul_EtatActuel_machine_apres_intervention_realisee`
+AFTER UPDATE ON `llxsm_gestionnaireparc_pannes`
+FOR EACH ROW
+IF ((SELECT COUNT(*) FROM `llxsm_gestionnaireparc_pannes` WHERE fk_machine= new.`fk_machine` AND phase_reparation != 2) = 0) THEN
+	UPDATE `llxsm_gestionnaireparc_machines` SET `etat_actuel` = '0'
+	WHERE `llxsm_gestionnaireparc_machines`.`rowid` = new.`fk_machine`;
+ELSE
+	UPDATE `llxsm_gestionnaireparc_machines` SET `etat_actuel` = '1'
+	WHERE `llxsm_gestionnaireparc_machines`.`rowid` = new.`fk_machine`;
+END IF
 $$
 DELIMITER ;

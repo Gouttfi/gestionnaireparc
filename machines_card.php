@@ -562,7 +562,7 @@ if ($object->id > 0 && (empty($action) || ($action != 'edit' && $action != 'crea
 		$includedocgeneration = 1;
 
 		// Documents
-		if ($includedocgeneration) {
+		if ($includedocgeneration && $permissiontoadd) {
 			$objref = dol_sanitizeFileName($object->ref);
 			$relativepath = $objref.'/'.$objref.'.pdf';
 			$filedir = $conf->gestionnaireparc->dir_output.'/'.$object->element.'/'.$objref;

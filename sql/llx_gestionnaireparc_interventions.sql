@@ -59,13 +59,25 @@ CREATE TABLE llx_gestionnaireparc_interventions(
 	-- END MODULEBUILDER FIELDS
 ) ENGINE=innodb;
 
+-- Trigger pour incrémenter le temps d'intervention cumulé sur une machine
+DROP TRIGGER IF EXISTS `calcul_increment_temps_intervention_sur_machine`;
+DELIMITER $$
+CREATE TRIGGER `calcul_increment_temps_intervention_sur_machine`
+AFTER UPDATE ON `llxsm_gestionnaireparc_interventions` FOR EACH ROW
+IF (new.`statut_intervention` = 3) THEN
+	UPDATE `llxsm_gestionnaireparc_machines` SET `stat_cumul_temps_intervention` = 'stat_cumul_temps_intervention'+ new.`duree_intervention`
+	WHERE `llxsm_gestionnaireparc_machines`.`rowid` = new.`fk_machine`;
+END IF;
+$$
+DELIMITER ;
+
 -- Triggers pour mettre à jour le statut d'une panne après la création/modification/supression d'une intervention
 DROP TRIGGER IF EXISTS `calcul_StatutPanne_programme_apres_creation_intervention`;
 DELIMITER $$
 CREATE TRIGGER `calcul_StatutPanne_programme_apres_creation_intervention`
 AFTER INSERT ON `llxsm_gestionnaireparc_interventions` FOR EACH ROW
 IF (new.`fk_panne` IS NOT NULL) THEN
-	UPDATE `llxsm_gestionnaireparc_pannes` SET `statut_panne` = 1, `fk_date_intervention` = new.`date_intervention`
+	UPDATE `llxsm_gestionnaireparc_pannes` SET `phase_reparation` = 1, `etat` = 0, `fk_date_intervention` = new.`date_intervention`
 	WHERE `llxsm_gestionnaireparc_pannes`.`rowid` = new.`fk_panne`;
 END IF;
 $$
@@ -77,11 +89,11 @@ CREATE TRIGGER `calcul_StatutPanne_apres_modif_intervention`
 AFTER UPDATE ON `llxsm_gestionnaireparc_interventions` FOR EACH ROW
 IF (new.`statut_intervention` = 3) THEN
 	IF (new.`fk_panne` IS NOT NULL AND new.`resultat_intervention` = 1) THEN
-		UPDATE `llxsm_gestionnaireparc_pannes` SET `statut_panne` = 2, `fk_date_intervention` = new.`date_intervention`
+		UPDATE `llxsm_gestionnaireparc_pannes` SET `phase_reparation` = 2, `etat` = 1, `fk_date_intervention` = new.`date_intervention`
 		WHERE `llxsm_gestionnaireparc_pannes`.`rowid` = new.`fk_panne`;
 	END IF;
 	IF (new.`fk_panne` IS NOT NULL AND new.`resultat_intervention` = 2) THEN
-		UPDATE `llxsm_gestionnaireparc_pannes` SET `statut_panne` = 0, `fk_date_intervention` = new.`date_intervention`
+		UPDATE `llxsm_gestionnaireparc_pannes` SET `phase_reparation` = 0, `etat` = 0, `fk_date_intervention` = new.`date_intervention`
 		WHERE `llxsm_gestionnaireparc_pannes`.`rowid` = new.`fk_panne`;
 	END IF;
 END IF
@@ -93,7 +105,7 @@ DELIMITER $$
 CREATE TRIGGER `calcul_StatutPanne_a_programmer_apres_suppression_intervention`
 AFTER DELETE ON `llxsm_gestionnaireparc_interventions` FOR EACH ROW
 IF (old.`fk_panne` IS NOT NULL) THEN
-	UPDATE `llxsm_gestionnaireparc_pannes` SET `statut_panne` = 0, `fk_date_intervention` = old.`date_intervention`
+	UPDATE `llxsm_gestionnaireparc_pannes` SET `phase_reparation` = 0, `etat` = 0, `fk_date_intervention` = old.`date_intervention`
 	WHERE `llxsm_gestionnaireparc_pannes`.`rowid` = old.`fk_panne`;
 END IF
 $$

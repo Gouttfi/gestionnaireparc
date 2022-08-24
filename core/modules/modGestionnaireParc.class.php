@@ -83,7 +83,7 @@ class modGestionnaireParc extends DolibarrModules
 		// If file is in theme/yourtheme/img directory under name object_pictovalue.png, use this->picto='pictovalue'
 		// If file is in module/img directory under name object_pictovalue.png, use this->picto='pictovalue@module'
 		// To use a supported fa-xxx css style of font awesome, use this->picto='xxx'
-		$this->picto = 'generic';
+		$this->picto = 'gestionnaireparc@gestionnaireparc';
 
 		// Define some features supported by module (triggers, login, substitutions, menus, css, etc...)
 		$this->module_parts = array(
@@ -417,9 +417,10 @@ class modGestionnaireParc extends DolibarrModules
             'fk_menu'=>'fk_mainmenu=gestionnaireparc',
             // This is a Left menu entry
             'type'=>'left',
-            'titre'=>'Liste des machines',
+            'titre'=>'Machines',
             'mainmenu'=>'gestionnaireparc',
             'leftmenu'=>'gestionnaireparc_machines',
+			'prefix' => img_picto('', "object_machines@gestionnaireparc", 'class="paddingright valignmiddle"')." ",
             'url'=>'/gestionnaireparc/machines_list.php',
             // Lang file to use (without .lang) by module. File must be in langs/code_CODE/ directory.
             'langs'=>'gestionnaireparc@gestionnaireparc',
@@ -459,9 +460,10 @@ class modGestionnaireParc extends DolibarrModules
             'fk_menu'=>'fk_mainmenu=gestionnaireparc',
             // This is a Left menu entry
             'type'=>'left',
-            'titre'=>'Liste des pannes',
+            'titre'=>'Pannes',
             'mainmenu'=>'gestionnaireparc',
             'leftmenu'=>'gestionnaireparc_pannes',
+			'prefix' => img_picto('', "object_pannes@gestionnaireparc", 'class="paddingright valignmiddle"')." ",
             'url'=>'/gestionnaireparc/pannes_list.php',
             // Lang file to use (without .lang) by module. File must be in langs/code_CODE/ directory.
             'langs'=>'gestionnaireparc@gestionnaireparc',
@@ -501,9 +503,10 @@ class modGestionnaireParc extends DolibarrModules
             'fk_menu'=>'fk_mainmenu=gestionnaireparc',
             // This is a Left menu entry
             'type'=>'left',
-            'titre'=>'Liste des interventions',
+            'titre'=>'Interventions',
             'mainmenu'=>'gestionnaireparc',
             'leftmenu'=>'gestionnaireparc_interventions',
+			'prefix' => img_picto('', "object_interventions@gestionnaireparc", 'class="paddingright valignmiddle"')." ",
             'url'=>'/gestionnaireparc/interventions_list.php',
             // Lang file to use (without .lang) by module. File must be in langs/code_CODE/ directory.
             'langs'=>'gestionnaireparc@gestionnaireparc',
@@ -543,9 +546,10 @@ class modGestionnaireParc extends DolibarrModules
             'fk_menu'=>'fk_mainmenu=gestionnaireparc',
             // This is a Left menu entry
             'type'=>'left',
-            'titre'=>'Liste des opérations',
+            'titre'=>'Opérations',
             'mainmenu'=>'gestionnaireparc',
             'leftmenu'=>'gestionnaireparc_operations',
+			'prefix' => img_picto('', "object_operations@gestionnaireparc", 'class="paddingright valignmiddle"')." ",
             'url'=>'/gestionnaireparc/operations_list.php',
             // Lang file to use (without .lang) by module. File must be in langs/code_CODE/ directory.
             'langs'=>'gestionnaireparc@gestionnaireparc',
