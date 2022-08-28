@@ -18,21 +18,21 @@
 #
 
 # Module label 'ModuleGestionnaireParcName'
-ModuleGestionnaireParcName = █ModuleGestionnaireParcName
+ModuleGestionnaireParcName = Gestionnaire de parc
 # Module description 'ModuleGestionnaireParcDesc'
 ModuleGestionnaireParcDesc = █ModuleGestionnaireParcDesc
 
 #
 # Menus
 #
-MenuMachines = █MenuMachines
-MenuCreerMachine = █MenuCreerMachine
-MenuPannes = █MenuPannes
-MenuCreerPanne = █MenuCreerPanne
-MenuInterventions = █MenuInterventions
-MenuCreerIntervention = █MenuCreerIntervention
-MenuOperations = █MenuOperations
-MenuCreerOperation = █MenuCreerOperation
+MenuMachines = Machines
+MenuCreerMachine = Créer une machine
+MenuPannes = Pannes
+MenuCreerPanne = Déclarer une panne
+MenuInterventions = Interventions
+MenuCreerIntervention = Créer une intervention
+MenuOperations = Opérations
+MenuCreerOperation = Créer une opération
 
 #
 # Droits
@@ -42,147 +42,157 @@ MenuCreerOperation = █MenuCreerOperation
 #
 # Page "Configuration"
 #
-GestionnaireParcSetup = █GestionnaireParcSetup
-Settings = █Settings
-GestionnaireParcSetupPage = █GestionnaireParcSetupPage
-GESTIONNAIREPARC_MYPARAM1 = █GESTIONNAIREPARC_MYPARAM1
-GESTIONNAIREPARC_MYPARAM1Tooltip = █GESTIONNAIREPARC_MYPARAM1Tooltip
-GESTIONNAIREPARC_MYPARAM2 = █GESTIONNAIREPARC_MYPARAM2
-GESTIONNAIREPARC_MYPARAM2Tooltip = █GESTIONNAIREPARC_MYPARAM2Tooltip
+GestionnaireParcSetup = Configuration du module "Gestionnaire de Parc"
+Settings = Paramètres
+GestionnaireParcSetupPage = Liste des paramètres
+gestionnaireparc_statistiques_limite = Limite d'éléments à charger pour les statistiques
+gestionnaireparc_statistiques_limiteTooltip = Déterminer le nombre de lignes à afficher au maximum pour chaque tableau de statistiques
 
 
 #
 # Page "A propos"
 #
-About = █About
-GestionnaireParcAbout = █GestionnaireParcAbout
-GestionnaireParcAboutPage = █GestionnaireParcAboutPage
+About = A propos du module
+GestionnaireParcAbout = A propos du module
+GestionnaireParcAboutPage = A propos du module
+
+#
+# Page d'accueil/statistiques
+#
+GestionnaireParcStatistiques = Statistiques du parc
+ClassementProchainesInterventionsPrevues = Les prochaines interventions prévues
+ClassementInterventionsRecemmentRealisees = Les interventions récemment réalisées
+ClassementMachinesPannes = Les machines les plus en panne
+ClassementMachinesCumulDureeIntervention = Les machines avec le plus grand cumul de temps d'intervention
+ClassementOperationsUtilisees = Les opérations les plus réalisées
+TotalUtilisationOperation = Nombre total de réalisation
+
 
 #
 # Page "Machines"
 #
 
 TitrePageMachine =  - Machine
-ListeMachines = █ListeMachines
-FormCreerMachine = █FormCreerMachine
-FormModifierMachine = █FormModifierMachine
+ListeMachines = Liste des machines
+FormCreerMachine = Créer une machine
+FormModifierMachine = Modifier une machine
 
-Nom = █Nom
-Observations = █Observations
-Equipe = █Equipe
-NomMagasin = █NomMagasin
-Marque = █Marque
-Modele = █Modele
-NumeroSerie = █NumeroSerie
-DateAchat = █DateAchat
-NombreHeures = █NombreHeures
-EtatGeneral = █EtatGeneral
-TypeHuileMoteur = █TypeHuileMoteur
-QuantiteHuileMoteur = █QuantiteHuileMoteur
-Type = █Type
-Immatriculation = █Immatriculation
-Kilometrage = █Kilometrage
-DateDerniereRevision = █DateDerniereRevision
-TypeHuileHydrauliques = █TypeHuileHydrauliques
-QuantiteHuileHydraulique = █QuantiteHuileHydraulique
-TypeHuilePont = █TypeHuilePont
-QuantiteHuilePont = █QuantiteHuilePont
-RefFiltreAir = █RefFiltreAir
-RefFiltreCarburant = █RefFiltreCarburant
-RefFiltreHuileMoteur = █RefFiltreHuileMoteur
-RefFiltreHuileHydrau = █RefFiltreHuileHydrau
-TypeBougies = █TypeBougies
-RefLames = █RefLames
-RefCourroieLame = █RefCourroieLame
-RefCourroieMoteur = █RefCourroieMoteur
-RefPlateauTondeuse = █RefPlateauTondeuse
-InstructionsMaintenance = █InstructionsMaintenance
-EtatActuel = █EtatActuel
-NombrePannes = █NombrePannes
-CumulTempsIntervention = █CumulTempsIntervention
+Nom = Nom de la machine
+Observations = Observations
+Equipe = Équipe
+NomMagasin = Nom du magasin
+Marque = Marque
+Modele = Modèle
+NumeroSerie = Numéro de série
+DateAchat = Date d'achat
+NombreHeures = Nombre d'heures de fonctionnement
+EtatGeneral = État général
+TypeHuileMoteur = Type d'huile moteur
+QuantiteHuileMoteur = Quantité d'huile moteur
+Type = Type
+Immatriculation = Immatriculation
+Kilometrage = Kilométrage
+DateDerniereRevision = Date de la dernière révision
+TypeHuileHydrauliques = Type d'huile hydraulique
+QuantiteHuileHydraulique = Quantité d'huile hydraulique
+TypeHuilePont = Type d'huile pont
+QuantiteHuilePont = Quantité d'huile pont
+RefFiltreAir = Référence filtre à air
+RefFiltreCarburant = Référence filtre à carburant
+RefFiltreHuileMoteur = Référence filtre à huile moteur
+RefFiltreHuileHydrau = Référence filtre à huile hydraulique
+TypeBougies = Type bougies
+RefLames = Référence lame
+RefCourroieLame = Référence courroie lame
+RefCourroieMoteur = Référence courroie moteur
+RefPlateauTondeuse = Référence plateau tondeuse
+InstructionsMaintenance = Instructions pour la maintenance
+EtatActuel = État actuel
+NombrePannes = Nombre de fois en panne
+CumulTempsIntervention = Cumul du temps d'intervention
 
 
 #
 # Page "Interventions"
 #
 
-TitrePageIntervention = Intervention 
-ListeInterventions = █ListeInterventions
-FormCreerIntervention = █FormCreerIntervention
-FormRealiserIntervention = █FormRealiserIntervention
-FormModifierIntervention = █FormModifierIntervention
-BoutonRetour = █BoutonRetour
-BoutonRealiser = █BoutonRealiser
-BoutonModifier = █BoutonModifier
-BoutonCloturer = █BoutonCloturer
+TitrePageIntervention = Intervention
+ListeInterventions = Liste des interventions
+FormCreerIntervention = Créer une intervention
+FormRealiserIntervention = Réaliser une intervention
+FormModifierIntervention = Modifier une intervention
+BoutonRetour = Retour
+BoutonRealiser = Réaliser
+BoutonModifier = Modifier
+BoutonCloturer = Cloturer
 
-CompteRendu = █CompteRendu
-TypeIntervention = █TypeIntervention
-Machine = █Machine
-DateIntervention = █DateIntervention
-AgentConcerne = █AgentConcerne
-DureeIntervention = █DureeIntervention
-Panne = █Panne
-StatutIntervention = █StatutIntervention
-DescriptionIntervention = █DescriptionIntervention
-ResultatIntervention = █ResultatIntervention
-Agenda = █Agenda
-TypeMaintenance = █TypeMaintenance
-Operation1 = █Operation1
-RefOperation1 = █RefOperation1
-Operation2 = █Operation2
-RefOperation2 = █RefOperation2
-Operation3 = █Operation3
-RefOperation3 = █RefOperation3
-Operation4 = █Operation4
-RefOperation4 = █RefOperation4
-Operation5 = █Operation5
-RefOperation5 = █RefOperation5
-Operation6 = █Operation6
-RefOperation6 = █RefOperation6
-Operation7 = █Operation7
-RefOperation7 = █RefOperation7
-Operation8 = █Operation8
-RefOperation8 = █RefOperation8
-Operation9 = █Operation9
-RefOperation9 = █RefOperation9
-Operation10 = █Operation10
-RefOperation10 = █RefOperation10
+CompteRendu = Compte rendu
+TypeIntervention = Type d'intervention
+Machine = Machine
+DateIntervention = Date de l'intervention
+AgentConcerne = Agent désigné
+DureeIntervention = Durée de l'intervention
+Panne = Panne
+StatutIntervention = Statut de l'intervention
+DescriptionIntervention = Description
+ResultatIntervention = Résultat
+Agenda = Agenda
+TypeMaintenance = Type de maintenance
+Operation1 = Opération1
+RefOperation1 = Référence produit 1
+Operation2 = Opération2
+RefOperation2 = Référence produit 2
+Operation3 = Opération3
+RefOperation3 = Référence produit 3
+Operation4 = Opération4
+RefOperation4 = Référence produit 4
+Operation5 = Opération5
+RefOperation5 = Référence produit 5
+Operation6 = Opération6
+RefOperation6 = Référence produit 6
+Operation7 = Opération7
+RefOperation7 = Référence produit 7
+Operation8 = Opération8
+RefOperation8 = Référence produit 8
+Operation9 = Opération9
+RefOperation9 = Référence produit 9
+Operation10 = Opération10
+RefOperation10 = Référence produit 10
 
 #
 # Page "Pannes"
 #
 
-TitrePagePanne = Panne :
-ListePannes = █ListePannes
-FormCreerPanne = █FormCreerPanne
-FormModifierPanne = █FormModifierPanne
+TitrePagePanne = Panne : 
+ListePannes = Liste des pannes
+FormCreerPanne = Déclarer une panne
+FormModifierPanne = Modifier une panne
 
-DescriptionPanne = █DescriptionPanne
-DatePanne = █DatePanne
-TitrePanne = █TitrePanne
-GravitePanne = █GravitePanne
-AgentDetecteur = █AgentDetecteur
-PhaseReparation = █PhaseReparation
-EtatPanne = █EtatPanne
-DateIntervention = █DateIntervention
-NombreInterventions = █NombreInterventions
+DescriptionPanne = Description
+DatePanne = Date de détection
+TitrePanne = Titre court
+GravitePanne = Gravité
+AgentDetecteur = Détecté par
+PhaseReparation = Phase de la réparation
+EtatPanne = État
+DateReparation = Date de la réparation
+NombreInterventions = Nombre d'interventions associées
 
 #
 # Page "Operations"
 #
 
-TitrePageOperation = Operation :
-ListeOperations = █ListeOperations
-FormCreerOperation = █FormCreerOperation
-FormModifierOperation = █FormModifierOperation
+TitrePageOperation = Operation : 
+ListeOperations = Liste des opérations
+FormCreerOperation = Créer une opération
+FormModifierOperation = Modifier une opération
 
-NomOperation = █NomOperation
-NombreRealisation = █NombreRealisation
+NomOperation = Nom de l'opération
+NombreRealisation = Nombre de réalisations
 
 
 #
 # Sample widget
 #
 MyWidget = █MyWidget
-GestionnaireParcBoxDescription = █GestionnaireParcBoxDescription
+GestionnaireParcBoxDescription = Résumé de la gestion du parc de machines

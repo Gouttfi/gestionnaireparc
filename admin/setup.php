@@ -79,7 +79,7 @@ $scandir = GETPOST('scan_dir', 'alpha');
 $type = 'myobject';
 
 $arrayofparameters = array(
-	//'GESTIONNAIREPARC_MYPARAM1'=>array('type'=>'string', 'css'=>'minwidth500' ,'enabled'=>1),
+	'gestionnaireparc_statistiques_limite'=>array('type'=>'string', 'css'=>'minwidth500' ,'enabled'=>1),
 	//'GESTIONNAIREPARC_MYPARAM2'=>array('type'=>'textarea','enabled'=>1),
 	//'GESTIONNAIREPARC_MYPARAM3'=>array('type'=>'category:'.Categorie::TYPE_CUSTOMER, 'enabled'=>1),
 	//'GESTIONNAIREPARC_MYPARAM4'=>array('type'=>'emailtemplate:thirdparty', 'enabled'=>1),
@@ -104,16 +104,17 @@ if ($useFormSetup && (float) DOL_VERSION >= 15) {
 
 	// or use the new system see exemple as follow (or use both because you can ;-) )
 
-	/*
+
 	// Hôte
 	$item = $formSetup->newItem('NO_PARAM_JUST_TEXT');
 	$item->fieldOverride = (empty($_SERVER['HTTPS']) ? 'http://' : 'https://') . $_SERVER['HTTP_HOST'];
 	$item->cssClass = 'minwidth500';
 
-	// Setup conf GESTIONNAIREPARC_MYPARAM1 as a simple string input
-	$item = $formSetup->newItem('GESTIONNAIREPARC_MYPARAM1');
 
-	// Setup conf GESTIONNAIREPARC_MYPARAM1 as a simple textarea input but we replace the text of field title
+	// Setup conf GESTIONNAIREPARC_MYPARAM1 as a simple string input
+	//$item = $formSetup->newItem('GESTIONNAIREPARC_MYPARAM1');
+
+	/*// Setup conf GESTIONNAIREPARC_MYPARAM1 as a simple textarea input but we replace the text of field title
 	$item = $formSetup->newItem('GESTIONNAIREPARC_MYPARAM2');
 	$item->nameText = $item->getNameText().' more html text ';
 
@@ -131,8 +132,8 @@ if ($useFormSetup && (float) DOL_VERSION >= 15) {
 	$formSetup->newItem('GESTIONNAIREPARC_MYPARAM6')->setAsSecureKey()->enabled = 0; // disabled
 
 	// Setup conf GESTIONNAIREPARC_MYPARAM7
-	$formSetup->newItem('GESTIONNAIREPARC_MYPARAM7')->setAsProduct();
-	*/
+	$formSetup->newItem('GESTIONNAIREPARC_MYPARAM7')->setAsProduct();*/
+
 
 	$setupnotempty = count($formSetup->items);
 }

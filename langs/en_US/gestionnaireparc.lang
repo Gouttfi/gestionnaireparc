@@ -45,10 +45,8 @@ MenuCreerOperation = █MenuCreerOperation
 GestionnaireParcSetup = █GestionnaireParcSetup
 Settings = █Settings
 GestionnaireParcSetupPage = █GestionnaireParcSetupPage
-GESTIONNAIREPARC_MYPARAM1 = █GESTIONNAIREPARC_MYPARAM1
-GESTIONNAIREPARC_MYPARAM1Tooltip = █GESTIONNAIREPARC_MYPARAM1Tooltip
-GESTIONNAIREPARC_MYPARAM2 = █GESTIONNAIREPARC_MYPARAM2
-GESTIONNAIREPARC_MYPARAM2Tooltip = █GESTIONNAIREPARC_MYPARAM2Tooltip
+gestionnaireparc_statistiques_limite = █gestionnaireparc_statistiques_limite
+gestionnaireparc_statistiques_limiteTooltip = █gestionnaireparc_statistiques_limiteTooltip
 
 
 #
@@ -57,6 +55,18 @@ GESTIONNAIREPARC_MYPARAM2Tooltip = █GESTIONNAIREPARC_MYPARAM2Tooltip
 About = █About
 GestionnaireParcAbout = █GestionnaireParcAbout
 GestionnaireParcAboutPage = █GestionnaireParcAboutPage
+
+#
+# Page d'accueil/statistiques
+#
+GestionnaireParcStatistiques = █GestionnaireParcStatistiques
+ClassementProchainesInterventionsPrevues = █ClassementProchainesInterventionsPrevues
+ClassementInterventionsRecemmentRealisees = █ClassementInterventionsRecemmentRealisees
+ClassementMachinesPannes = █ClassementMachinesPannes
+ClassementMachinesCumulDureeIntervention = █ClassementMachinesCumulDureeIntervention
+ClassementOperationsUtilisees = █ClassementOperationsUtilisees
+TotalUtilisationOperation = █TotalUtilisationOperation
+
 
 #
 # Page "Machines"
@@ -153,7 +163,7 @@ RefOperation10 = █RefOperation10
 # Page "Pannes"
 #
 
-TitrePagePanne = Panne :
+TitrePagePanne = Panne : 
 ListePannes = █ListePannes
 FormCreerPanne = █FormCreerPanne
 FormModifierPanne = █FormModifierPanne
@@ -172,7 +182,7 @@ NombreInterventions = █NombreInterventions
 # Page "Operations"
 #
 
-TitrePageOperation = Operation :
+TitrePageOperation = Operation : 
 ListeOperations = █ListeOperations
 FormCreerOperation = █FormCreerOperation
 FormModifierOperation = █FormModifierOperation

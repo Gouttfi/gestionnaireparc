@@ -767,12 +767,22 @@ class Machines extends CommonObject
 
 		$result = '';
 
-		$label = img_picto('', "object_".$this->picto).' <u>'.$langs->trans("Machines").'</u>';
-		if (isset($this->status)) {
-			$label .= ' '.$this->getLibStatut(5);
+		$label = img_picto('', "object_".$this->picto).' <u>'.$this->ref.'</u>';
+
+		switch($this->etat_actuel) {
+			case 0:
+			$status = 4;
+			break;
+			case 1:
+			$status = 8;
+			break;
 		}
+
+		$label .= ' '.'<span class="badge  badge-status'.$status.' badge-status">'.$this->showOutputField($this->fields["etat_actuel"], $this->rowid, $this->etat_actuel, '', '', '', 0).'</span>';
 		$label .= '<br>';
-		$label .= '<b>'.$langs->trans('Ref').':</b> '.$this->ref;
+		$label .= '<b>'.$langs->trans('Nom').':</b> '.$this->label.'<br>';
+		$label .= '<b>'.$langs->trans('Modele').':</b> '.$this->modele.'<br>';
+		$label .= '<b>'.$langs->trans('Equipe').':</b> '.$this->equipe.'<br>';
 
 		$url = dol_buildpath('/gestionnaireparc/machines_card.php', 1).'?id='.$this->id;
 
