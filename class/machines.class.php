@@ -1124,6 +1124,106 @@ class Machines extends CommonObject
 
 		return $error;
 	}
+
+	/**
+	 *  Return if at least one photo is available
+	 *
+	 * @param  string $sdir Directory to scan
+	 * @return boolean                 True if at least one photo is available, False if not
+	 */
+	public function is_photo_available($sdir)
+	{
+		// phpcs:enable
+		include_once DOL_DOCUMENT_ROOT.'/core/lib/files.lib.php';
+		include_once DOL_DOCUMENT_ROOT.'/core/lib/images.lib.php';
+
+		global $conf;
+
+		$dir = $sdir;
+		if (!empty($conf->global->PRODUCT_USE_OLD_PATH_FOR_PHOTO)) {
+			$dir .= '/'.get_exdir($this->id, 2, 0, 0, $this, 'gestionnaireparc').$this->id."/photos/";
+		} else {
+			$dir .= '/'.get_exdir(0, 0, 0, 0, $this, 'gestionnaireparc');
+		}
+
+		$nbphoto = 0;
+
+		$dir_osencoded = dol_osencode($dir);
+		if (file_exists($dir_osencoded)) {
+			$handle = opendir($dir_osencoded);
+			if (is_resource($handle)) {
+				while (($file = readdir($handle)) !== false) {
+					if (!utf8_check($file)) {
+						$file = utf8_encode($file); // To be sure data is stored in UTF8 in memory
+					}
+					if (dol_is_file($dir.$file) && image_format_supported($file) >= 0) {
+						return true;
+					}
+				}
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Return an array with all photos of product found on disk. There is no sorting criteria.
+	 *
+	 * @param  string $dir   	Directory to scan
+	 * @param  int    $nbmax 	Number maxium of photos (0=no maximum)
+	 * @return array            Array of photos
+	 */
+	public function liste_photos($dir, $nbmax = 0)
+	{
+		// phpcs:enable
+		include_once DOL_DOCUMENT_ROOT.'/core/lib/files.lib.php';
+		include_once DOL_DOCUMENT_ROOT.'/core/lib/images.lib.php';
+
+		$nbphoto = 0;
+		$tabobj = array();
+
+		$dir_osencoded = dol_osencode($dir);
+		$handle = @opendir($dir_osencoded);
+		if (is_resource($handle)) {
+			while (($file = readdir($handle)) !== false) {
+				if (!utf8_check($file)) {
+					$file = utf8_encode($file); // readdir returns ISO
+				}
+				if (dol_is_file($dir."/".$file) && image_format_supported($file) >= 0) {
+					$nbphoto++;
+
+					// We forge name of thumb.
+					$photo = $file;
+					$photo_vignette = '';
+					$regs = array();
+					if (preg_match('/('.$this->regeximgext.')$/i', $photo, $regs)) {
+						$photo_vignette = preg_replace('/'.$regs[0].'/i', '', $photo).'_small'.$regs[0];
+					}
+
+					$dirthumb = $dir.'thumbs/';
+
+					// Objet
+					$obj = array();
+					$obj['photo'] = $photo;
+					if ($photo_vignette && dol_is_file($dirthumb.$photo_vignette)) {
+						$obj['photo_vignette'] = 'thumbs/'.$photo_vignette;
+					} else {
+						$obj['photo_vignette'] = "";
+					}
+
+					$tabobj[$nbphoto - 1] = $obj;
+
+					// Do we have to continue with next photo ?
+					if ($nbmax && $nbphoto >= $nbmax) {
+						break;
+					}
+				}
+			}
+
+			closedir($handle);
+		}
+
+		return $tabobj;
+	}
 }
 
 

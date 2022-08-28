@@ -63,18 +63,28 @@ function reloadFields()
         op9_value = document.querySelector('#operation9').value;
     }
 
-    if(type == 0 || type == "Maintenance")
+    if(type == 0 || type == "Maintenance" && urlParams.get("action") != "edit_avant_realiser")
     {
         document.querySelector('.field_fk_panne').classList.add('hideobject');
         document.querySelector('.field_fk_machine').classList.remove('hideobject');
-        //document.querySelector('.field_duree_intervention').classList.remove('hideobject');
+        document.querySelector('.field_maintenance_type').classList.remove('hideobject');
     }
-    if(type == 1 || type == "Dépannage")
+    if(type == 1 || type == "Dépannage" && urlParams.get("action") != "edit_avant_realiser")
     {
         document.querySelector('.field_fk_panne').classList.remove('hideobject');
         document.querySelector('.field_fk_machine').classList.add('hideobject');
-        //document.querySelector('.field_duree_intervention').classList.add('hideobject');
+        document.querySelector('.field_maintenance_type').classList.add('hideobject');
     }
+    if(urlParams.get("action") == "edit_avant_realiser")
+    {
+        document.querySelector('.field_intervention_type').classList.add('hideobject');
+        document.querySelector('.field_fk_panne').classList.add('hideobject');
+        document.querySelector('.field_fk_machine').classList.add('hideobject');
+        document.querySelector('.field_maintenance_type').classList.add('hideobject');
+        document.querySelector('.field_description').classList.add('hideobject');
+    }
+
+
 
     //Affichage des opérations remplies
     if(op1_value != -1)

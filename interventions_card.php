@@ -224,9 +224,12 @@ $form = new Form($db);
 $formfile = new FormFile($db);
 $formproject = new FormProjets($db);
 
-$title = $langs->trans("Interventions");
+$title = $langs->trans("TitrePageIntervention");
 $help_url = '';
-llxHeader('', $title, $help_url);
+if($action != "create" && $action != "edit" && $action != "edit_avant_realiser")
+{
+	llxHeader('', $title, $help_url);
+}
 
 // Example : Adding jquery code
 // print '<script type="text/javascript">
@@ -251,7 +254,11 @@ if ($action == 'create') {
 		exit;
 	}
 
-	print load_fiche_titre($langs->trans("NewObject", $langs->transnoentitiesnoconv("Interventions")), '', 'object_'.$object->picto);
+	$title = $langs->trans("FormCreerIntervention");
+	$help_url = '';
+	llxHeader('', $title, $help_url);
+
+	print load_fiche_titre($langs->trans("FormCreerIntervention", ''), '', 'object_'.$object->picto);
 
 	print '<form method="POST" action="'.$_SERVER["PHP_SELF"].'">';
 	print '<input type="hidden" name="token" value="'.newToken().'">';
@@ -289,7 +296,22 @@ if ($action == 'create') {
 
 // Part to edit record
 if (($id || $ref) && $action == 'edit' || $action == 'edit_avant_realiser') {
-	print load_fiche_titre($langs->trans("Interventions"), '', 'object_'.$object->picto);
+	if($action == 'edit')
+	{
+		$title = $langs->trans("FormModifierIntervention");
+		$help_url = '';
+		llxHeader('', $title, $help_url);
+
+		print load_fiche_titre($langs->trans("FormModifierIntervention"), '', 'object_'.$object->picto);
+	}
+	else if ($action == 'edit_avant_realiser')
+	{
+		$title = $langs->trans("FormRealiserIntervention");
+		$help_url = '';
+		llxHeader('', $title, $help_url);
+
+		print load_fiche_titre($langs->trans("FormRealiserIntervention"), '', 'object_'.$object->picto);
+	}
 
 	print '<form method="POST" action="'.$_SERVER['PHP_SELF'].'?id='.$object->id.'&action=confirm_realisation&confirm=yes&token='.newToken().'">';
 	print '<input type="hidden" name="token" value="'.newToken().'">';

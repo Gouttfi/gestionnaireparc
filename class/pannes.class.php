@@ -103,9 +103,7 @@ class Pannes extends CommonObject
 	 */
 	public $fields=array(
 		'rowid' => array('type'=>'integer', 'label'=>'TechnicalID', 'enabled'=>'1', 'position'=>1, 'notnull'=>1, 'visible'=>0, 'noteditable'=>'1', 'index'=>1, 'css'=>'left', 'comment'=>"Id"),
-		'description' => array('type'=>'text', 'label'=>'DescriptionPanne', 'enabled'=>'1', 'position'=>60, 'notnull'=>0, 'visible'=>3, 'validate'=>'1',),
-		'note_public' => array('type'=>'html', 'label'=>'NotePublic', 'enabled'=>'1', 'position'=>61, 'notnull'=>0, 'visible'=>0, 'cssview'=>'wordbreak', 'validate'=>'1',),
-		'note_private' => array('type'=>'html', 'label'=>'NotePrivate', 'enabled'=>'1', 'position'=>62, 'notnull'=>0, 'visible'=>0, 'cssview'=>'wordbreak', 'validate'=>'1',),
+		'description' => array('type'=>'text', 'label'=>'DescriptionPanne', 'enabled'=>'1', 'position'=>11, 'notnull'=>0, 'visible'=>3, 'validate'=>'1',),
 		'date_creation' => array('type'=>'datetime', 'label'=>'DateCreation', 'enabled'=>'1', 'position'=>500, 'notnull'=>1, 'visible'=>-2,),
 		'tms' => array('type'=>'timestamp', 'label'=>'DateModification', 'enabled'=>'1', 'position'=>501, 'notnull'=>0, 'visible'=>-2,),
 		'fk_user_creat' => array('type'=>'integer:User:user/class/user.class.php', 'label'=>'UserAuthor', 'enabled'=>'1', 'position'=>510, 'notnull'=>1, 'visible'=>-2, 'foreignkey'=>'user.rowid',),
@@ -115,18 +113,17 @@ class Pannes extends CommonObject
 		'model_pdf' => array('type'=>'varchar(255)', 'label'=>'Model pdf', 'enabled'=>'1', 'position'=>1010, 'notnull'=>-1, 'visible'=>0,),
 		'fk_machine' => array('type'=>'integer:Machines:custom/gestionnaireparc/class/machines.class.php', 'label'=>'Machine', 'enabled'=>'1', 'position'=>2, 'notnull'=>1, 'visible'=>1,),
 		'date' => array('type'=>'date', 'label'=>'DatePanne', 'enabled'=>'1', 'position'=>3, 'notnull'=>1, 'visible'=>1,),
-		'cause' => array('type'=>'varchar(128)', 'label'=>'CausePanne', 'enabled'=>'1', 'position'=>4, 'notnull'=>1, 'visible'=>3, 'showoncombobox'=>'2',),
+		'titre' => array('type'=>'varchar(64)', 'label'=>'TitrePanne', 'enabled'=>'1', 'position'=>4, 'notnull'=>1, 'visible'=>3,),
 		'gravite' => array('type'=>'integer', 'label'=>'GravitePanne', 'enabled'=>'1', 'position'=>5, 'notnull'=>1, 'visible'=>1, 'arrayofkeyval'=>array('0'=>'Légère', '1'=>'Lourde'),),
 		'agent' => array('type'=>'integer:User:user/class/user.class.php', 'label'=>'AgentDetecteur', 'enabled'=>'1', 'position'=>6, 'notnull'=>1, 'visible'=>1, 'default'=>'__USER_ID__',),
 		'phase_reparation' => array('type'=>'integer', 'label'=>'PhaseReparation', 'enabled'=>'1', 'position'=>7, 'notnull'=>1, 'visible'=>2, 'noteditable'=>'1', 'default'=>'0', 'arrayofkeyval'=>array('0'=>'Dépannage à programmer', '1'=>'Dépannage programmé', '2'=>'Réparé'),),
 		'etat' => array('type'=>'integer', 'label'=>'EtatPanne', 'enabled'=>'1', 'position'=>8, 'notnull'=>1, 'visible'=>2, 'noteditable'=>'1', 'default'=>'0', 'arrayofkeyval'=>array('0'=>'En cours', '1'=>'Terminé'),),
-		'fk_date_intervention' => array('type'=>'date', 'label'=>'DateIntervention', 'enabled'=>'1', 'position'=>8, 'notnull'=>-1, 'visible'=>5, 'noteditable'=>'1',),
+		'fk_date_intervention' => array('type'=>'date', 'label'=>'DateIntervention', 'enabled'=>'1', 'position'=>9, 'notnull'=>-1, 'visible'=>5, 'noteditable'=>'1',),
 		'ref' => array('type'=>'varchar(64)', 'label'=>'Ref', 'enabled'=>'1', 'position'=>1, 'notnull'=>1, 'visible'=>5,),
+		'stat_nb_interventions' => array('type'=>'integer', 'label'=>'NombreInterventions', 'enabled'=>'1', 'position'=>10, 'notnull'=>1, 'visible'=>-5, 'default'=>'0', 'help'=>"Cliquez pour voir les interventions associées", 'comment'=>"/custom/gestionnaireparc/interventions_list.php?idmenu=6322&mainmenu=gestionnaireparc&search_fk_panne="),
 	);
 	public $rowid;
 	public $description;
-	public $note_public;
-	public $note_private;
 	public $date_creation;
 	public $tms;
 	public $fk_user_creat;
@@ -136,13 +133,14 @@ class Pannes extends CommonObject
 	public $model_pdf;
 	public $fk_machine;
 	public $date;
-	public $cause;
+	public $titre;
 	public $gravite;
 	public $agent;
 	public $phase_reparation;
 	public $etat;
 	public $fk_date_intervention;
 	public $ref;
+	public $stat_nb_interventions;
 	// END MODULEBUILDER PROPERTIES
 
 
@@ -788,7 +786,7 @@ class Pannes extends CommonObject
 		}
 
 		if ($withpicto != 2) {
-			$result .= $this->cause;
+			$result .= $this->titre;
 		}
 
 		$result .= $linkend;

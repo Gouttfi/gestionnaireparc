@@ -219,9 +219,12 @@ $form = new Form($db);
 $formfile = new FormFile($db);
 $formproject = new FormProjets($db);
 
-$title = $langs->trans("Operations");
+$title = $langs->trans("TitrePageOperation").$object->label;
 $help_url = '';
-llxHeader('', $title, $help_url);
+if($action != "create" && $action != "edit")
+{
+	llxHeader('', $title, $help_url);
+}
 
 // Example : Adding jquery code
 // print '<script type="text/javascript">
@@ -246,7 +249,11 @@ if ($action == 'create') {
 		exit;
 	}
 
-	print load_fiche_titre($langs->trans("NewObject", $langs->transnoentitiesnoconv("Operations")), '', 'object_'.$object->picto);
+	$title = $langs->trans("FormCreerOperation");
+	$help_url = '';
+	llxHeader('', $title, $help_url);
+
+	print load_fiche_titre($langs->trans("FormCreerOperation", ''), '', 'object_'.$object->picto);
 
 	print '<form method="POST" action="'.$_SERVER["PHP_SELF"].'">';
 	print '<input type="hidden" name="token" value="'.newToken().'">';
@@ -284,7 +291,12 @@ if ($action == 'create') {
 
 // Part to edit record
 if (($id || $ref) && $action == 'edit') {
-	print load_fiche_titre($langs->trans("Operations"), '', 'object_'.$object->picto);
+
+	$title = $langs->trans("FormModifierOperation");
+	$help_url = '';
+	llxHeader('', $title, $help_url);
+
+	print load_fiche_titre($langs->trans("FormModifierOperation"), '', 'object_'.$object->picto);
 
 	print '<form method="POST" action="'.$_SERVER["PHP_SELF"].'">';
 	print '<input type="hidden" name="token" value="'.newToken().'">';

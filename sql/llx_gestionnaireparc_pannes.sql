@@ -18,8 +18,6 @@ CREATE TABLE llx_gestionnaireparc_pannes(
 	-- BEGIN MODULEBUILDER FIELDS
 	rowid integer AUTO_INCREMENT PRIMARY KEY NOT NULL, 
 	description text, 
-	note_public text, 
-	note_private text, 
 	date_creation datetime NOT NULL, 
 	tms timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, 
 	fk_user_creat integer NOT NULL, 
@@ -29,13 +27,14 @@ CREATE TABLE llx_gestionnaireparc_pannes(
 	model_pdf varchar(255), 
 	fk_machine integer NOT NULL, 
 	date date NOT NULL, 
-	cause varchar(128) NOT NULL, 
+	titre varchar(64) NOT NULL, 
 	gravite integer NOT NULL, 
 	agent integer NOT NULL, 
 	phase_reparation integer NOT NULL, 
 	etat integer NOT NULL, 
 	fk_date_intervention date, 
-	ref varchar(64) NOT NULL
+	ref varchar(64) NOT NULL, 
+	stat_nb_interventions integer NOT NULL
 	-- END MODULEBUILDER FIELDS
 ) ENGINE=innodb;
 

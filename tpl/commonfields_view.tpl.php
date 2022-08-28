@@ -43,6 +43,11 @@ foreach ($object->fields as $key => $val) {
 
     /* Script pour afficher sur la même ligne plusieurs éléments si leurs position est identique */
 
+	// Discard if extrafield is a hidden field on form
+	if (abs($val['visible']) != 1 && abs($val['visible']) != 3 && abs($val['visible']) != 4 && abs($val['visible']) != 5) {
+		continue;
+	}
+
     if(floor($val['position']) != $prec_position || empty($prec_position))
     {
         print '</tr>';
@@ -53,11 +58,6 @@ foreach ($object->fields as $key => $val) {
 
     if (!empty($keyforbreak) && $key == $keyforbreak) {
         break; // key used for break on second column
-    }
-
-    // Discard if extrafield is a hidden field on form
-    if (abs($val['visible']) != 1 && abs($val['visible']) != 3 && abs($val['visible']) != 4 && abs($val['visible']) != 5) {
-        continue;
     }
 
     if (array_key_exists('enabled', $val) && isset($val['enabled']) && !verifCond($val['enabled'])) {
@@ -108,7 +108,7 @@ foreach ($object->fields as $key => $val) {
     }
 	else if (strpos($key, 'stat') !== false)
 	{
-		print '<a target="_blank" href='.$val['comment'].$object->id.'>'.$object->showOutputField($val, $key, $value, '', '', '', 0).'</a> <i class="fas fa-external-link-alt"></i>';
+		print '<a target="_blank" href='.$val['comment'].$object->id.'>'.$object->showOutputField($val, $key, $value, '', '', '', 0).' <i class="fas fa-external-link-alt"></i></a>';
 	}
 	else {
         if (isset($val['copytoclipboard']) && $val['copytoclipboard'] == 2) {

@@ -113,13 +113,13 @@ class Interventions extends CommonObject
 		'import_key' => array('type'=>'varchar(14)', 'label'=>'ImportId', 'enabled'=>'1', 'position'=>1000, 'notnull'=>-1, 'visible'=>-2,),
 		'model_pdf' => array('type'=>'varchar(255)', 'label'=>'Model pdf', 'enabled'=>'1', 'position'=>1010, 'notnull'=>-1, 'visible'=>0,),
 		'intervention_type' => array('type'=>'integer', 'label'=>'TypeIntervention', 'enabled'=>'1', 'position'=>3, 'notnull'=>1, 'visible'=>1, 'default'=>'0', 'arrayofkeyval'=>array('0'=>'Maintenance', '1'=>'Dépannage'),),
-		'fk_machine' => array('type'=>'integer:Machines:custom/gestionnaireparc/class/machines.class.php', 'label'=>'Machine', 'enabled'=>'1', 'position'=>5, 'notnull'=>0, 'visible'=>1,),
-		'date_intervention' => array('type'=>'datetime', 'label'=>'DateIntervention', 'enabled'=>'1', 'position'=>6, 'notnull'=>1, 'visible'=>1,),
-		'agent' => array('type'=>'integer:User:user/class/user.class.php', 'label'=>'AgentConcerne', 'enabled'=>'1', 'position'=>7, 'notnull'=>1, 'visible'=>1, 'default'=>'__USER_ID__',),
-		'duree_intervention' => array('type'=>'duration', 'label'=>'DureeIntervention', 'enabled'=>'1', 'position'=>9, 'notnull'=>1, 'visible'=>4,),
-		'fk_panne' => array('type'=>'integer:Pannes:custom/gestionnaireparc/class/pannes.class.php:0:etat=0', 'label'=>'Panne', 'enabled'=>'1', 'position'=>4, 'notnull'=>0, 'visible'=>1,),
+		'fk_machine' => array('type'=>'integer:Machines:custom/gestionnaireparc/class/machines.class.php', 'label'=>'Machine', 'enabled'=>'1', 'position'=>6, 'notnull'=>0, 'visible'=>1,),
+		'date_intervention' => array('type'=>'datetime', 'label'=>'DateIntervention', 'enabled'=>'1', 'position'=>7, 'notnull'=>1, 'visible'=>1,),
+		'agent' => array('type'=>'integer:User:user/class/user.class.php', 'label'=>'AgentConcerne', 'enabled'=>'1', 'position'=>8, 'notnull'=>1, 'visible'=>1, 'default'=>'__USER_ID__',),
+		'duree_intervention' => array('type'=>'duration', 'label'=>'DureeIntervention', 'enabled'=>'1', 'position'=>10, 'notnull'=>1, 'visible'=>4,),
+		'fk_panne' => array('type'=>'integer:Pannes:custom/gestionnaireparc/class/pannes.class.php:0:etat=0', 'label'=>'Panne', 'enabled'=>'1', 'position'=>5, 'notnull'=>0, 'visible'=>1,),
 		'statut_intervention' => array('type'=>'integer', 'label'=>'StatutIntervention', 'enabled'=>'1', 'position'=>1000, 'notnull'=>1, 'visible'=>2, 'arrayofkeyval'=>array('0'=>'Programmée', '1'=>'Réalisée', '2'=>'Vaine', '3'=>'Clôturée'),),
-		'description' => array('type'=>'text', 'label'=>'DescriptionIntervention', 'enabled'=>'1', 'position'=>8, 'notnull'=>1, 'visible'=>3,),
+		'description' => array('type'=>'text', 'label'=>'DescriptionIntervention', 'enabled'=>'1', 'position'=>9, 'notnull'=>1, 'visible'=>3,),
 		'ref' => array('type'=>'varchar(64)', 'label'=>'Ref', 'enabled'=>'1', 'position'=>2, 'notnull'=>1, 'visible'=>5,),
 		'operation1' => array('type'=>'integer:Operations:custom/gestionnaireparc/class/operations.class.php', 'label'=>'Operation1', 'enabled'=>'1', 'position'=>20, 'notnull'=>0, 'visible'=>3,),
 		'ref_operation1' => array('type'=>'varchar(64)', 'label'=>'RefOperation1', 'enabled'=>'1', 'position'=>20.1, 'notnull'=>0, 'visible'=>3,),
@@ -141,8 +141,9 @@ class Interventions extends CommonObject
 		'ref_operation9' => array('type'=>'varchar(64)', 'label'=>'RefOperation9', 'enabled'=>'1', 'position'=>28.1, 'notnull'=>0, 'visible'=>3,),
 		'operation10' => array('type'=>'integer:Operations:custom/gestionnaireparc/class/operations.class.php', 'label'=>'Operation10', 'enabled'=>'1', 'position'=>29, 'notnull'=>0, 'visible'=>3,),
 		'ref_operation10' => array('type'=>'varchar(64)', 'label'=>'RefOperation10', 'enabled'=>'1', 'position'=>29.1, 'notnull'=>0, 'visible'=>3,),
-		'resultat_intervention' => array('type'=>'integer', 'label'=>'ResultatIntervention', 'enabled'=>'1', 'position'=>10, 'notnull'=>1, 'visible'=>-4, 'default'=>'0', 'arrayofkeyval'=>array('0'=>'En attente', '1'=>'Réussie', '2'=>'Vaine'),),
+		'resultat_intervention' => array('type'=>'integer', 'label'=>'ResultatIntervention', 'enabled'=>'1', 'position'=>11, 'notnull'=>1, 'visible'=>-4, 'default'=>'0', 'arrayofkeyval'=>array('0'=>'En attente', '1'=>'Réussie', '2'=>'Vaine'),),
 		'fk_actioncomm' => array('type'=>'integer:ActionComm:comm/action/class/actioncomm.class.php', 'label'=>'Agenda', 'enabled'=>'1', 'position'=>50, 'notnull'=>1, 'visible'=>0, 'noteditable'=>'1',),
+		'maintenance_type' => array('type'=>'integer', 'label'=>'TypeMaintenance', 'enabled'=>'1', 'position'=>4, 'notnull'=>0, 'visible'=>1, 'arrayofkeyval'=>array('0'=>'Courante', '1'=>'Révision'),),
 	);
 	public $rowid;
 	public $compte_rendu;
@@ -184,6 +185,7 @@ class Interventions extends CommonObject
 	public $ref_operation10;
 	public $resultat_intervention;
 	public $fk_actioncomm;
+	public $maintenance_type;
 	// END MODULEBUILDER PROPERTIES
 
 

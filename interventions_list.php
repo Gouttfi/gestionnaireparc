@@ -258,7 +258,7 @@ $now = dol_now();
 
 //$help_url="EN:Module_Interventions|FR:Module_Interventions_FR|ES:Módulo_Interventions";
 $help_url = '';
-$title = $langs->trans('ListOf', $langs->transnoentitiesnoconv("Interventionss"));
+$title = $langs->trans('ListeInterventions');
 $morejs = array();
 $morecss = array();
 

@@ -258,7 +258,7 @@ $now = dol_now();
 
 //$help_url="EN:Module_Pannes|FR:Module_Pannes_FR|ES:Módulo_Pannes";
 $help_url = '';
-$title = $langs->trans('ListOf', $langs->transnoentitiesnoconv("Panness"));
+$title = $langs->trans('ListePannes');
 $morejs = array();
 $morecss = array();
 

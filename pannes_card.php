@@ -219,9 +219,12 @@ $form = new Form($db);
 $formfile = new FormFile($db);
 $formproject = new FormProjets($db);
 
-$title = $langs->trans("Pannes");
+$title = $langs->trans("TitrePagePanne").$object->titre;
 $help_url = '';
-llxHeader('', $title, $help_url);
+if($action != "create" && $action != "edit")
+{
+	llxHeader('', $title, $help_url);
+}
 
 // Example : Adding jquery code
 // print '<script type="text/javascript">
@@ -246,7 +249,11 @@ if ($action == 'create') {
 		exit;
 	}
 
-	print load_fiche_titre($langs->trans("NewObject", $langs->transnoentitiesnoconv("Pannes")), '', 'object_'.$object->picto);
+	$title = $langs->trans("FormCreerPanne");
+	$help_url = '';
+	llxHeader('', $title, $help_url);
+
+	print load_fiche_titre($langs->trans("FormCreerPanne", ''), '', 'object_'.$object->picto);
 
 	print '<form method="POST" action="'.$_SERVER["PHP_SELF"].'">';
 	print '<input type="hidden" name="token" value="'.newToken().'">';
@@ -284,7 +291,12 @@ if ($action == 'create') {
 
 // Part to edit record
 if (($id || $ref) && $action == 'edit') {
-	print load_fiche_titre($langs->trans("Pannes"), '', 'object_'.$object->picto);
+
+	$title = $langs->trans("FormModifierPanne");
+	$help_url = '';
+	llxHeader('', $title, $help_url);
+
+	print load_fiche_titre($langs->trans("FormModifierPanne"), '', 'object_'.$object->picto);
 
 	print '<form method="POST" action="'.$_SERVER["PHP_SELF"].'">';
 	print '<input type="hidden" name="token" value="'.newToken().'">';
@@ -433,7 +445,7 @@ if ($object->id > 0 && (empty($action) || ($action != 'edit' && $action != 'crea
 		break;
 	}
 
-	dol_banner_tab($object, 'ref', $linkback, 1, 'ref', 'ref', $morehtmlref,'','','',dolGetStatus($status_label,'','','status'.$status_class,2));
+	dol_banner_tab($object, 'ref', $linkback, 1, 'ref', 'ref', " : ".$object->titre,'','','',dolGetStatus($status_label,'','','status'.$status_class,2));
 
 	print '<div class="fichecenter">';
 	print '<div class="fichehalfleft">';
@@ -444,7 +456,7 @@ if ($object->id > 0 && (empty($action) || ($action != 'edit' && $action != 'crea
 	//$keyforbreak='fieldkeytoswitchonsecondcolumn';	// We change column just before this field
 	//unset($object->fields['fk_project']);				// Hide field already shown in banner
 	//unset($object->fields['fk_soc']);					// Hide field already shown in banner
-	include DOL_DOCUMENT_ROOT.'/core/tpl/commonfields_view.tpl.php';
+	include 'tpl/commonfields_view.tpl.php';
 
 	// Other attributes. Fields from hook formObjectOptions and Extrafields.
 	include DOL_DOCUMENT_ROOT.'/core/tpl/extrafields_view.tpl.php';
@@ -520,8 +532,6 @@ if ($object->id > 0 && (empty($action) || ($action != 'edit' && $action != 'crea
 		}
 
 		if (empty($reshook)) {
-			// Accès aux interventions
-				print dolGetButtonAction($langs->trans('BoutonInterventionsAssociees'), '', 'default', '/custom/gestionnaireparc/interventions_list.php?search_fk_panne='.$object->id);
 			// Send
 			/*if (empty($user->socid)) {
 				print dolGetButtonAction($langs->trans('SendMail'), '', 'default', $_SERVER["PHP_SELF"].'?id='.$object->id.'&action=presend&mode=init&token='.newToken().'#formmailbeforetitle');
@@ -627,5 +637,8 @@ if ($object->id > 0 && (empty($action) || ($action != 'edit' && $action != 'crea
 }
 
 // End of page
+print '<script>';
+include DOL_DOCUMENT_ROOT.'/custom/gestionnaireparc/js/pannes.js';
+print '</script>';
 llxFooter();
 $db->close();

@@ -14,8 +14,6 @@ if(urlParams.get("id") !== null)
 }
 reloadFields();
 
-console.log(type);
-
 
 $(document.body).on("change","#type",function(){
     type = this.value;

@@ -18,36 +18,171 @@
 #
 
 # Module label 'ModuleGestionnaireParcName'
-ModuleGestionnaireParcName = Gestionnaire de Parc
+ModuleGestionnaireParcName = █ModuleGestionnaireParcName
 # Module description 'ModuleGestionnaireParcDesc'
-ModuleGestionnaireParcDesc = GestionnaireParc description
+ModuleGestionnaireParcDesc = █ModuleGestionnaireParcDesc
 
 #
-# Admin page
+# Menus
 #
-GestionnaireParcSetup = GestionnaireParc setup
-Settings = Settings
-GestionnaireParcSetupPage = GestionnaireParc setup page
-GESTIONNAIREPARC_MYPARAM1 = My param 1
-GESTIONNAIREPARC_MYPARAM1Tooltip = My param 1 tooltip
-GESTIONNAIREPARC_MYPARAM2=My param 2
-GESTIONNAIREPARC_MYPARAM2Tooltip=My param 2 tooltip
+MenuMachines = █MenuMachines
+MenuCreerMachine = █MenuCreerMachine
+MenuPannes = █MenuPannes
+MenuCreerPanne = █MenuCreerPanne
+MenuInterventions = █MenuInterventions
+MenuCreerIntervention = █MenuCreerIntervention
+MenuOperations = █MenuOperations
+MenuCreerOperation = █MenuCreerOperation
+
+#
+# Droits
+#
 
 
 #
-# About page
+# Page "Configuration"
 #
-About = About
-GestionnaireParcAbout = About GestionnaireParc
-GestionnaireParcAboutPage = GestionnaireParc about page
+GestionnaireParcSetup = █GestionnaireParcSetup
+Settings = █Settings
+GestionnaireParcSetupPage = █GestionnaireParcSetupPage
+GESTIONNAIREPARC_MYPARAM1 = █GESTIONNAIREPARC_MYPARAM1
+GESTIONNAIREPARC_MYPARAM1Tooltip = █GESTIONNAIREPARC_MYPARAM1Tooltip
+GESTIONNAIREPARC_MYPARAM2 = █GESTIONNAIREPARC_MYPARAM2
+GESTIONNAIREPARC_MYPARAM2Tooltip = █GESTIONNAIREPARC_MYPARAM2Tooltip
+
 
 #
-# Sample page
+# Page "A propos"
 #
-MyPageName = My page name
+About = █About
+GestionnaireParcAbout = █GestionnaireParcAbout
+GestionnaireParcAboutPage = █GestionnaireParcAboutPage
+
+#
+# Page "Machines"
+#
+
+TitrePageMachine =  - Machine
+ListeMachines = █ListeMachines
+FormCreerMachine = █FormCreerMachine
+FormModifierMachine = █FormModifierMachine
+
+Nom = █Nom
+Observations = █Observations
+Equipe = █Equipe
+NomMagasin = █NomMagasin
+Marque = █Marque
+Modele = █Modele
+NumeroSerie = █NumeroSerie
+DateAchat = █DateAchat
+NombreHeures = █NombreHeures
+EtatGeneral = █EtatGeneral
+TypeHuileMoteur = █TypeHuileMoteur
+QuantiteHuileMoteur = █QuantiteHuileMoteur
+Type = █Type
+Immatriculation = █Immatriculation
+Kilometrage = █Kilometrage
+DateDerniereRevision = █DateDerniereRevision
+TypeHuileHydrauliques = █TypeHuileHydrauliques
+QuantiteHuileHydraulique = █QuantiteHuileHydraulique
+TypeHuilePont = █TypeHuilePont
+QuantiteHuilePont = █QuantiteHuilePont
+RefFiltreAir = █RefFiltreAir
+RefFiltreCarburant = █RefFiltreCarburant
+RefFiltreHuileMoteur = █RefFiltreHuileMoteur
+RefFiltreHuileHydrau = █RefFiltreHuileHydrau
+TypeBougies = █TypeBougies
+RefLames = █RefLames
+RefCourroieLame = █RefCourroieLame
+RefCourroieMoteur = █RefCourroieMoteur
+RefPlateauTondeuse = █RefPlateauTondeuse
+InstructionsMaintenance = █InstructionsMaintenance
+EtatActuel = █EtatActuel
+NombrePannes = █NombrePannes
+CumulTempsIntervention = █CumulTempsIntervention
+
+
+#
+# Page "Interventions"
+#
+
+TitrePageIntervention = Intervention
+ListeInterventions = █ListeInterventions
+FormCreerIntervention = █FormCreerIntervention
+FormRealiserIntervention = █FormRealiserIntervention
+FormModifierIntervention = █FormModifierIntervention
+BoutonRetour = █BoutonRetour
+BoutonRealiser = █BoutonRealiser
+BoutonModifier = █BoutonModifier
+BoutonCloturer = █BoutonCloturer
+
+CompteRendu = █CompteRendu
+TypeIntervention = █TypeIntervention
+Machine = █Machine
+DateIntervention = █DateIntervention
+AgentConcerne = █AgentConcerne
+DureeIntervention = █DureeIntervention
+Panne = █Panne
+StatutIntervention = █StatutIntervention
+DescriptionIntervention = █DescriptionIntervention
+ResultatIntervention = █ResultatIntervention
+Agenda = █Agenda
+TypeMaintenance = █TypeMaintenance
+Operation1 = █Operation1
+RefOperation1 = █RefOperation1
+Operation2 = █Operation2
+RefOperation2 = █RefOperation2
+Operation3 = █Operation3
+RefOperation3 = █RefOperation3
+Operation4 = █Operation4
+RefOperation4 = █RefOperation4
+Operation5 = █Operation5
+RefOperation5 = █RefOperation5
+Operation6 = █Operation6
+RefOperation6 = █RefOperation6
+Operation7 = █Operation7
+RefOperation7 = █RefOperation7
+Operation8 = █Operation8
+RefOperation8 = █RefOperation8
+Operation9 = █Operation9
+RefOperation9 = █RefOperation9
+Operation10 = █Operation10
+RefOperation10 = █RefOperation10
+
+#
+# Page "Pannes"
+#
+
+TitrePagePanne = Panne :
+ListePannes = █ListePannes
+FormCreerPanne = █FormCreerPanne
+FormModifierPanne = █FormModifierPanne
+
+DescriptionPanne = █DescriptionPanne
+DatePanne = █DatePanne
+TitrePanne = █TitrePanne
+GravitePanne = █GravitePanne
+AgentDetecteur = █AgentDetecteur
+PhaseReparation = █PhaseReparation
+EtatPanne = █EtatPanne
+DateIntervention = █DateIntervention
+NombreInterventions = █NombreInterventions
+
+#
+# Page "Operations"
+#
+
+TitrePageOperation = Operation :
+ListeOperations = █ListeOperations
+FormCreerOperation = █FormCreerOperation
+FormModifierOperation = █FormModifierOperation
+
+NomOperation = █NomOperation
+NombreRealisation = █NombreRealisation
+
 
 #
 # Sample widget
 #
-MyWidget = My widget
-MyWidgetDescription = My widget description
+MyWidget = █MyWidget
+GestionnaireParcBoxDescription = █GestionnaireParcBoxDescription

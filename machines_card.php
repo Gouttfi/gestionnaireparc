@@ -219,9 +219,12 @@ $form = new Form($db);
 $formfile = new FormFile($db);
 $formproject = new FormProjets($db);
 
-$title = $langs->trans("Machines");
+$title = $object->ref.$langs->trans("TitrePageMachine");
 $help_url = '';
-llxHeader('', $title, $help_url);
+if($action != "create" && $action != "edit")
+{
+	llxHeader('', $title, $help_url);
+}
 
 // Example : Adding jquery code
 // print '<script type="text/javascript">
@@ -246,7 +249,11 @@ if ($action == 'create') {
 		exit;
 	}
 
-	print load_fiche_titre($langs->trans("NewObject", $langs->transnoentitiesnoconv("Machines")), '', 'object_'.$object->picto);
+	$title = $langs->trans("FormCreerMachine");
+	$help_url = '';
+	llxHeader('', $title, $help_url);
+
+	print load_fiche_titre($langs->trans("FormCreerMachine", ''), '', 'object_'.$object->picto);
 
 	print '<form method="POST" action="'.$_SERVER["PHP_SELF"].'">';
 	print '<input type="hidden" name="token" value="'.newToken().'">';
@@ -285,7 +292,12 @@ if ($action == 'create') {
 
 // Part to edit record
 if (($id || $ref) && $action == 'edit') {
-	print load_fiche_titre($langs->trans("Machines"), '', 'object_'.$object->picto);
+
+	$title = $langs->trans("FormModifierMachine");
+	$help_url = '';
+	llxHeader('', $title, $help_url);
+
+	print load_fiche_titre($langs->trans("FormModifierMachine"), '', 'object_'.$object->picto);
 
 	print '<form method="POST" action="'.$_SERVER["PHP_SELF"].'">';
 	print '<input type="hidden" name="token" value="'.newToken().'">';
@@ -411,8 +423,25 @@ if ($object->id > 0 && (empty($action) || ($action != 'edit' && $action != 'crea
 	 }*/
 	$morehtmlref .= '</div>';
 
+	$dir = $conf->gestionnaireparc->multidir_output[$entity]."/machines";
 
-	dol_banner_tab($object, 'ref', $linkback, 1, 'ref', 'ref', $morehtmlref);
+	$photo_available = $object->is_photo_available($dir);
+
+	if($photo_available)
+	{
+		$photo = $object->liste_photos($dir."/".$object->ref,1)[0]["photo"];
+		$ext = pathinfo($photo, PATHINFO_EXTENSION);
+		$photo_url = substr($photo, 0, strpos($photo, "."));
+
+		$morehtmlleft = '<img id="photoref" class="photo photowithmargin photoref maxwidth150onsmartphone maxwidth200" src="/viewimage.php?modulepart=gestionnaireparc&amp;entity=&amp;file=%2Fmachines%2F'.$object->ref.'%2Fthumbs%2F'.$photo_url.'_small.'.$ext.'" title="Fichier: '.$object->ref.'/'.$photo.' - Taille: 1920x996" height="">';
+	}
+
+	dol_banner_tab($object, 'ref', $linkback, 1, 'ref', 'ref', $morehtmlref, '', '', $morehtmlleft);
+
+	if($photo_available)
+	{
+		print '<script>document.querySelector("#photoref").parentNode.classList.add("divphotoref");document.querySelector("div.floatleft:nth-child(2)").remove();</script>';
+	}
 
 
 	print '<div class="fichecenter">';

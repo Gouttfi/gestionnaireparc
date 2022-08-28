@@ -111,7 +111,7 @@ class modGestionnaireParc extends DolibarrModules
 			),
 			// Set this to relative path of js file if module must load a js on all pages
 			'js' => array(
-                '/gestionnaireparc/js/gestionnaireparc.js.php',
+                // '/gestionnaireparc/js/gestionnaireparc.js.php',
 			),
 			// Set here all hooks context managed by module. To find available hook context, make a "grep -r '>initHooks(' *" on source code. You can also set hook context to 'all'
 			'hooks' => array(
@@ -423,7 +423,7 @@ class modGestionnaireParc extends DolibarrModules
             'fk_menu'=>'fk_mainmenu=gestionnaireparc',
             // This is a Left menu entry
             'type'=>'left',
-            'titre'=>'Machines',
+            'titre'=>'MenuMachines',
             'mainmenu'=>'gestionnaireparc',
             'leftmenu'=>'gestionnaireparc_machines',
 			'prefix' => img_picto('', "object_machines@gestionnaireparc", 'class="paddingright valignmiddle"')." ",
@@ -444,7 +444,7 @@ class modGestionnaireParc extends DolibarrModules
             'fk_menu'=>'fk_mainmenu=gestionnaireparc,fk_leftmenu=gestionnaireparc_machines',
             // This is a Left menu entry
             'type'=>'left',
-            'titre'=>'Créer une machine',
+            'titre'=>'MenuCreerMachine',
             'mainmenu'=>'gestionnaireparc',
             'leftmenu'=>'gestionnaireparc_machines',
             'url'=>'/gestionnaireparc/machines_card.php?action=create',
@@ -466,7 +466,7 @@ class modGestionnaireParc extends DolibarrModules
             'fk_menu'=>'fk_mainmenu=gestionnaireparc',
             // This is a Left menu entry
             'type'=>'left',
-            'titre'=>'Pannes',
+            'titre'=>'MenuPannes',
             'mainmenu'=>'gestionnaireparc',
             'leftmenu'=>'gestionnaireparc_pannes',
 			'prefix' => img_picto('', "object_pannes@gestionnaireparc", 'class="paddingright valignmiddle"')." ",
@@ -487,7 +487,7 @@ class modGestionnaireParc extends DolibarrModules
             'fk_menu'=>'fk_mainmenu=gestionnaireparc,fk_leftmenu=gestionnaireparc_pannes',
             // This is a Left menu entry
             'type'=>'left',
-            'titre'=>'Déclarer une panne',
+            'titre'=>'MenuCreerPanne',
             'mainmenu'=>'gestionnaireparc',
             'leftmenu'=>'gestionnaireparc_pannes',
             'url'=>'/gestionnaireparc/pannes_card.php?action=create',
@@ -509,7 +509,7 @@ class modGestionnaireParc extends DolibarrModules
             'fk_menu'=>'fk_mainmenu=gestionnaireparc',
             // This is a Left menu entry
             'type'=>'left',
-            'titre'=>'Interventions',
+            'titre'=>'MenuInterventions',
             'mainmenu'=>'gestionnaireparc',
             'leftmenu'=>'gestionnaireparc_interventions',
 			'prefix' => img_picto('', "object_interventions@gestionnaireparc", 'class="paddingright valignmiddle"')." ",
@@ -530,7 +530,7 @@ class modGestionnaireParc extends DolibarrModules
             'fk_menu'=>'fk_mainmenu=gestionnaireparc,fk_leftmenu=gestionnaireparc_interventions',
             // This is a Left menu entry
             'type'=>'left',
-            'titre'=>'Créer une intervention',
+            'titre'=>'MenuCreerIntervention',
             'mainmenu'=>'gestionnaireparc',
             'leftmenu'=>'gestionnaireparc_interventions',
             'url'=>'/gestionnaireparc/interventions_card.php?action=create',
@@ -552,7 +552,7 @@ class modGestionnaireParc extends DolibarrModules
             'fk_menu'=>'fk_mainmenu=gestionnaireparc',
             // This is a Left menu entry
             'type'=>'left',
-            'titre'=>'Opérations',
+            'titre'=>'MenuOperations',
             'mainmenu'=>'gestionnaireparc',
             'leftmenu'=>'gestionnaireparc_operations',
 			'prefix' => img_picto('', "object_operations@gestionnaireparc", 'class="paddingright valignmiddle"')." ",
@@ -573,7 +573,7 @@ class modGestionnaireParc extends DolibarrModules
             'fk_menu'=>'fk_mainmenu=gestionnaireparc,fk_leftmenu=gestionnaireparc_operations',
             // This is a Left menu entry
             'type'=>'left',
-            'titre'=>'Créer une opération',
+            'titre'=>'MenuCreerOperation',
             'mainmenu'=>'gestionnaireparc',
             'leftmenu'=>'gestionnaireparc_operations',
             'url'=>'/gestionnaireparc/operations_card.php?action=create',
