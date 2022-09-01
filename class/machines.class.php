@@ -142,8 +142,8 @@ class Machines extends CommonObject
 		'ref_plateau_tondeuse' => array('type'=>'varchar(64)', 'label'=>'RefPlateauTondeuse', 'enabled'=>'1', 'position'=>30, 'notnull'=>0, 'visible'=>-1,),
 		'instructions_maintenance' => array('type'=>'html', 'label'=>'InstructionsMaintenance', 'enabled'=>'1', 'position'=>31, 'notnull'=>0, 'visible'=>-1, 'help'=>"Indiquer ici les instructions spécifiques à la machine à réaliser pour la maintenance.",),
 		'etat_actuel' => array('type'=>'integer', 'label'=>'EtatActuel', 'enabled'=>'1', 'position'=>35, 'notnull'=>1, 'visible'=>2, 'noteditable'=>'1', 'default'=>'0', 'csslist'=>'clm', 'arrayofkeyval'=>array('0'=>'Fonctionnelle', '1'=>'En panne'),),
-		'stat_nb_pannes' => array('type'=>'integer', 'label'=>'NombrePannes', 'enabled'=>'1', 'position'=>43, 'notnull'=>1, 'visible'=>5, 'default'=>'0', 'help'=>"Cliquez pour voir les pannes associées à la machine", 'comment'=>"/custom/gestionnaireparc/pannes_list.php?idmenu=6322&mainmenu=gestionnaireparc&search_fk_machine="),
-		'stat_cumul_temps_intervention' => array('type'=>'duration', 'label'=>'CumulTempsIntervention', 'enabled'=>'1', 'position'=>44, 'notnull'=>1, 'visible'=>5, 'default'=>'0', 'help'=>"Cliquez pour voir les interventions associées à la machine", 'comment'=>"/custom/gestionnaireparc/interventions_list.php?idmenu=6322&mainmenu=gestionnaireparc&search_fk_machine="),
+		'stat_nb_pannes' => array('type'=>'integer', 'label'=>'NombrePannes', 'enabled'=>'1', 'position'=>43, 'notnull'=>1, 'visible'=>-5, 'default'=>'0', 'help'=>"Cliquez pour voir les pannes associées à la machine", 'comment'=>"/custom/gestionnaireparc/pannes_list.php?idmenu=6322&mainmenu=gestionnaireparc&search_fk_machine="),
+		'stat_cumul_temps_intervention' => array('type'=>'duration', 'label'=>'CumulTempsIntervention', 'enabled'=>'1', 'position'=>44, 'notnull'=>1, 'visible'=>-5, 'default'=>'0', 'help'=>"Cliquez pour voir les interventions associées à la machine", 'comment'=>"/custom/gestionnaireparc/interventions_list.php?idmenu=6322&mainmenu=gestionnaireparc&search_fk_machine="),
 	);
 	public $rowid;
 	public $ref;

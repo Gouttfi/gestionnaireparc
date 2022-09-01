@@ -80,6 +80,7 @@ $type = 'myobject';
 
 $arrayofparameters = array(
 	'gestionnaireparc_statistiques_limite'=>array('type'=>'string', 'css'=>'minwidth500' ,'enabled'=>1),
+	'contact_prevenance_nouvelle_panne'=>array('type'=>'users', 'css'=>'minwidth500' ,'enabled'=>1),
 	//'GESTIONNAIREPARC_MYPARAM2'=>array('type'=>'textarea','enabled'=>1),
 	//'GESTIONNAIREPARC_MYPARAM3'=>array('type'=>'category:'.Categorie::TYPE_CUSTOMER, 'enabled'=>1),
 	//'GESTIONNAIREPARC_MYPARAM4'=>array('type'=>'emailtemplate:thirdparty', 'enabled'=>1),
@@ -351,11 +352,10 @@ if ($action == 'edit') {
                     });';
 						print '</script>';
 					}
-				} elseif ($val['type'] == 'product') {
-					if (!empty($conf->product->enabled) || !empty($conf->service->enabled)) {
-						$selected = (empty($conf->global->$constname) ? '' : $conf->global->$constname);
-						$form->select_produits($selected, $constname, '', 0);
-					}
+				} elseif ($val['type'] == 'users') {
+						$selected = (empty($conf->users->$constname) ? '' : $conf->users->$constname);
+						$form->select_users($selected, $constname, '', 0);
+
 				} else {
 					print '<input name="'.$constname.'"  class="flat '.(empty($val['css']) ? 'minwidth200' : $val['css']).'" value="'.$conf->global->{$constname}.'">';
 				}
@@ -430,11 +430,11 @@ if ($action == 'edit') {
 						} elseif ($conf->global->{$constname}==0) {
 							print $langs->trans("NorProspectNorCustomer");
 						}
-					} elseif ($val['type'] == 'product') {
-						$product = new Product($db);
-						$resprod = $product->fetch($conf->global->{$constname});
+					} elseif ($val['type'] == 'users') {
+						$user = new User($db);
+						$resprod = $user->fetch($conf->global->{$constname});
 						if ($resprod > 0) {
-							print $product->ref;
+							print $user->getNomUrl($user->lastname);
 						} elseif ($resprod < 0) {
 							setEventMessages(null, $object->errors, "errors");
 						}

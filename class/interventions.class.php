@@ -143,7 +143,7 @@ class Interventions extends CommonObject
 		'ref_operation10' => array('type'=>'varchar(64)', 'label'=>'RefOperation10', 'enabled'=>'1', 'position'=>29.1, 'notnull'=>0, 'visible'=>3,),
 		'resultat_intervention' => array('type'=>'integer', 'label'=>'ResultatIntervention', 'enabled'=>'1', 'position'=>11, 'notnull'=>1, 'visible'=>-4, 'default'=>'0', 'arrayofkeyval'=>array('0'=>'En attente', '1'=>'Réussie', '2'=>'Vaine'),),
 		'fk_actioncomm' => array('type'=>'integer:ActionComm:comm/action/class/actioncomm.class.php', 'label'=>'Agenda', 'enabled'=>'1', 'position'=>50, 'notnull'=>1, 'visible'=>0, 'noteditable'=>'1',),
-		'maintenance_type' => array('type'=>'integer', 'label'=>'TypeMaintenance', 'enabled'=>'1', 'position'=>4, 'notnull'=>0, 'visible'=>1, 'arrayofkeyval'=>array('0'=>'Courante', '1'=>'Révision'),),
+		'maintenance_type' => array('type'=>'integer', 'label'=>'TypeMaintenance', 'enabled'=>'1', 'position'=>4, 'notnull'=>-1, 'visible'=>1, 'arrayofkeyval'=>array('1'=>'Courante', '2'=>'Révision'),),
 	);
 	public $rowid;
 	public $compte_rendu;
@@ -616,8 +616,8 @@ class Interventions extends CommonObject
 		if($this->intervention_type == 1)
 		{
 
-			//Changement de l'état de la panne après création de l'intervention, passage au statut programmé
-			$sql = "UPDATE `".MAIN_DB_PREFIX."gestionnaireparc_pannes` SET `phase_reparation` = 0, `etat` = 0, `fk_date_intervention` = $this->date_intervention, `stat_nb_interventions` = `stat_nb_interventions`+1
+			//Changement de l'état de la panne après supression de l'intervention
+			$sql = "UPDATE `".MAIN_DB_PREFIX."gestionnaireparc_pannes` SET `phase_reparation` = 0, `etat` = 0, `fk_date_intervention` = 0, `stat_nb_interventions` = `stat_nb_interventions`-1
 			WHERE `".MAIN_DB_PREFIX."gestionnaireparc_pannes`.`rowid` = $this->fk_panne";
 
 			$resql = $this->db->query($sql);
@@ -892,7 +892,7 @@ class Interventions extends CommonObject
 					// Réussie
 					if($this->resultat_intervention == 1)
 					{
-						$sql = "UPDATE `".MAIN_DB_PREFIX."gestionnaireparc_pannes` SET `phase_reparation` = 2, `etat` = 1, `fk_date_intervention` = $this->date_intervention, `stat_nb_interventions` = `stat_nb_interventions`+1
+						$sql = "UPDATE `".MAIN_DB_PREFIX."gestionnaireparc_pannes` SET `phase_reparation` = 2, `etat` = 1, `fk_date_intervention` = FROM_UNIXTIME('$this->date_intervention'), `stat_nb_interventions` = `stat_nb_interventions`+1
 						WHERE `".MAIN_DB_PREFIX."gestionnaireparc_pannes`.`rowid` = $this->fk_panne";
 
 						$resql = $this->db->query($sql);
@@ -914,7 +914,7 @@ class Interventions extends CommonObject
 					// Vaine
 					if($this->resultat_intervention == 2)
 					{
-						$sql = "UPDATE `".MAIN_DB_PREFIX."gestionnaireparc_pannes` SET `phase_reparation` = 0, `etat` = 0, `fk_date_intervention` = $this->date_intervention, `stat_nb_interventions` = `stat_nb_interventions`+1
+						$sql = "UPDATE `".MAIN_DB_PREFIX."gestionnaireparc_pannes` SET `phase_reparation` = 0, `etat` = 0, `fk_date_intervention` = FROM_UNIXTIME('$this->date_intervention'), `stat_nb_interventions` = `stat_nb_interventions`+1
 						WHERE `".MAIN_DB_PREFIX."gestionnaireparc_pannes`.`rowid` = $this->fk_panne";
 
 						$resql = $this->db->query($sql);
@@ -923,81 +923,84 @@ class Interventions extends CommonObject
 				}
 
 				// Cumul du temps d'intervention sur la machine
-				$sql = "UPDATE `".MAIN_DB_PREFIX."gestionnaireparc_machines` SET `stat_cumul_temps_intervention` = `stat_cumul_temps_intervention`+ $this->duree_intervention
-				WHERE `".MAIN_DB_PREFIX."gestionnaireparc_machines`.`rowid` = $this->fk_machine";
+					$sql = "UPDATE `".MAIN_DB_PREFIX."gestionnaireparc_machines` SET `stat_cumul_temps_intervention` = `stat_cumul_temps_intervention`+ $this->duree_intervention
+					WHERE `".MAIN_DB_PREFIX."gestionnaireparc_machines`.`rowid` = $this->fk_machine";
 
-				$resql = $this->db->query($sql);
+					$resql = $this->db->query($sql);
 
-				// Prise en compte de toutes les opérations utilisées pour l'intervention
-				if(!is_null($this->operation1))
+				if($this->resultat_intervention == 1)
 				{
-					$sql = "UPDATE `".MAIN_DB_PREFIX."gestionnaireparc_operations` SET `nb_real` = `nb_real`+1
-					WHERE `".MAIN_DB_PREFIX."gestionnaireparc_operations`.`rowid` = $this->operation1";
-					$resql = $this->db->query($sql);
-					if(!$resql){$error++;}
-				}
-				if(!is_null($this->operation2))
-				{
-					$sql = "UPDATE `".MAIN_DB_PREFIX."gestionnaireparc_operations` SET `nb_real` = `nb_real`+1
-					WHERE `".MAIN_DB_PREFIX."gestionnaireparc_operations`.`rowid` = $this->operation2";
-					$resql = $this->db->query($sql);
-					if(!$resql){$error++;}
-				}
-				if(!is_null($this->operation3))
-				{
-					$sql = "UPDATE `".MAIN_DB_PREFIX."gestionnaireparc_operations` SET `nb_real` = `nb_real`+1
-					WHERE `".MAIN_DB_PREFIX."gestionnaireparc_operations`.`rowid` = $this->operation3";
-					$resql = $this->db->query($sql);
-					if(!$resql){$error++;}
-				}
-				if(!is_null($this->operation4))
-				{
-					$sql = "UPDATE `".MAIN_DB_PREFIX."gestionnaireparc_operations` SET `nb_real` = `nb_real`+1
-					WHERE `".MAIN_DB_PREFIX."gestionnaireparc_operations`.`rowid` = $this->operation4";
-					$resql = $this->db->query($sql);
-					if(!$resql){$error++;}
-				}
-				if(!is_null($this->operation5))
-				{
-					$sql = "UPDATE `".MAIN_DB_PREFIX."gestionnaireparc_operations` SET `nb_real` = `nb_real`+1
-					WHERE `".MAIN_DB_PREFIX."gestionnaireparc_operations`.`rowid` = $this->operation5";
-					$resql = $this->db->query($sql);
-					if(!$resql){$error++;}
-				}
-				if(!is_null($this->operation6))
-				{
-					$sql = "UPDATE `".MAIN_DB_PREFIX."gestionnaireparc_operations` SET `nb_real` = `nb_real`+1
-					WHERE `".MAIN_DB_PREFIX."gestionnaireparc_operations`.`rowid` = $this->operation6";
-					$resql = $this->db->query($sql);
-					if(!$resql){$error++;}
-				}
-				if(!is_null($this->operation7))
-				{
-					$sql = "UPDATE `".MAIN_DB_PREFIX."gestionnaireparc_operations` SET `nb_real` = `nb_real`+1
-					WHERE `".MAIN_DB_PREFIX."gestionnaireparc_operations`.`rowid` = $this->operation7";
-					$resql = $this->db->query($sql);
-					if(!$resql){$error++;}
-				}
-				if(!is_null($this->operation8))
-				{
-					$sql = "UPDATE `".MAIN_DB_PREFIX."gestionnaireparc_operations` SET `nb_real` = `nb_real`+1
-					WHERE `".MAIN_DB_PREFIX."gestionnaireparc_operations`.`rowid` = $this->operation8";
-					$resql = $this->db->query($sql);
-					if(!$resql){$error++;}
-				}
-				if(!is_null($this->operation9))
-				{
-					$sql = "UPDATE `".MAIN_DB_PREFIX."gestionnaireparc_operations` SET `nb_real` = `nb_real`+1
-					WHERE `".MAIN_DB_PREFIX."gestionnaireparc_operations`.`rowid` = $this->operation9";
-					$resql = $this->db->query($sql);
-					if(!$resql){$error++;}
-				}
-				if(!is_null($this->operation10))
-				{
-					$sql = "UPDATE `".MAIN_DB_PREFIX."gestionnaireparc_operations` SET `nb_real` = `nb_real`+1
-					WHERE `".MAIN_DB_PREFIX."gestionnaireparc_operations`.`rowid` = $this->operation10";
-					$resql = $this->db->query($sql);
-					if(!$resql){$error++;}
+					// Prise en compte de toutes les opérations utilisées pour l'intervention (uniquement si intervention réussie)
+					if(!is_null($this->operation1))
+					{
+						$sql = "UPDATE `".MAIN_DB_PREFIX."gestionnaireparc_operations` SET `nb_real` = `nb_real`+1
+						WHERE `".MAIN_DB_PREFIX."gestionnaireparc_operations`.`rowid` = $this->operation1";
+						$resql = $this->db->query($sql);
+						if(!$resql){$error++;}
+					}
+					if(!is_null($this->operation2))
+					{
+						$sql = "UPDATE `".MAIN_DB_PREFIX."gestionnaireparc_operations` SET `nb_real` = `nb_real`+1
+						WHERE `".MAIN_DB_PREFIX."gestionnaireparc_operations`.`rowid` = $this->operation2";
+						$resql = $this->db->query($sql);
+						if(!$resql){$error++;}
+					}
+					if(!is_null($this->operation3))
+					{
+						$sql = "UPDATE `".MAIN_DB_PREFIX."gestionnaireparc_operations` SET `nb_real` = `nb_real`+1
+						WHERE `".MAIN_DB_PREFIX."gestionnaireparc_operations`.`rowid` = $this->operation3";
+						$resql = $this->db->query($sql);
+						if(!$resql){$error++;}
+					}
+					if(!is_null($this->operation4))
+					{
+						$sql = "UPDATE `".MAIN_DB_PREFIX."gestionnaireparc_operations` SET `nb_real` = `nb_real`+1
+						WHERE `".MAIN_DB_PREFIX."gestionnaireparc_operations`.`rowid` = $this->operation4";
+						$resql = $this->db->query($sql);
+						if(!$resql){$error++;}
+					}
+					if(!is_null($this->operation5))
+					{
+						$sql = "UPDATE `".MAIN_DB_PREFIX."gestionnaireparc_operations` SET `nb_real` = `nb_real`+1
+						WHERE `".MAIN_DB_PREFIX."gestionnaireparc_operations`.`rowid` = $this->operation5";
+						$resql = $this->db->query($sql);
+						if(!$resql){$error++;}
+					}
+					if(!is_null($this->operation6))
+					{
+						$sql = "UPDATE `".MAIN_DB_PREFIX."gestionnaireparc_operations` SET `nb_real` = `nb_real`+1
+						WHERE `".MAIN_DB_PREFIX."gestionnaireparc_operations`.`rowid` = $this->operation6";
+						$resql = $this->db->query($sql);
+						if(!$resql){$error++;}
+					}
+					if(!is_null($this->operation7))
+					{
+						$sql = "UPDATE `".MAIN_DB_PREFIX."gestionnaireparc_operations` SET `nb_real` = `nb_real`+1
+						WHERE `".MAIN_DB_PREFIX."gestionnaireparc_operations`.`rowid` = $this->operation7";
+						$resql = $this->db->query($sql);
+						if(!$resql){$error++;}
+					}
+					if(!is_null($this->operation8))
+					{
+						$sql = "UPDATE `".MAIN_DB_PREFIX."gestionnaireparc_operations` SET `nb_real` = `nb_real`+1
+						WHERE `".MAIN_DB_PREFIX."gestionnaireparc_operations`.`rowid` = $this->operation8";
+						$resql = $this->db->query($sql);
+						if(!$resql){$error++;}
+					}
+					if(!is_null($this->operation9))
+					{
+						$sql = "UPDATE `".MAIN_DB_PREFIX."gestionnaireparc_operations` SET `nb_real` = `nb_real`+1
+						WHERE `".MAIN_DB_PREFIX."gestionnaireparc_operations`.`rowid` = $this->operation9";
+						$resql = $this->db->query($sql);
+						if(!$resql){$error++;}
+					}
+					if(!is_null($this->operation10))
+					{
+						$sql = "UPDATE `".MAIN_DB_PREFIX."gestionnaireparc_operations` SET `nb_real` = `nb_real`+1
+						WHERE `".MAIN_DB_PREFIX."gestionnaireparc_operations`.`rowid` = $this->operation10";
+						$resql = $this->db->query($sql);
+						if(!$resql){$error++;}
+					}
 				}
 
 
@@ -1185,11 +1188,11 @@ class Interventions extends CommonObject
 		{
 			$phrase_type_intervention = "Dépannage";
 		}
-		if($this->intervention_type == 0 && $this->maintenance_type == 0)
+		else if($this->intervention_type == 0 && $this->maintenance_type == 1)
 		{
 			$phrase_type_intervention = "Maintenance courante";
 		}
-		if($this->intervention_type == 0 && $this->maintenance_type == 1)
+		else if($this->intervention_type == 0 && $this->maintenance_type == 2)
 		{
 			$phrase_type_intervention = "Révision";
 		}

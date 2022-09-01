@@ -59,6 +59,7 @@ require_once DOL_DOCUMENT_ROOT.'/core/class/html.formfile.class.php';
 dol_include_once('/gestionnaireparc/class/machines.class.php');
 dol_include_once('/gestionnaireparc/class/interventions.class.php');
 dol_include_once('/gestionnaireparc/class/operations.class.php');
+dol_include_once('/gestionnaireparc/class/pannes.class.php');
 
 
 // Load translation files required by the page
@@ -111,11 +112,11 @@ if (! $user->rights->gestionnaireparc->statistiques->read) {
 /*print_r(gettype($conf->global->gestionnaireparc_statistiques_limite));
 if(gettype($conf->global->gestionnaireparc_statistiques_limite) !== "integer" || $conf->global->gestionnaireparc_statistiques_limite == 0)
 {
-	$limit = 5;
+$limit = 5;
 }
 else
 {*/
-	$limit = $conf->global->gestionnaireparc_statistiques_limite;
+$limit = $conf->global->gestionnaireparc_statistiques_limite;
 /*}*/
 
 // Classement des interventions à venir
@@ -144,29 +145,26 @@ if (! empty($conf->gestionnaireparc->enabled) && $user->rights->gestionnaireparc
 			while ($i < $num)
 			{
 
-				$obj = $db->fetch_object($resql);
+				$object_db = $db->fetch_object($resql);
 
-				$myobjectstatic = new Interventions($db);
-				$myobjectstatic->id = $obj->rowid;
-				$myobjectstatic->ref = $obj->ref;
-				$myobjectstatic->date_intervention = $obj->date_intervention;
-				$myobjectstatic->statut_intervention = $obj->statut_intervention;
+				$object = new Interventions($db);
+				$object->fetch($object_db->rowid);
 
 				//Récupération de la machine associée
 				/*$machines = new Machines($db);
 				$machine = $machines->fetchAll('','',0,0,array('rowid'=>$obj->fk_machine))[$obj->fk_machine];
 
 				var_dump($machine->label);
-				$myobjectstatic->label = $machine->label;*/
+				$object->label = $machine->label;*/
 
 				print '<tr class="oddeven"><td class="nowrap">';
 
-				print $myobjectstatic->getNomUrl(1);
+				print $object->getNomUrl(1);
 				print '</td>';
 				print '<td class="nowrap">';
 				print '</td>';
-				print '<td class="right" class="nowrap">'.$myobjectstatic->showOutputField($myobjectstatic->fields["date_intervention"], $obj->rowid, $obj->date_intervention, '', '', '', 0).'</td>';
-				print '<td class="right" class="nowrap">'.$myobjectstatic->showOutputField($myobjectstatic->fields["agent"], $obj->rowid, $obj->agent, '', '', '', 0).'</td></tr>';
+				print '<td class="right" class="nowrap">'.$object->showOutputField($object->fields['date_intervention'], 'date_intervention', $object->date_intervention, '').'</td>';
+				print '<td class="right" class="nowrap">'.$object->showOutputField($object->fields["agent"], 'agent', $object->agent, '').'</td></tr>';
 				$i++;
 				//$total += $obj->stat_nb_pannes;
 			}
@@ -218,15 +216,12 @@ if (! empty($conf->gestionnaireparc->enabled) && $user->rights->gestionnaireparc
 			while ($i < $num)
 			{
 
-				$obj = $db->fetch_object($resql);
+				$object_db = $db->fetch_object($resql);
 
-				$myobjectstatic = new Interventions($db);
-				$myobjectstatic->id = $obj->rowid;
-				$myobjectstatic->ref = $obj->ref;
-				$myobjectstatic->date_intervention = $obj->date_intervention;
-				$myobjectstatic->statut_intervention = $obj->statut_intervention;
+				$object = new Interventions($db);
+				$object->fetch($object_db->rowid);
 
-				switch($obj->statut_intervention) {
+				switch($object->statut_intervention) {
 					case 0:
 					$status = 1;
 					break;
@@ -243,13 +238,13 @@ if (! empty($conf->gestionnaireparc->enabled) && $user->rights->gestionnaireparc
 
 				print '<tr class="oddeven"><td class="nowrap">';
 
-				print $myobjectstatic->getNomUrl(1);
+				print $object->getNomUrl(1);
 				print '</td>';
 				print '<td class="nowrap">';
 				print '</td>';
-				print '<td class="right" class="nowrap">'.$myobjectstatic->showOutputField($myobjectstatic->fields["date_intervention"], $obj->rowid, $obj->date_intervention, '', '', '', 0).'</td>';
-				print '<td class="right" class="nowrap">'.$myobjectstatic->showOutputField($myobjectstatic->fields["agent"], $obj->rowid, $obj->agent, '', '', '', 0).'</td>';
-				print '<td class="right" class="nowrap"><span class="badge  badge-status'.$status.' badge-status" title="'.$myobjectstatic->showOutputField($myobjectstatic->fields["statut_intervention"], $obj->rowid, $obj->statut_intervention, '', '', '', 0).'">'.$myobjectstatic->showOutputField($myobjectstatic->fields["statut_intervention"], $obj->rowid, $obj->statut_intervention, '', '', '', 0).'</span></td></tr>';
+				print '<td class="right" class="nowrap">'.$object->showOutputField($object->fields['date_intervention'], 'date_intervention', $object->date_intervention, '').'</td>';
+				print '<td class="right" class="nowrap">'.$object->showOutputField($object->fields["agent"], 'agent', $object->agent, '').'</td>';
+				print '<td class="right" class="nowrap"><span class="badge  badge-status'.$status.' badge-status" title="'.$object->showOutputField($object->fields["statut_intervention"], 'statut_intervention', $object->statut_intervention, '').'">'.$object->showOutputField($object->fields["statut_intervention"], 'statut_intervention', $object->statut_intervention, '').'</span></td></tr>';
 				$i++;
 				//$total += $obj->stat_nb_pannes;
 			}
@@ -276,6 +271,73 @@ if (! empty($conf->gestionnaireparc->enabled) && $user->rights->gestionnaireparc
 
 print '</div><div class="fichetwothirdright">';
 
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+// Classement des agents déclarant le plus de pannes
+if (! empty($conf->gestionnaireparc->enabled) && $user->rights->gestionnaireparc->statistiques->read)
+{
+	$sql = "SELECT rowid, ref, agent, count(agent) AS count FROM ".MAIN_DB_PREFIX."gestionnaireparc_pannes GROUP BY `agent` ORDER BY `count` DESC LIMIT $limit";
+
+	$resql = $db->query($sql);
+	if ($resql)
+	{
+		$total = 0;
+		$num = $db->num_rows($resql);
+
+		print '<table class="noborder centpercent">';
+		print '<tr class="liste_titre">';
+		print '<th colspan="2">';
+		print $langs->trans("ClassementAgentsDeclarantsPannes", $max).($num?'<span class="badge marginleftonlyshort">'.$num.'</span>':'');
+		print '</th>';
+		//print '<th class="right">'.$langs->trans("ClassementAgentsDeclarantsPannes").'</th>';
+		print '<th class="right">'.$langs->trans("NombrePannesDeclarees").'</th>';
+		print '</tr>';
+
+		if ($num > 0)
+		{
+			$i = 0;
+			while ($i < $num)
+			{
+
+				$object_db = $db->fetch_object($resql);
+
+				$object = new Pannes($db);
+				$object->fetch($object_db->rowid);
+				$object->count_nb_pannes = $object_db->count;
+
+				print '<tr class="oddeven"><td class="nowrap">';
+
+				print $object->showOutputField($object->fields['agent'], 'agent', $object->agent, '');
+				print '</td>';
+				print '<td class="nowrap">';
+				print '</td>';
+				//print '<td class="right" class="nowrap">'.$object->showOutputField($object->fields['agent'], 'agent', $object->agent, '').'</td>';
+				print '<td class="right" class="nowrap">'.$object->count_nb_pannes.'</td></tr>';
+				$i++;
+				$total += $object->count_nb_pannes;
+			}
+			if ($total>0)
+			{
+
+				print '<tr class="liste_total"><td>'.$langs->trans("Total").'</td><td colspan="3" class="right">'.$total."</td></tr>";
+			}
+		}
+		else
+		{
+
+			print '<tr class="oddeven"><td colspan="3" class="opacitymedium">'.$langs->trans("NoOrder").'</td></tr>';
+		}
+		print "</table><br>";
+
+		$db->free($resql);
+	}
+	else
+	{
+		dol_print_error($db);
+	}
+}
 
 // Classement des machines les plus en pannes
 if (! empty($conf->gestionnaireparc->enabled) && $user->rights->gestionnaireparc->statistiques->read)
@@ -303,26 +365,21 @@ if (! empty($conf->gestionnaireparc->enabled) && $user->rights->gestionnaireparc
 			while ($i < $num)
 			{
 
-				$obj = $db->fetch_object($resql);
+				$object_db = $db->fetch_object($resql);
 
-				$myobjectstatic = new Machines($db);
-				$myobjectstatic->id = $obj->rowid;
-				$myobjectstatic->ref = $obj->ref;
-				$myobjectstatic->etat_actuel = $obj->etat_actuel;
-				$myobjectstatic->label = $obj->label;
-				$myobjectstatic->modele = $obj->modele;
-				$myobjectstatic->equipe = $obj->equipe;
+				$object = new Machines($db);
+				$object->fetch($object_db->rowid);
 
 				print '<tr class="oddeven"><td class="nowrap">';
 
-				print $myobjectstatic->getNomUrl(1);
+				print $object->getNomUrl(1);
 				print '</td>';
 				print '<td class="nowrap">';
 				print '</td>';
-				print '<td class="right" class="nowrap">'.$myobjectstatic->showOutputField($myobjectstatic->fields["etat_general"], $obj->rowid, $obj->etat_general, '', '', '', 0).'</td>';
-				print '<td class="right" class="nowrap">'.$obj->stat_nb_pannes.'</td></tr>';
+				print '<td class="right" class="nowrap">'.$object->showOutputField($object->fields['etat_general'], 'etat_general', $object->etat_general, '').'</td>';
+				print '<td class="right" class="nowrap">'.$object->stat_nb_pannes.'</td></tr>';
 				$i++;
-				$total += $obj->stat_nb_pannes;
+				$total += $object->stat_nb_pannes;
 			}
 			if ($total>0)
 			{
@@ -370,26 +427,20 @@ if (! empty($conf->gestionnaireparc->enabled) && $user->rights->gestionnaireparc
 			while ($i < $num)
 			{
 
-				$obj = $db->fetch_object($resql);
+				$object_db = $db->fetch_object($resql);
 
-				$myobjectstatic = new Machines($db);
-				$myobjectstatic->id = $obj->rowid;
-				$myobjectstatic->ref = $obj->ref;
-				$myobjectstatic->etat_actuel = $obj->etat_actuel;
-				$myobjectstatic->label = $obj->label;
-				$myobjectstatic->modele = $obj->modele;
-				$myobjectstatic->equipe = $obj->equipe;
-				$myobjectstatic->stat_cumul_temps_intervention = $obj->stat_cumul_temps_intervention;
+				$object = new Machines($db);
+				$object->fetch($object_db->rowid);
 
 				print '<tr class="oddeven"><td class="nowrap">';
 
-				print $myobjectstatic->getNomUrl(1);
+				print $object->getNomUrl(1);
 				print '</td>';
 				print '<td class="nowrap">';
 				print '</td>';
-				print '<td class="right" class="nowrap">'.convertSecondToTime($myobjectstatic->stat_cumul_temps_intervention, 'allhourmin').'</td></tr>';
+				print '<td class="right" class="nowrap">'.convertSecondToTime($object->stat_cumul_temps_intervention, 'allhourmin').'</td></tr>';
 				$i++;
-				$total += $myobjectstatic->stat_cumul_temps_intervention;
+				$total += $object->stat_cumul_temps_intervention;
 			}
 			if ($total>0)
 			{
@@ -437,43 +488,35 @@ if (! empty($conf->gestionnaireparc->enabled) && $user->rights->gestionnaireparc
 			while ($i < $num)
 			{
 
-				$obj = $db->fetch_object($resql);
+				$object_db = $db->fetch_object($resql);
 
-				$myobjectstatic = new Operations($db);
-				$myobjectstatic->id = $obj->rowid;
-				$myobjectstatic->ref = $obj->ref;
-				$myobjectstatic->label = $obj->label;
-				$myobjectstatic->nb_real = $obj->nb_real;
+				$object = new Operations($db);
+				$object->fetch($object_db->rowid);
 
 				print '<tr class="oddeven"><td class="nowrap">';
 
-				print $myobjectstatic->getNomUrl(1);
+				print $object->getNomUrl(1);
 				print '</td>';
 				print '<td class="nowrap">';
 				print '</td>';
-				print '<td class="right" class="nowrap">'.$obj->nb_real.'</td></tr>';
+				print '<td class="right" class="nowrap">'.$object->nb_real.'</td></tr>';
 				$i++;
-				$total += $myobjectstatic->nb_real;
+				$total += $object->nb_real;
 			}
-			/*if ($total>0)
-			{
-
-				print '<tr class="liste_total"><td>'.$langs->trans("Total").'</td><td colspan="2" class="right">'.$obj->nb_real."</td></tr>";
-			}*/
-		}
-		else
-		{
-
-			print '<tr class="oddeven"><td colspan="3" class="opacitymedium">'.$langs->trans("NoOrder").'</td></tr>';
-		}
-		print "</table><br>";
-
-		$db->free($resql);
 	}
 	else
 	{
-		dol_print_error($db);
+
+		print '<tr class="oddeven"><td colspan="3" class="opacitymedium">'.$langs->trans("NoOrder").'</td></tr>';
 	}
+	print "</table><br>";
+
+	$db->free($resql);
+}
+else
+{
+	dol_print_error($db);
+}
 }
 
 print '</div></div>';

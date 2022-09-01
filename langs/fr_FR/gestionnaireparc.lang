@@ -47,6 +47,8 @@ Settings = Paramètres
 GestionnaireParcSetupPage = Liste des paramètres
 gestionnaireparc_statistiques_limite = Limite d'éléments à charger pour les statistiques
 gestionnaireparc_statistiques_limiteTooltip = Déterminer le nombre de lignes à afficher au maximum pour chaque tableau de statistiques
+contact_prevenance_nouvelle_panne = Personne à prévenir par mail après nouvelle panne
+contact_prevenance_nouvelle_panneTooltip = Lorsqu'une panne est déclarée, la personne choisie recevra un mail afin de l'avertir de l'existance d'une nouvelle panne
 
 
 #
@@ -66,6 +68,8 @@ ClassementMachinesPannes = Les machines les plus en panne
 ClassementMachinesCumulDureeIntervention = Les machines avec le plus grand cumul de temps d'intervention
 ClassementOperationsUtilisees = Les opérations les plus réalisées
 TotalUtilisationOperation = Nombre total de réalisation
+ClassementAgentsDeclarantsPannes = Agents déclarant le plus grand nombre de pannes
+NombrePannesDeclarees = Nombre de pannes déclarées
 
 
 #

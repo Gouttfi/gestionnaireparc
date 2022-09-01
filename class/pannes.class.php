@@ -233,6 +233,8 @@ class Pannes extends CommonObject
 	public function create(User $user, $notrigger = false)
 	{
 
+		global $conf;
+
 		// Génération de la référence de la panne
 		$this->ref = $this->getNextNumRef();
 
@@ -249,7 +251,26 @@ class Pannes extends CommonObject
 
 		$resultcreate = $this->createCommon($user, $notrigger);
 
-		//$resultvalidate = $this->validate($user, $notrigger);
+
+		//Envoi d'un mail de prévenance à l'agent désigné dans la configuration du module
+		if($resultcreate)
+		{
+
+			$user = new User($this->db);
+			$resprod = $user->fetch($conf->global->contact_prevenance_nouvelle_panne);
+			if ($resprod > 0) {
+				$destinataire = $user->email;
+
+				$destinataire;
+				$objet = "Une panne vient d'être déclarée sur l'une des machines du parc";
+				$message =
+				"Bonjour, \r \r Une panne référencée <b>".$this->ref."</b> vient d'être détectée par <b>".$this->showOutputField($this->fields["agent"], 'agent', $this->agent, '')."</b> concernant la machine <b>".$this->showOutputField($this->fields["fk_machine"], 'fk_machine', $this->fk_machine, '')."</b>.";
+				$headers = "MIME-Version: 1.0" . "\r\n";
+				$headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
+
+				mail($destinataire,$objet,$message,$headers);
+			}
+		}
 
 		return $resultcreate;
 	}
