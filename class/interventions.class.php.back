@@ -110,16 +110,14 @@ class Interventions extends CommonObject
 		'fk_user_creat' => array('type'=>'integer:User:user/class/user.class.php', 'label'=>'UserAuthor', 'enabled'=>'1', 'position'=>510, 'notnull'=>1, 'visible'=>-2, 'foreignkey'=>'user.rowid',),
 		'fk_user_modif' => array('type'=>'integer:User:user/class/user.class.php', 'label'=>'UserModif', 'enabled'=>'1', 'position'=>511, 'notnull'=>-1, 'visible'=>-2,),
 		'last_main_doc' => array('type'=>'varchar(255)', 'label'=>'LastMainDoc', 'enabled'=>'1', 'position'=>600, 'notnull'=>0, 'visible'=>0,),
-		'import_key' => array('type'=>'varchar(14)', 'label'=>'ImportId', 'enabled'=>'1', 'position'=>1000, 'notnull'=>-1, 'visible'=>-2,),
-		'model_pdf' => array('type'=>'varchar(255)', 'label'=>'Model pdf', 'enabled'=>'1', 'position'=>1010, 'notnull'=>-1, 'visible'=>0,),
 		'intervention_type' => array('type'=>'integer', 'label'=>'TypeIntervention', 'enabled'=>'1', 'position'=>3, 'notnull'=>1, 'visible'=>1, 'default'=>'0', 'arrayofkeyval'=>array('0'=>'Maintenance', '1'=>'Dépannage'),),
-		'fk_machine' => array('type'=>'integer:Machines:custom/gestionnaireparc/class/machines.class.php', 'label'=>'Machine', 'enabled'=>'1', 'position'=>5, 'notnull'=>0, 'visible'=>1,),
-		'date_intervention' => array('type'=>'datetime', 'label'=>'DateIntervention', 'enabled'=>'1', 'position'=>6, 'notnull'=>1, 'visible'=>1,),
-		'agent' => array('type'=>'integer:User:user/class/user.class.php', 'label'=>'AgentConcerne', 'enabled'=>'1', 'position'=>7, 'notnull'=>1, 'visible'=>1, 'default'=>'__USER_ID__',),
-		'duree_intervention' => array('type'=>'duration', 'label'=>'DureeIntervention', 'enabled'=>'1', 'position'=>9, 'notnull'=>1, 'visible'=>4,),
-		'fk_panne' => array('type'=>'integer:Pannes:custom/gestionnaireparc/class/pannes.class.php:0:etat=0', 'label'=>'Panne', 'enabled'=>'1', 'position'=>4, 'notnull'=>0, 'visible'=>1,),
+		'fk_machine' => array('type'=>'integer:Machines:custom/gestionnaireparc/class/machines.class.php', 'label'=>'Machine', 'enabled'=>'1', 'position'=>6, 'notnull'=>0, 'visible'=>1,),
+		'date_intervention' => array('type'=>'datetime', 'label'=>'DateIntervention', 'enabled'=>'1', 'position'=>7, 'notnull'=>1, 'visible'=>1,),
+		'agent' => array('type'=>'integer:User:user/class/user.class.php', 'label'=>'AgentConcerne', 'enabled'=>'1', 'position'=>8, 'notnull'=>1, 'visible'=>1, 'default'=>'__USER_ID__',),
+		'duree_intervention' => array('type'=>'duration', 'label'=>'DureeIntervention', 'enabled'=>'1', 'position'=>10, 'notnull'=>1, 'visible'=>4,),
+		'fk_panne' => array('type'=>'integer:Pannes:custom/gestionnaireparc/class/pannes.class.php:0:etat=0', 'label'=>'Panne', 'enabled'=>'1', 'position'=>5, 'notnull'=>0, 'visible'=>1,),
 		'statut_intervention' => array('type'=>'integer', 'label'=>'StatutIntervention', 'enabled'=>'1', 'position'=>1000, 'notnull'=>1, 'visible'=>2, 'arrayofkeyval'=>array('0'=>'Programmée', '1'=>'Réalisée', '2'=>'Vaine', '3'=>'Clôturée'),),
-		'description' => array('type'=>'text', 'label'=>'DescriptionIntervention', 'enabled'=>'1', 'position'=>8, 'notnull'=>1, 'visible'=>3,),
+		'description' => array('type'=>'text', 'label'=>'DescriptionIntervention', 'enabled'=>'1', 'position'=>9, 'notnull'=>1, 'visible'=>3,),
 		'ref' => array('type'=>'varchar(64)', 'label'=>'Ref', 'enabled'=>'1', 'position'=>2, 'notnull'=>1, 'visible'=>5,),
 		'operation1' => array('type'=>'integer:Operations:custom/gestionnaireparc/class/operations.class.php', 'label'=>'Operation1', 'enabled'=>'1', 'position'=>20, 'notnull'=>0, 'visible'=>3,),
 		'ref_operation1' => array('type'=>'varchar(64)', 'label'=>'RefOperation1', 'enabled'=>'1', 'position'=>20.1, 'notnull'=>0, 'visible'=>3,),
@@ -141,8 +139,9 @@ class Interventions extends CommonObject
 		'ref_operation9' => array('type'=>'varchar(64)', 'label'=>'RefOperation9', 'enabled'=>'1', 'position'=>28.1, 'notnull'=>0, 'visible'=>3,),
 		'operation10' => array('type'=>'integer:Operations:custom/gestionnaireparc/class/operations.class.php', 'label'=>'Operation10', 'enabled'=>'1', 'position'=>29, 'notnull'=>0, 'visible'=>3,),
 		'ref_operation10' => array('type'=>'varchar(64)', 'label'=>'RefOperation10', 'enabled'=>'1', 'position'=>29.1, 'notnull'=>0, 'visible'=>3,),
-		'resultat_intervention' => array('type'=>'integer', 'label'=>'ResultatIntervention', 'enabled'=>'1', 'position'=>10, 'notnull'=>1, 'visible'=>-4, 'default'=>'0', 'arrayofkeyval'=>array('0'=>'En attente', '1'=>'Réussie', '2'=>'Vaine'),),
+		'resultat_intervention' => array('type'=>'integer', 'label'=>'ResultatIntervention', 'enabled'=>'1', 'position'=>11, 'notnull'=>1, 'visible'=>-4, 'default'=>'0', 'arrayofkeyval'=>array('0'=>'En attente', '1'=>'Réussie', '2'=>'Vaine'),),
 		'fk_actioncomm' => array('type'=>'integer:ActionComm:comm/action/class/actioncomm.class.php', 'label'=>'Agenda', 'enabled'=>'1', 'position'=>50, 'notnull'=>1, 'visible'=>0, 'noteditable'=>'1',),
+		'maintenance_type' => array('type'=>'integer', 'label'=>'TypeMaintenance', 'enabled'=>'1', 'position'=>4, 'notnull'=>-1, 'visible'=>1, 'arrayofkeyval'=>array('1'=>'Courante', '2'=>'Révision'),),
 	);
 	public $rowid;
 	public $compte_rendu;
@@ -151,8 +150,6 @@ class Interventions extends CommonObject
 	public $fk_user_creat;
 	public $fk_user_modif;
 	public $last_main_doc;
-	public $import_key;
-	public $model_pdf;
 	public $intervention_type;
 	public $fk_machine;
 	public $date_intervention;
@@ -184,6 +181,7 @@ class Interventions extends CommonObject
 	public $ref_operation10;
 	public $resultat_intervention;
 	public $fk_actioncomm;
+	public $maintenance_type;
 	// END MODULEBUILDER PROPERTIES
 
 
@@ -275,13 +273,26 @@ class Interventions extends CommonObject
 	 */
 	public function create(User $user, $notrigger = false)
 	{
+		// Génération de la référence de l'intervention
 		$this->ref = $this->getNextNumRef();
+
 		//S'il s'agit d'un dépannage, récupération de la machine concernée par la panne
 		if($this->intervention_type == 1)
 		{
 			dol_include_once('/gestionnaireparc/class/pannes.class.php');
 			$pannes = new Pannes($this->db);
 			$this->fk_machine = $pannes->fetchAll('','',0,0,array('rowid'=>$this->fk_panne))[$this->fk_panne]->fk_machine;
+
+			//Changement de l'état de la panne après création de l'intervention, passage au statut programmé
+			$sql = "UPDATE `".MAIN_DB_PREFIX."gestionnaireparc_pannes` SET `phase_reparation` = 1, `etat` = 0, `fk_date_intervention` = FROM_UNIXTIME('$this->date_intervention'), `stat_nb_interventions` = `stat_nb_interventions`+1
+			WHERE `".MAIN_DB_PREFIX."gestionnaireparc_pannes`.`rowid` = $this->fk_panne";
+
+			$resql = $this->db->query($sql);
+
+			if(!$resql)
+			{
+				return false;
+			}
 		}
 
 		//Création de l'événement dans l'agenda
@@ -596,6 +607,24 @@ class Interventions extends CommonObject
 	 */
 	public function delete(User $user, $notrigger = false)
 	{
+
+		//S'il s'agit d'un dépannage, récupération de la machine concernée par la panne
+		if($this->intervention_type == 1)
+		{
+
+			//Changement de l'état de la panne après supression de l'intervention
+			$sql = "UPDATE `".MAIN_DB_PREFIX."gestionnaireparc_pannes` SET `phase_reparation` = 0, `etat` = 0, `fk_date_intervention` = 0, `stat_nb_interventions` = `stat_nb_interventions`-1
+			WHERE `".MAIN_DB_PREFIX."gestionnaireparc_pannes`.`rowid` = $this->fk_panne";
+
+			$resql = $this->db->query($sql);
+
+			if(!$resql)
+			{
+				return false;
+			}
+		}
+
+
 		//Import des fichiers pour mettre à jour l'agenda
 		require_once DOL_DOCUMENT_ROOT.'/comm/action/class/actioncomm.class.php';
 		require_once DOL_DOCUMENT_ROOT.'/comm/action/class/actioncommreminder.class.php';
@@ -842,11 +871,138 @@ class Interventions extends CommonObject
 	 */
 	public function cloturer_intervention($user, $notrigger = 0)
 	{
+
+				$error = 0;
+				$resql = 1;
+
+				//S'il s'agit d'un dépannage, mise à jour du statut de la panne associée
+				if($this->intervention_type == 1)
+				{
+
+					// Récupération du fk_machine
+					dol_include_once('/gestionnaireparc/class/pannes.class.php');
+					$pannes = new Pannes($this->db);
+					$this->fk_machine = $pannes->fetchAll('','',0,0,array('rowid'=>$this->fk_panne))[$this->fk_panne]->fk_machine;
+
+					// Puis modification de la panne en fonction du résultat de l'intervention
+					// Réussie
+					if($this->resultat_intervention == 1)
+					{
+						$sql = "UPDATE `".MAIN_DB_PREFIX."gestionnaireparc_pannes` SET `phase_reparation` = 2, `etat` = 1, `fk_date_intervention` = FROM_UNIXTIME('$this->date_intervention'), `stat_nb_interventions` = `stat_nb_interventions`+1
+						WHERE `".MAIN_DB_PREFIX."gestionnaireparc_pannes`.`rowid` = $this->fk_panne";
+
+						$resql = $this->db->query($sql);
+
+						// Récupération de toutes les pannes de la machine afin de calculer s'il en reste ou pas pour la remettre au statut fonctionnelle
+						$sql_pannes = "SELECT COUNT(*) as count FROM `".MAIN_DB_PREFIX."gestionnaireparc_pannes` WHERE fk_machine= $this->fk_machine AND phase_reparation != 2";
+						$resql = $this->db->query($sql_pannes);
+						$nb_pannes = $this->db->fetch_object($resql)->count;
+
+						if($nb_pannes == 0)
+						{
+							$sql = "UPDATE `".MAIN_DB_PREFIX."gestionnaireparc_machines` SET `etat_actuel` = '0'
+							WHERE `llxsm_gestionnaireparc_machines`.`rowid` = $this->fk_machine";
+
+							$resql = $this->db->query($sql);
+						}
+					}
+
+					// Vaine
+					if($this->resultat_intervention == 2)
+					{
+						$sql = "UPDATE `".MAIN_DB_PREFIX."gestionnaireparc_pannes` SET `phase_reparation` = 0, `etat` = 0, `fk_date_intervention` = FROM_UNIXTIME('$this->date_intervention'), `stat_nb_interventions` = `stat_nb_interventions`+1
+						WHERE `".MAIN_DB_PREFIX."gestionnaireparc_pannes`.`rowid` = $this->fk_panne";
+
+						$resql = $this->db->query($sql);
+					}
+
+				}
+
+				// Cumul du temps d'intervention sur la machine
+					$sql = "UPDATE `".MAIN_DB_PREFIX."gestionnaireparc_machines` SET `stat_cumul_temps_intervention` = `stat_cumul_temps_intervention`+ $this->duree_intervention
+					WHERE `".MAIN_DB_PREFIX."gestionnaireparc_machines`.`rowid` = $this->fk_machine";
+
+					$resql = $this->db->query($sql);
+
+				if($this->resultat_intervention == 1)
+				{
+					// Prise en compte de toutes les opérations utilisées pour l'intervention (uniquement si intervention réussie)
+					if(!is_null($this->operation1))
+					{
+						$sql = "UPDATE `".MAIN_DB_PREFIX."gestionnaireparc_operations` SET `nb_real` = `nb_real`+1
+						WHERE `".MAIN_DB_PREFIX."gestionnaireparc_operations`.`rowid` = $this->operation1";
+						$resql = $this->db->query($sql);
+						if(!$resql){$error++;}
+					}
+					if(!is_null($this->operation2))
+					{
+						$sql = "UPDATE `".MAIN_DB_PREFIX."gestionnaireparc_operations` SET `nb_real` = `nb_real`+1
+						WHERE `".MAIN_DB_PREFIX."gestionnaireparc_operations`.`rowid` = $this->operation2";
+						$resql = $this->db->query($sql);
+						if(!$resql){$error++;}
+					}
+					if(!is_null($this->operation3))
+					{
+						$sql = "UPDATE `".MAIN_DB_PREFIX."gestionnaireparc_operations` SET `nb_real` = `nb_real`+1
+						WHERE `".MAIN_DB_PREFIX."gestionnaireparc_operations`.`rowid` = $this->operation3";
+						$resql = $this->db->query($sql);
+						if(!$resql){$error++;}
+					}
+					if(!is_null($this->operation4))
+					{
+						$sql = "UPDATE `".MAIN_DB_PREFIX."gestionnaireparc_operations` SET `nb_real` = `nb_real`+1
+						WHERE `".MAIN_DB_PREFIX."gestionnaireparc_operations`.`rowid` = $this->operation4";
+						$resql = $this->db->query($sql);
+						if(!$resql){$error++;}
+					}
+					if(!is_null($this->operation5))
+					{
+						$sql = "UPDATE `".MAIN_DB_PREFIX."gestionnaireparc_operations` SET `nb_real` = `nb_real`+1
+						WHERE `".MAIN_DB_PREFIX."gestionnaireparc_operations`.`rowid` = $this->operation5";
+						$resql = $this->db->query($sql);
+						if(!$resql){$error++;}
+					}
+					if(!is_null($this->operation6))
+					{
+						$sql = "UPDATE `".MAIN_DB_PREFIX."gestionnaireparc_operations` SET `nb_real` = `nb_real`+1
+						WHERE `".MAIN_DB_PREFIX."gestionnaireparc_operations`.`rowid` = $this->operation6";
+						$resql = $this->db->query($sql);
+						if(!$resql){$error++;}
+					}
+					if(!is_null($this->operation7))
+					{
+						$sql = "UPDATE `".MAIN_DB_PREFIX."gestionnaireparc_operations` SET `nb_real` = `nb_real`+1
+						WHERE `".MAIN_DB_PREFIX."gestionnaireparc_operations`.`rowid` = $this->operation7";
+						$resql = $this->db->query($sql);
+						if(!$resql){$error++;}
+					}
+					if(!is_null($this->operation8))
+					{
+						$sql = "UPDATE `".MAIN_DB_PREFIX."gestionnaireparc_operations` SET `nb_real` = `nb_real`+1
+						WHERE `".MAIN_DB_PREFIX."gestionnaireparc_operations`.`rowid` = $this->operation8";
+						$resql = $this->db->query($sql);
+						if(!$resql){$error++;}
+					}
+					if(!is_null($this->operation9))
+					{
+						$sql = "UPDATE `".MAIN_DB_PREFIX."gestionnaireparc_operations` SET `nb_real` = `nb_real`+1
+						WHERE `".MAIN_DB_PREFIX."gestionnaireparc_operations`.`rowid` = $this->operation9";
+						$resql = $this->db->query($sql);
+						if(!$resql){$error++;}
+					}
+					if(!is_null($this->operation10))
+					{
+						$sql = "UPDATE `".MAIN_DB_PREFIX."gestionnaireparc_operations` SET `nb_real` = `nb_real`+1
+						WHERE `".MAIN_DB_PREFIX."gestionnaireparc_operations`.`rowid` = $this->operation10";
+						$resql = $this->db->query($sql);
+						if(!$resql){$error++;}
+					}
+				}
+
+
 		global $conf, $langs;
 
 		require_once DOL_DOCUMENT_ROOT.'/core/lib/files.lib.php';
-
-		$error = 0;
 
 		/*if (! ((empty($conf->global->MAIN_USE_ADVANCED_PERMS) && ! empty($user->rights->gestionnaireparc->interventions->write))
 		 || (! empty($conf->global->MAIN_USE_ADVANCED_PERMS) && ! empty($user->rights->gestionnaireparc->interventions->interventions_advance->validate))))
@@ -1001,12 +1157,58 @@ class Interventions extends CommonObject
 
 		$result = '';
 
-		$label = img_picto('', "object_".$this->picto).' <u>'.$langs->trans("Interventions").'</u>';
-		if (isset($this->status)) {
-			$label .= ' '.$this->getLibStatut(5);
+		$label = img_picto('', "object_".$this->picto).' <u>'.$langs->trans("TitrePageIntervention").'</u>';
+
+		switch($this->statut_intervention) {
+			case 0:
+				$status = 1;
+			break;
+			case 1:
+				$status = 4;
+			break;
+			case 2:
+				$status = 8;
+			break;
+			case 3:
+				$status = 9;
+			break;
+			default:
+				$status = 0;
+			break;
 		}
+
+		$label .= ' '.'<span class="badge  badge-status'.$status.' badge-status">'.$this->showOutputField($this->fields["statut_intervention"], $this->rowid, $this->statut_intervention).'</span>';
 		$label .= '<br>';
-		$label .= '<b>'.$langs->trans('Ref').':</b> '.$this->ref;
+
+		if($this->intervention_type == 1)
+		{
+			$phrase_type_intervention = "Dépannage";
+		}
+		else if($this->intervention_type == 0 && $this->maintenance_type == 1)
+		{
+			$phrase_type_intervention = "Maintenance courante";
+		}
+		else if($this->intervention_type == 0 && $this->maintenance_type == 2)
+		{
+			$phrase_type_intervention = "Révision";
+		}
+
+		$label .= '<b>'.$langs->trans('TypeIntervention').':</b> '.$phrase_type_intervention.'<br>';
+
+		//Récupération de la machine
+		dol_include_once('/gestionnaireparc/class/machines.class.php');
+		$machine = new Machines($this->db);
+		$machine->fetch($this->fk_machine);
+
+		$label .= '<b>'.$langs->trans('Machine').':</b> '.$machine->ref.' - '.$machine->label.'<br>';
+		$label .= '<b>'.$langs->trans('DateIntervention').':</b> '.$this->showOutputField($this->fields["date_intervention"], $this->rowid, $this->date_intervention).'<br>';
+
+		//Récupération du nom de l'agent
+		dol_include_once('../user/class/user.class.php');
+		$user = new User($this->db);
+		$user->fetch($this->agent);
+
+		$label .= '<b>'.$langs->trans('AgentConcerne').':</b> '.$user->firstname." ".$user->lastname.'<br>';
 
 		$url = dol_buildpath('/gestionnaireparc/interventions_card.php', 1).'?id='.$this->id;
 

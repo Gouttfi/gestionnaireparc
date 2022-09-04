@@ -61,6 +61,7 @@ function reloadFields()
         op7_value = document.querySelector('#operation7').value;
         op8_value = document.querySelector('#operation8').value;
         op9_value = document.querySelector('#operation9').value;
+        op10_value = document.querySelector('#operation10').value;
     }
 
     if(type == 0 || type == "Maintenance" && urlParams.get("action") != "edit_avant_realiser")
@@ -90,6 +91,9 @@ function reloadFields()
     if(op1_value != -1)
     {
         document.querySelector('.field_operation2').classList.remove('hideobject');
+        fk_operation = document.querySelector('#operation1').value;
+        fk_machine = document.querySelector('#fk_machine').value;
+        getReferenceRecommandee('#ref_operation1',fk_operation,fk_machine);
     }
     else
     {
@@ -99,6 +103,9 @@ function reloadFields()
     if(op2_value != -1)
     {
         document.querySelector('.field_operation3').classList.remove('hideobject');
+        fk_operation = document.querySelector('#operation2').value;
+        fk_machine = document.querySelector('#fk_machine').value;
+        getReferenceRecommandee('#ref_operation2',fk_operation,fk_machine);
     }
     else
     {
@@ -108,6 +115,9 @@ function reloadFields()
     if(op3_value != -1)
     {
         document.querySelector('.field_operation4').classList.remove('hideobject');
+        fk_operation = document.querySelector('#operation3').value;
+        fk_machine = document.querySelector('#fk_machine').value;
+        getReferenceRecommandee('#ref_operation3',fk_operation,fk_machine);
     }
     else
     {
@@ -117,6 +127,9 @@ function reloadFields()
     if(op4_value != -1)
     {
         document.querySelector('.field_operation5').classList.remove('hideobject');
+        fk_operation = document.querySelector('#operation4').value;
+        fk_machine = document.querySelector('#fk_machine').value;
+        getReferenceRecommandee('#ref_operation4',fk_operation,fk_machine);
     }
     else
     {
@@ -126,6 +139,9 @@ function reloadFields()
     if(op5_value != -1)
     {
         document.querySelector('.field_operation6').classList.remove('hideobject');
+        fk_operation = document.querySelector('#operation5').value;
+        fk_machine = document.querySelector('#fk_machine').value;
+        getReferenceRecommandee('#ref_operation5',fk_operation,fk_machine);
     }
     else
     {
@@ -135,6 +151,9 @@ function reloadFields()
     if(op6_value != -1)
     {
         document.querySelector('.field_operation7').classList.remove('hideobject');
+        fk_operation = document.querySelector('#operation6').value;
+        fk_machine = document.querySelector('#fk_machine').value;
+        getReferenceRecommandee('#ref_operation6',fk_operation,fk_machine);
     }
     else
     {
@@ -144,6 +163,9 @@ function reloadFields()
     if(op7_value != -1)
     {
         document.querySelector('.field_operation8').classList.remove('hideobject');
+        fk_operation = document.querySelector('#operation7').value;
+        fk_machine = document.querySelector('#fk_machine').value;
+        getReferenceRecommandee('#ref_operation7',fk_operation,fk_machine);
     }
     else
     {
@@ -153,6 +175,9 @@ function reloadFields()
     if(op8_value != -1)
     {
         document.querySelector('.field_operation9').classList.remove('hideobject');
+        fk_operation = document.querySelector('#operation8').value;
+        fk_machine = document.querySelector('#fk_machine').value;
+        getReferenceRecommandee('#ref_operation8',fk_operation,fk_machine);
     }
     else
     {
@@ -162,9 +187,39 @@ function reloadFields()
     if(op9_value != -1)
     {
         document.querySelector('.field_operation10').classList.remove('hideobject');
+        fk_operation = document.querySelector('#operation9').value;
+        fk_machine = document.querySelector('#fk_machine').value;
+        getReferenceRecommandee('#ref_operation9',fk_operation,fk_machine);
     }
     else
     {
         document.querySelector('.field_operation10').classList.add('hideobject');
     }
+
+    if(op10_value != -1)
+    {
+        fk_operation = document.querySelector('#operation10').value;
+        fk_machine = document.querySelector('#fk_machine').value;
+        getReferenceRecommandee('#ref_operation10',fk_operation,fk_machine);
+    }
+}
+
+//Fonctionnalité de suggestion de référence pour les opérations
+
+//Fonction pour récupérer la référence
+function getReferenceRecommandee(id,fk_operation,fk_machine)
+{
+    return fetch('/custom/gestionnaireparc/api.php?action=getReferenceRecommandee&fk_operation='+fk_operation+'&fk_machine='+fk_machine)
+    .then((response) => response.text())
+    .then((text) => {
+        if(text != "")
+        {
+            document.querySelector(id).placeholder = "Préconisé : " + text;
+        }
+        else
+        {
+            document.querySelector(id).placeholder = "";
+        }
+    });
+
 }

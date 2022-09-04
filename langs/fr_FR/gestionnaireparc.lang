@@ -20,7 +20,7 @@
 # Module label 'ModuleGestionnaireParcName'
 ModuleGestionnaireParcName = Gestionnaire de parc
 # Module description 'ModuleGestionnaireParcDesc'
-ModuleGestionnaireParcDesc = █ModuleGestionnaireParcDesc
+ModuleGestionnaireParcDesc = Gestion d'un parc de matériel pouvant être des machines ou véhicule, pilotage des pannes et des entretiens.
 
 #
 # Menus
@@ -49,6 +49,8 @@ gestionnaireparc_statistiques_limite = Limite d'éléments à charger pour les s
 gestionnaireparc_statistiques_limiteTooltip = Déterminer le nombre de lignes à afficher au maximum pour chaque tableau de statistiques
 contact_prevenance_nouvelle_panne = Personne à prévenir par mail après nouvelle panne
 contact_prevenance_nouvelle_panneTooltip = Lorsqu'une panne est déclarée, la personne choisie recevra un mail afin de l'avertir de l'existance d'une nouvelle panne
+template_mail_prevenance_panne = Modèle de mail pour la prévenance d'une nouvelle panne
+template_mail_prevenance_panneTooltip = Les différents modèles sont configurables dans le menu "Outils"
 
 
 #

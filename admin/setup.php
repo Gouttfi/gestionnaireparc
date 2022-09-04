@@ -81,6 +81,7 @@ $type = 'myobject';
 $arrayofparameters = array(
 	'gestionnaireparc_statistiques_limite'=>array('type'=>'string', 'css'=>'minwidth500' ,'enabled'=>1),
 	'contact_prevenance_nouvelle_panne'=>array('type'=>'users', 'css'=>'minwidth500' ,'enabled'=>1),
+	'template_mail_prevenance_panne'=>array('type'=>'emailtemplate:thirdparty', 'css'=>'minwidth500' ,'enabled'=>1),
 	//'GESTIONNAIREPARC_MYPARAM2'=>array('type'=>'textarea','enabled'=>1),
 	//'GESTIONNAIREPARC_MYPARAM3'=>array('type'=>'category:'.Categorie::TYPE_CUSTOMER, 'enabled'=>1),
 	//'GESTIONNAIREPARC_MYPARAM4'=>array('type'=>'emailtemplate:thirdparty', 'enabled'=>1),

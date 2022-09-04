@@ -49,6 +49,8 @@ gestionnaireparc_statistiques_limite = █gestionnaireparc_statistiques_limite
 gestionnaireparc_statistiques_limiteTooltip = █gestionnaireparc_statistiques_limiteTooltip
 contact_prevenance_nouvelle_panne = █contact_prevenance_nouvelle_panne
 contact_prevenance_nouvelle_panneTooltip = █contact_prevenance_nouvelle_panneTooltip
+template_mail_prevenance_panne = █template_mail_prevenance_panne
+template_mail_prevenance_panneTooltip = █template_mail_prevenance_panneTooltip
 
 
 #

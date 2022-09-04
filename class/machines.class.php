@@ -110,9 +110,6 @@ class Machines extends CommonObject
 		'tms' => array('type'=>'timestamp', 'label'=>'DateModification', 'enabled'=>'1', 'position'=>37, 'notnull'=>0, 'visible'=>-2,),
 		'fk_user_creat' => array('type'=>'integer:User:user/class/user.class.php', 'label'=>'UserAuthor', 'enabled'=>'1', 'position'=>38, 'notnull'=>1, 'visible'=>5, 'noteditable'=>'1', 'default'=>'__USER_ID__',),
 		'fk_user_modif' => array('type'=>'integer:User:user/class/user.class.php', 'label'=>'UserModif', 'enabled'=>'1', 'position'=>39, 'notnull'=>-1, 'visible'=>-2,),
-		'last_main_doc' => array('type'=>'varchar(255)', 'label'=>'LastMainDoc', 'enabled'=>'1', 'position'=>40, 'notnull'=>0, 'visible'=>0,),
-		'import_key' => array('type'=>'varchar(14)', 'label'=>'ImportId', 'enabled'=>'1', 'position'=>41, 'notnull'=>-1, 'visible'=>-2,),
-		'model_pdf' => array('type'=>'varchar(255)', 'label'=>'Model pdf', 'enabled'=>'1', 'position'=>42, 'notnull'=>-1, 'visible'=>0,),
 		'equipe' => array('type'=>'integer', 'label'=>'Equipe', 'enabled'=>'1', 'position'=>5, 'notnull'=>0, 'visible'=>1, 'help'=>"Numéro de l'équipe", 'comment'=>"Numéro de l'équipe"),
 		'magasin' => array('type'=>'varchar(128)', 'label'=>'NomMagasin', 'enabled'=>'1', 'position'=>6, 'notnull'=>1, 'visible'=>-1, 'help'=>"Nom du magasin où a été acheté l'appareil", 'comment'=>"Nom du magasin"),
 		'marque' => array('type'=>'varchar(64)', 'label'=>'Marque', 'enabled'=>'1', 'position'=>7, 'notnull'=>1, 'visible'=>1, 'help'=>"Marque de la machine", 'validate'=>'1',),
@@ -153,9 +150,6 @@ class Machines extends CommonObject
 	public $tms;
 	public $fk_user_creat;
 	public $fk_user_modif;
-	public $last_main_doc;
-	public $import_key;
-	public $model_pdf;
 	public $equipe;
 	public $magasin;
 	public $marque;

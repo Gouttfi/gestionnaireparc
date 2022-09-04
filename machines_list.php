@@ -257,7 +257,7 @@ $form = new Form($db);
 $now = dol_now();
 
 //$help_url="EN:Module_Machines|FR:Module_Machines_FR|ES:Módulo_Machines";
-$help_url = '';
+$help_url = 'url';
 $title = $langs->trans('ListeMachines');
 $morejs = array();
 $morecss = array();

@@ -220,7 +220,7 @@ $formfile = new FormFile($db);
 $formproject = new FormProjets($db);
 
 $title = $langs->trans("TitrePageOperation").$object->label;
-$help_url = '';
+$help_url = 'url';
 if($action != "create" && $action != "edit")
 {
 	llxHeader('', $title, $help_url);
@@ -250,7 +250,7 @@ if ($action == 'create') {
 	}
 
 	$title = $langs->trans("FormCreerOperation");
-	$help_url = '';
+	$help_url = 'url';
 	llxHeader('', $title, $help_url);
 
 	print load_fiche_titre($langs->trans("FormCreerOperation", ''), '', 'object_'.$object->picto);
@@ -293,7 +293,7 @@ if ($action == 'create') {
 if (($id || $ref) && $action == 'edit') {
 
 	$title = $langs->trans("FormModifierOperation");
-	$help_url = '';
+	$help_url = 'url';
 	llxHeader('', $title, $help_url);
 
 	print load_fiche_titre($langs->trans("FormModifierOperation"), '', 'object_'.$object->picto);

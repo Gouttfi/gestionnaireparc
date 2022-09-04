@@ -257,7 +257,7 @@ $form = new Form($db);
 $now = dol_now();
 
 //$help_url="EN:Module_Interventions|FR:Module_Interventions_FR|ES:Módulo_Interventions";
-$help_url = '';
+$help_url = 'url';
 $title = $langs->trans('ListeInterventions');
 $morejs = array();
 $morecss = array();

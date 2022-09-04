@@ -163,8 +163,8 @@ if (! empty($conf->gestionnaireparc->enabled) && $user->rights->gestionnaireparc
 				print '</td>';
 				print '<td class="nowrap">';
 				print '</td>';
-				print '<td class="right" class="nowrap">'.$object->showOutputField($object->fields['date_intervention'], 'date_intervention', $object->date_intervention, '').'</td>';
-				print '<td class="right" class="nowrap">'.$object->showOutputField($object->fields["agent"], 'agent', $object->agent, '').'</td></tr>';
+				print '<td class="right" class="nowrap">'.$object->showOutputField($object->fields['date_intervention'], 'date_intervention', $object->date_intervention).'</td>';
+				print '<td class="right" class="nowrap">'.$object->showOutputField($object->fields["agent"], 'agent', $object->agent).'</td></tr>';
 				$i++;
 				//$total += $obj->stat_nb_pannes;
 			}
@@ -242,9 +242,9 @@ if (! empty($conf->gestionnaireparc->enabled) && $user->rights->gestionnaireparc
 				print '</td>';
 				print '<td class="nowrap">';
 				print '</td>';
-				print '<td class="right" class="nowrap">'.$object->showOutputField($object->fields['date_intervention'], 'date_intervention', $object->date_intervention, '').'</td>';
-				print '<td class="right" class="nowrap">'.$object->showOutputField($object->fields["agent"], 'agent', $object->agent, '').'</td>';
-				print '<td class="right" class="nowrap"><span class="badge  badge-status'.$status.' badge-status" title="'.$object->showOutputField($object->fields["statut_intervention"], 'statut_intervention', $object->statut_intervention, '').'">'.$object->showOutputField($object->fields["statut_intervention"], 'statut_intervention', $object->statut_intervention, '').'</span></td></tr>';
+				print '<td class="right" class="nowrap">'.$object->showOutputField($object->fields['date_intervention'], 'date_intervention', $object->date_intervention).'</td>';
+				print '<td class="right" class="nowrap">'.$object->showOutputField($object->fields["agent"], 'agent', $object->agent).'</td>';
+				print '<td class="right" class="nowrap"><span class="badge  badge-status'.$status.' badge-status" title="'.$object->showOutputField($object->fields["statut_intervention"], 'statut_intervention', $object->statut_intervention).'">'.$object->showOutputField($object->fields["statut_intervention"], 'statut_intervention', $object->statut_intervention).'</span></td></tr>';
 				$i++;
 				//$total += $obj->stat_nb_pannes;
 			}
@@ -309,11 +309,11 @@ if (! empty($conf->gestionnaireparc->enabled) && $user->rights->gestionnaireparc
 
 				print '<tr class="oddeven"><td class="nowrap">';
 
-				print $object->showOutputField($object->fields['agent'], 'agent', $object->agent, '');
+				print $object->showOutputField($object->fields['agent'], 'agent', $object->agent);
 				print '</td>';
 				print '<td class="nowrap">';
 				print '</td>';
-				//print '<td class="right" class="nowrap">'.$object->showOutputField($object->fields['agent'], 'agent', $object->agent, '').'</td>';
+				//print '<td class="right" class="nowrap">'.$object->showOutputField($object->fields['agent'], 'agent', $object->agent).'</td>';
 				print '<td class="right" class="nowrap">'.$object->count_nb_pannes.'</td></tr>';
 				$i++;
 				$total += $object->count_nb_pannes;
@@ -376,7 +376,7 @@ if (! empty($conf->gestionnaireparc->enabled) && $user->rights->gestionnaireparc
 				print '</td>';
 				print '<td class="nowrap">';
 				print '</td>';
-				print '<td class="right" class="nowrap">'.$object->showOutputField($object->fields['etat_general'], 'etat_general', $object->etat_general, '').'</td>';
+				print '<td class="right" class="nowrap">'.$object->showOutputField($object->fields['etat_general'], 'etat_general', $object->etat_general).'</td>';
 				print '<td class="right" class="nowrap">'.$object->stat_nb_pannes.'</td></tr>';
 				$i++;
 				$total += $object->stat_nb_pannes;

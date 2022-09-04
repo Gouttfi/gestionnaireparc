@@ -1,18 +1,21 @@
 # GESTIONNAIREPARC FOR [DOLIBARR ERP CRM](https://www.dolibarr.org)
 
-## Features
+## Fonctionnalités
 
-Description of the module...
+- Gestion du parc de matériel de l'entreprise, avec inscription des références utiles pour l'entretien de l'appareil.
+- Supervision de l'état de santé des appareils avec possibilité de déclarer des pannes et d'en effectuer le suivi.
+- Plannification des interventions de maintenance ou de dépannage.
 
 <!--
 ![Screenshot gestionnaireparc](img/screenshot_gestionnaireparc.png?raw=true "GestionnaireParc"){imgmd}
 -->
 
-Other external modules are available on [Dolistore.com](https://www.dolistore.com).
+## Traductions
 
-## Translations
+Traduit entièrement en français.
+Fichier langue anglais disponible, traduction manquante.
 
-Translations can be completed manually by editing files into directories *langs*.
+Modification des fichiers dans le répertoire *langs*.
 
 <!--
 This module contains also a sample configuration for Transifex, under the hidden directory [.tx](.tx), so it is possible to manage translation using this service.
@@ -77,10 +80,10 @@ From your browser:
 
 ## Licenses
 
-### Main code
+### Code source
 
-GPLv3 or (at your option) any later version. See file COPYING for more information.
+GPLv3. Voir fichier COPYING pour plus d'informations.
 
 ### Documentation
 
-All texts and readmes are licensed under GFDL.
+Toute la documentation est sous licence GFDL.

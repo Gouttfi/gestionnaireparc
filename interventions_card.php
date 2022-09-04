@@ -225,7 +225,6 @@ $formfile = new FormFile($db);
 $formproject = new FormProjets($db);
 
 $title = $langs->trans("TitrePageIntervention");
-$help_url = '';
 if($action != "create" && $action != "edit" && $action != "edit_avant_realiser")
 {
 	llxHeader('', $title, $help_url);
@@ -246,7 +245,6 @@ if($action != "create" && $action != "edit" && $action != "edit_avant_realiser")
 // });
 // </script>';
 
-
 // Part to create
 if ($action == 'create') {
 	if (empty($permissiontoadd)) {
@@ -255,7 +253,7 @@ if ($action == 'create') {
 	}
 
 	$title = $langs->trans("FormCreerIntervention");
-	$help_url = '';
+	$help_url = 'url';
 	llxHeader('', $title, $help_url);
 
 	print load_fiche_titre($langs->trans("FormCreerIntervention", ''), '', 'object_'.$object->picto);
@@ -299,7 +297,6 @@ if (($id || $ref) && $action == 'edit' || $action == 'edit_avant_realiser') {
 	if($action == 'edit')
 	{
 		$title = $langs->trans("FormModifierIntervention");
-		$help_url = '';
 		llxHeader('', $title, $help_url);
 
 		print load_fiche_titre($langs->trans("FormModifierIntervention"), '', 'object_'.$object->picto);
@@ -307,7 +304,6 @@ if (($id || $ref) && $action == 'edit' || $action == 'edit_avant_realiser') {
 	else if ($action == 'edit_avant_realiser')
 	{
 		$title = $langs->trans("FormRealiserIntervention");
-		$help_url = '';
 		llxHeader('', $title, $help_url);
 
 		print load_fiche_titre($langs->trans("FormRealiserIntervention"), '', 'object_'.$object->picto);

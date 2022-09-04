@@ -257,7 +257,7 @@ $form = new Form($db);
 $now = dol_now();
 
 //$help_url="EN:Module_Pannes|FR:Module_Pannes_FR|ES:Módulo_Pannes";
-$help_url = '';
+$help_url = 'url';
 $title = $langs->trans('ListePannes');
 $morejs = array();
 $morecss = array();

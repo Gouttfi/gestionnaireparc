@@ -109,18 +109,16 @@ class Pannes extends CommonObject
 		'fk_user_creat' => array('type'=>'integer:User:user/class/user.class.php', 'label'=>'UserAuthor', 'enabled'=>'1', 'position'=>510, 'notnull'=>1, 'visible'=>-2, 'foreignkey'=>'user.rowid',),
 		'fk_user_modif' => array('type'=>'integer:User:user/class/user.class.php', 'label'=>'UserModif', 'enabled'=>'1', 'position'=>511, 'notnull'=>-1, 'visible'=>-2,),
 		'last_main_doc' => array('type'=>'varchar(255)', 'label'=>'LastMainDoc', 'enabled'=>'1', 'position'=>600, 'notnull'=>0, 'visible'=>0,),
-		'import_key' => array('type'=>'varchar(14)', 'label'=>'ImportId', 'enabled'=>'1', 'position'=>1000, 'notnull'=>-1, 'visible'=>-2,),
-		'model_pdf' => array('type'=>'varchar(255)', 'label'=>'Model pdf', 'enabled'=>'1', 'position'=>1010, 'notnull'=>-1, 'visible'=>0,),
 		'fk_machine' => array('type'=>'integer:Machines:custom/gestionnaireparc/class/machines.class.php', 'label'=>'Machine', 'enabled'=>'1', 'position'=>2, 'notnull'=>1, 'visible'=>1,),
 		'date' => array('type'=>'date', 'label'=>'DatePanne', 'enabled'=>'1', 'position'=>3, 'notnull'=>1, 'visible'=>1,),
-		'titre' => array('type'=>'varchar(64)', 'label'=>'TitrePanne', 'enabled'=>'1', 'position'=>4, 'notnull'=>1, 'visible'=>3,),
+		'titre' => array('type'=>'varchar(64)', 'label'=>'TitrePanne', 'enabled'=>'1', 'position'=>4, 'notnull'=>1, 'visible'=>3, 'showoncombobox'=>'2',),
 		'gravite' => array('type'=>'integer', 'label'=>'GravitePanne', 'enabled'=>'1', 'position'=>5, 'notnull'=>1, 'visible'=>1, 'arrayofkeyval'=>array('0'=>'Légère', '1'=>'Lourde'),),
 		'agent' => array('type'=>'integer:User:user/class/user.class.php', 'label'=>'AgentDetecteur', 'enabled'=>'1', 'position'=>6, 'notnull'=>1, 'visible'=>1, 'default'=>'__USER_ID__',),
 		'phase_reparation' => array('type'=>'integer', 'label'=>'PhaseReparation', 'enabled'=>'1', 'position'=>7, 'notnull'=>1, 'visible'=>2, 'noteditable'=>'1', 'default'=>'0', 'arrayofkeyval'=>array('0'=>'Dépannage à programmer', '1'=>'Dépannage programmé', '2'=>'Réparé'),),
 		'etat' => array('type'=>'integer', 'label'=>'EtatPanne', 'enabled'=>'1', 'position'=>8, 'notnull'=>1, 'visible'=>2, 'noteditable'=>'1', 'default'=>'0', 'arrayofkeyval'=>array('0'=>'En cours', '1'=>'Terminé'),),
-		'fk_date_intervention' => array('type'=>'date', 'label'=>'DateIntervention', 'enabled'=>'1', 'position'=>9, 'notnull'=>-1, 'visible'=>5, 'noteditable'=>'1',),
+		'fk_date_intervention' => array('type'=>'datetime', 'label'=>'DateReparation', 'enabled'=>'1', 'position'=>9, 'notnull'=>-1, 'visible'=>5, 'noteditable'=>'1',),
 		'ref' => array('type'=>'varchar(64)', 'label'=>'Ref', 'enabled'=>'1', 'position'=>1, 'notnull'=>1, 'visible'=>5,),
-		'stat_nb_interventions' => array('type'=>'integer', 'label'=>'NombreInterventions', 'enabled'=>'1', 'position'=>11, 'notnull'=>1, 'visible'=>-5, 'default'=>'0', 'help'=>"Cliquez pour voir les interventions associées", 'comment'=>"/custom/gestionnaireparc/interventions_list.php?idmenu=6322&mainmenu=gestionnaireparc&search_fk_panne="),
+		'stat_nb_interventions' => array('type'=>'integer', 'label'=>'NombreInterventions', 'enabled'=>'1', 'position'=>10, 'notnull'=>1, 'visible'=>-5, 'default'=>'0', 'help'=>"Cliquez pour voir les interventions associées", 'comment'=>"/custom/gestionnaireparc/interventions_list.php?idmenu=6322&mainmenu=gestionnaireparc&search_fk_panne="),
 	);
 	public $rowid;
 	public $description;
@@ -129,8 +127,6 @@ class Pannes extends CommonObject
 	public $fk_user_creat;
 	public $fk_user_modif;
 	public $last_main_doc;
-	public $import_key;
-	public $model_pdf;
 	public $fk_machine;
 	public $date;
 	public $titre;
@@ -232,10 +228,73 @@ class Pannes extends CommonObject
 	 */
 	public function create(User $user, $notrigger = false)
 	{
+
+		global $conf;
+
+		// Génération de la référence de la panne
 		$this->ref = $this->getNextNumRef();
+
+		// Changement de l'état de la machine concernée par l'état "en panne"
+		$sql = "UPDATE `".MAIN_DB_PREFIX."gestionnaireparc_machines` SET `etat_actuel` = '1', `stat_nb_pannes` = `stat_nb_pannes`+1
+		WHERE `".MAIN_DB_PREFIX."gestionnaireparc_machines`.`rowid` = $this->fk_machine";
+
+		$resql = $this->db->query($sql);
+
+		if(!$resql)
+		{
+			return false;
+		}
+
 		$resultcreate = $this->createCommon($user, $notrigger);
 
-		//$resultvalidate = $this->validate($user, $notrigger);
+		//Envoi d'un mail de prévenance à l'agent désigné dans la configuration du module
+		if($resultcreate)
+		{
+
+			//Récupération du destinataire du mail
+			$user = new User($this->db);
+			$resprod = $user->fetch($conf->global->contact_prevenance_nouvelle_panne);
+			if ($resprod > 0) {
+				$destinataire = $user->email;
+			}
+
+			//Récupération du template du mail
+			$sql = "SELECT topic, content FROM ".MAIN_DB_PREFIX."c_email_templates WHERE `rowid` = ".$conf->global->template_mail_prevenance_panne." LIMIT 1";
+
+			$resql = $this->db->query($sql);
+			if ($resql)
+			{
+				$template = $this->db->fetch_object($resql);
+				$objet = $template->topic;
+				$message = $template->content;
+			}
+
+			//Récupération de la machine
+			dol_include_once('/gestionnaireparc/class/machines.class.php');
+			$machine = new Machines($this->db);
+			$machine->fetch($this->fk_machine);
+
+			//Récupération de l'agent
+			dol_include_once('../user/class/user.class.php');
+			$user = new User($this->db);
+			$user->fetch($this->agent);
+
+			//Substitution des éléments du mail
+			$substitutionarray = array($objet,$message);
+			$substitutionarray = str_replace("__ID_PANNE__", $resultcreate, $substitutionarray);
+			$substitutionarray = str_replace("__ID_MACHINE__", $machine->label, $substitutionarray);
+			$substitutionarray = str_replace("__AGENT__", $user->lastname, $substitutionarray);
+			$substitutionarray = str_replace("__GRAVITE__", $this->showOutputField($this->fields["gravite"], 'gravite', $this->gravite), $substitutionarray);
+			$substitutionarray = str_replace("__DOL_MAIN_URL_ROOT__", DOL_MAIN_URL_ROOT, $substitutionarray);
+			$objet = $substitutionarray[0];
+			$message = $substitutionarray[1];
+
+			$headers = "MIME-Version: 1.0" . "\r\n";
+			$headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
+			$headers .= 'From: ' . $conf->global->MAIN_MAIL_EMAIL_FROM . "\r\n";
+
+			mail($destinataire,$objet,$message,$headers);
+		}
 
 		return $resultcreate;
 	}
@@ -710,12 +769,36 @@ class Pannes extends CommonObject
 
 		$result = '';
 
-		$label = img_picto('', "object_".$this->picto).' <u>'.$langs->trans("Pannes").'</u>';
-		if (isset($this->status)) {
-			$label .= ' '.$this->getLibStatut(5);
+		//Récupération de l'agent
+		dol_include_once('../user/class/user.class.php');
+		$user = new User($this->db);
+		$user->fetch($this->agent);
+
+		$label = img_picto('', "object_".$this->picto).' <u>'.$this->titre.'</u>';
+
+		switch($this->etat) {
+			case 0:
+			$status = 8;
+			break;
+			case 1:
+			$status = 9;
+			break;
 		}
+
+		$label .= ' '.'<span class="badge  badge-status'.$status.' badge-status">'.$this->showOutputField($this->fields["etat"], $this->rowid, $this->etat).'</span>';
+
 		$label .= '<br>';
-		$label .= '<b>'.$langs->trans('Ref').':</b> '.$this->ref;
+		if($this->gravite == 1)
+		{
+			$label .= '<b>'.$langs->trans('GravitePanne').':</b> <span style="color: red;">'.$this->showOutputField($this->fields["gravite"], $this->rowid, $this->gravite).'</span><br>';
+		}
+		else
+		{
+			$label .= '<b>'.$langs->trans('GravitePanne').':</b> '.$this->showOutputField($this->fields["gravite"], $this->rowid, $this->gravite).'<br>';
+		}
+		$label .= '<b>'.$langs->trans('DatePanne').':</b> '.$this->showOutputField($this->fields["date"], $this->rowid, $this->date).'<br>';
+		$label .= '<b>'.$langs->trans('AgentDetecteur').':</b> '.$user->firstname." ".$user->lastname.'<br>';
+		$label .= '<b>'.$langs->trans('DateIntervention').':</b> '.$this->showOutputField($this->fields["fk_date_intervention"], $this->rowid, $this->fk_date_intervention).'<br>';
 
 		$url = dol_buildpath('/gestionnaireparc/pannes_card.php', 1).'?id='.$this->id;
 

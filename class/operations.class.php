@@ -107,24 +107,20 @@ class Operations extends CommonObject
 		'tms' => array('type'=>'timestamp', 'label'=>'DateModification', 'enabled'=>'1', 'position'=>501, 'notnull'=>0, 'visible'=>-2,),
 		'fk_user_creat' => array('type'=>'integer:User:user/class/user.class.php', 'label'=>'UserAuthor', 'enabled'=>'1', 'position'=>510, 'notnull'=>1, 'visible'=>-2, 'foreignkey'=>'user.rowid',),
 		'fk_user_modif' => array('type'=>'integer:User:user/class/user.class.php', 'label'=>'UserModif', 'enabled'=>'1', 'position'=>511, 'notnull'=>-1, 'visible'=>-2,),
-		'last_main_doc' => array('type'=>'varchar(255)', 'label'=>'LastMainDoc', 'enabled'=>'1', 'position'=>600, 'notnull'=>0, 'visible'=>0,),
-		'import_key' => array('type'=>'varchar(14)', 'label'=>'ImportId', 'enabled'=>'1', 'position'=>1000, 'notnull'=>-1, 'visible'=>-2,),
-		'model_pdf' => array('type'=>'varchar(255)', 'label'=>'Model pdf', 'enabled'=>'1', 'position'=>1010, 'notnull'=>-1, 'visible'=>0,),
 		'nb_real' => array('type'=>'integer', 'label'=>'NombreRealisation', 'enabled'=>'1', 'position'=>100, 'notnull'=>1, 'visible'=>5, 'default'=>'0',),
 		'label' => array('type'=>'varchar(128)', 'label'=>'NomOperation', 'enabled'=>'1', 'position'=>3, 'notnull'=>1, 'visible'=>3, 'showoncombobox'=>'2',),
 		'ref' => array('type'=>'varchar(64)', 'label'=>'Ref', 'enabled'=>'1', 'position'=>2, 'notnull'=>1, 'visible'=>5,),
+		'champ_machine' => array('type'=>'integer', 'label'=>'ChampAssocieMachine', 'enabled'=>'1', 'position'=>4, 'notnull'=>0, 'visible'=>3, 'arrayofkeyval'=>array(1=>'ref_filtre_air',2=>'ref_filtre_carburant',3=>'ref_filtre_huile_moteur',4=>'ref_filtre_huile_hydrau',5=>'ref_lames',6=>'ref_courroie_lame',7=>'ref_courroie_moteur',8=>'ref_plateau_tondeuse')),
 	);
 	public $rowid;
 	public $date_creation;
 	public $tms;
 	public $fk_user_creat;
 	public $fk_user_modif;
-	public $last_main_doc;
-	public $import_key;
-	public $model_pdf;
 	public $nb_real;
 	public $label;
 	public $ref;
+	public $champ_machine;
 	// END MODULEBUILDER PROPERTIES
 
 

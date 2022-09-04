@@ -21,11 +21,9 @@ CREATE TABLE llx_gestionnaireparc_operations(
 	tms timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, 
 	fk_user_creat integer NOT NULL, 
 	fk_user_modif integer, 
-	last_main_doc varchar(255), 
-	import_key varchar(14), 
-	model_pdf varchar(255), 
 	nb_real integer NOT NULL, 
 	label varchar(128) NOT NULL, 
-	ref varchar(64) NOT NULL
+	ref varchar(64) NOT NULL, 
+	champ_machine varchar(32)
 	-- END MODULEBUILDER FIELDS
 ) ENGINE=innodb;

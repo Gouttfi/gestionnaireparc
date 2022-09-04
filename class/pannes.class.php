@@ -108,9 +108,6 @@ class Pannes extends CommonObject
 		'tms' => array('type'=>'timestamp', 'label'=>'DateModification', 'enabled'=>'1', 'position'=>501, 'notnull'=>0, 'visible'=>-2,),
 		'fk_user_creat' => array('type'=>'integer:User:user/class/user.class.php', 'label'=>'UserAuthor', 'enabled'=>'1', 'position'=>510, 'notnull'=>1, 'visible'=>-2, 'foreignkey'=>'user.rowid',),
 		'fk_user_modif' => array('type'=>'integer:User:user/class/user.class.php', 'label'=>'UserModif', 'enabled'=>'1', 'position'=>511, 'notnull'=>-1, 'visible'=>-2,),
-		'last_main_doc' => array('type'=>'varchar(255)', 'label'=>'LastMainDoc', 'enabled'=>'1', 'position'=>600, 'notnull'=>0, 'visible'=>0,),
-		'import_key' => array('type'=>'varchar(14)', 'label'=>'ImportId', 'enabled'=>'1', 'position'=>1000, 'notnull'=>-1, 'visible'=>-2,),
-		'model_pdf' => array('type'=>'varchar(255)', 'label'=>'Model pdf', 'enabled'=>'1', 'position'=>1010, 'notnull'=>-1, 'visible'=>0,),
 		'fk_machine' => array('type'=>'integer:Machines:custom/gestionnaireparc/class/machines.class.php', 'label'=>'Machine', 'enabled'=>'1', 'position'=>2, 'notnull'=>1, 'visible'=>1,),
 		'date' => array('type'=>'date', 'label'=>'DatePanne', 'enabled'=>'1', 'position'=>3, 'notnull'=>1, 'visible'=>1,),
 		'titre' => array('type'=>'varchar(64)', 'label'=>'TitrePanne', 'enabled'=>'1', 'position'=>4, 'notnull'=>1, 'visible'=>3, 'showoncombobox'=>'2',),
@@ -128,9 +125,6 @@ class Pannes extends CommonObject
 	public $tms;
 	public $fk_user_creat;
 	public $fk_user_modif;
-	public $last_main_doc;
-	public $import_key;
-	public $model_pdf;
 	public $fk_machine;
 	public $date;
 	public $titre;
@@ -251,25 +245,53 @@ class Pannes extends CommonObject
 
 		$resultcreate = $this->createCommon($user, $notrigger);
 
-
 		//Envoi d'un mail de prévenance à l'agent désigné dans la configuration du module
 		if($resultcreate)
 		{
 
+			//Récupération du destinataire du mail
 			$user = new User($this->db);
 			$resprod = $user->fetch($conf->global->contact_prevenance_nouvelle_panne);
 			if ($resprod > 0) {
 				$destinataire = $user->email;
-
-				$destinataire;
-				$objet = "Une panne vient d'être déclarée sur l'une des machines du parc";
-				$message =
-				"Bonjour, \r \r Une panne référencée <b>".$this->ref."</b> vient d'être détectée par <b>".$this->showOutputField($this->fields["agent"], 'agent', $this->agent, '')."</b> concernant la machine <b>".$this->showOutputField($this->fields["fk_machine"], 'fk_machine', $this->fk_machine, '')."</b>.";
-				$headers = "MIME-Version: 1.0" . "\r\n";
-				$headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
-
-				mail($destinataire,$objet,$message,$headers);
 			}
+
+			//Récupération du template du mail
+			$sql = "SELECT topic, content FROM ".MAIN_DB_PREFIX."c_email_templates WHERE `rowid` = ".$conf->global->template_mail_prevenance_panne." LIMIT 1";
+
+			$resql = $this->db->query($sql);
+			if ($resql)
+			{
+				$template = $this->db->fetch_object($resql);
+				$objet = $template->topic;
+				$message = $template->content;
+			}
+
+			//Récupération de la machine
+			dol_include_once('/gestionnaireparc/class/machines.class.php');
+			$machine = new Machines($this->db);
+			$machine->fetch($this->fk_machine);
+
+			//Récupération de l'agent
+			dol_include_once('../user/class/user.class.php');
+			$user = new User($this->db);
+			$user->fetch($this->agent);
+
+			//Substitution des éléments du mail
+			$substitutionarray = array($objet,$message);
+			$substitutionarray = str_replace("__ID_PANNE__", $resultcreate, $substitutionarray);
+			$substitutionarray = str_replace("__ID_MACHINE__", $machine->label, $substitutionarray);
+			$substitutionarray = str_replace("__AGENT__", $user->lastname, $substitutionarray);
+			$substitutionarray = str_replace("__GRAVITE__", $this->showOutputField($this->fields["gravite"], 'gravite', $this->gravite), $substitutionarray);
+			$substitutionarray = str_replace("__DOL_MAIN_URL_ROOT__", DOL_MAIN_URL_ROOT, $substitutionarray);
+			$objet = $substitutionarray[0];
+			$message = $substitutionarray[1];
+
+			$headers = "MIME-Version: 1.0" . "\r\n";
+			$headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
+			$headers .= 'From: ' . $conf->global->MAIN_MAIL_EMAIL_FROM . "\r\n";
+
+			mail($destinataire,$objet,$message,$headers);
 		}
 
 		return $resultcreate;
@@ -745,6 +767,11 @@ class Pannes extends CommonObject
 
 		$result = '';
 
+		//Récupération de l'agent
+		dol_include_once('../user/class/user.class.php');
+		$user = new User($this->db);
+		$user->fetch($this->agent);
+
 		$label = img_picto('', "object_".$this->picto).' <u>'.$this->titre.'</u>';
 
 		switch($this->etat) {
@@ -756,19 +783,20 @@ class Pannes extends CommonObject
 			break;
 		}
 
-		$label .= ' '.'<span class="badge  badge-status'.$status.' badge-status">'.$this->showOutputField($this->fields["etat"], $this->rowid, $this->etat, '', '', '', 0).'</span>';
+		$label .= ' '.'<span class="badge  badge-status'.$status.' badge-status">'.$this->showOutputField($this->fields["etat"], $this->rowid, $this->etat).'</span>';
 
 		$label .= '<br>';
 		if($this->gravite == 1)
 		{
-			$label .= '<b>'.$langs->trans('GravitePanne').':</b> <span style="color: red;">'.$this->showOutputField($this->fields["gravite"], $this->rowid, $this->gravite, '', '', '', 0).'</span><br>';
+			$label .= '<b>'.$langs->trans('GravitePanne').':</b> <span style="color: red;">'.$this->showOutputField($this->fields["gravite"], $this->rowid, $this->gravite).'</span><br>';
 		}
 		else
 		{
-			$label .= '<b>'.$langs->trans('GravitePanne').':</b> '.$this->showOutputField($this->fields["gravite"], $this->rowid, $this->gravite, '', '', '', 0).'<br>';
+			$label .= '<b>'.$langs->trans('GravitePanne').':</b> '.$this->showOutputField($this->fields["gravite"], $this->rowid, $this->gravite).'<br>';
 		}
-		$label .= '<b>'.$langs->trans('DatePanne').':</b> '.$this->showOutputField($this->fields["date"], $this->rowid, $this->date, '', '', '', 0).'<br>';
-		$label .= '<b>'.$langs->trans('DateIntervention').':</b> '.$this->showOutputField($this->fields["fk_date_intervention"], $this->rowid, $this->fk_date_intervention, '', '', '', 0).'<br>';
+		$label .= '<b>'.$langs->trans('DatePanne').':</b> '.$this->showOutputField($this->fields["date"], $this->rowid, $this->date).'<br>';
+		$label .= '<b>'.$langs->trans('AgentDetecteur').':</b> '.$user->firstname." ".$user->lastname.'<br>';
+		$label .= '<b>'.$langs->trans('DateIntervention').':</b> '.$this->showOutputField($this->fields["fk_date_intervention"], $this->rowid, $this->fk_date_intervention).'<br>';
 
 		$url = dol_buildpath('/gestionnaireparc/pannes_card.php', 1).'?id='.$this->id;
 

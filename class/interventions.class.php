@@ -109,9 +109,6 @@ class Interventions extends CommonObject
 		'tms' => array('type'=>'timestamp', 'label'=>'DateModification', 'enabled'=>'1', 'position'=>501, 'notnull'=>0, 'visible'=>-2,),
 		'fk_user_creat' => array('type'=>'integer:User:user/class/user.class.php', 'label'=>'UserAuthor', 'enabled'=>'1', 'position'=>510, 'notnull'=>1, 'visible'=>-2, 'foreignkey'=>'user.rowid',),
 		'fk_user_modif' => array('type'=>'integer:User:user/class/user.class.php', 'label'=>'UserModif', 'enabled'=>'1', 'position'=>511, 'notnull'=>-1, 'visible'=>-2,),
-		'last_main_doc' => array('type'=>'varchar(255)', 'label'=>'LastMainDoc', 'enabled'=>'1', 'position'=>600, 'notnull'=>0, 'visible'=>0,),
-		'import_key' => array('type'=>'varchar(14)', 'label'=>'ImportId', 'enabled'=>'1', 'position'=>1000, 'notnull'=>-1, 'visible'=>-2,),
-		'model_pdf' => array('type'=>'varchar(255)', 'label'=>'Model pdf', 'enabled'=>'1', 'position'=>1010, 'notnull'=>-1, 'visible'=>0,),
 		'intervention_type' => array('type'=>'integer', 'label'=>'TypeIntervention', 'enabled'=>'1', 'position'=>3, 'notnull'=>1, 'visible'=>1, 'default'=>'0', 'arrayofkeyval'=>array('0'=>'Maintenance', '1'=>'Dépannage'),),
 		'fk_machine' => array('type'=>'integer:Machines:custom/gestionnaireparc/class/machines.class.php', 'label'=>'Machine', 'enabled'=>'1', 'position'=>6, 'notnull'=>0, 'visible'=>1,),
 		'date_intervention' => array('type'=>'datetime', 'label'=>'DateIntervention', 'enabled'=>'1', 'position'=>7, 'notnull'=>1, 'visible'=>1,),
@@ -151,9 +148,6 @@ class Interventions extends CommonObject
 	public $tms;
 	public $fk_user_creat;
 	public $fk_user_modif;
-	public $last_main_doc;
-	public $import_key;
-	public $model_pdf;
 	public $intervention_type;
 	public $fk_machine;
 	public $date_intervention;
@@ -1181,7 +1175,7 @@ class Interventions extends CommonObject
 			break;
 		}
 
-		$label .= ' '.'<span class="badge  badge-status'.$status.' badge-status">'.$this->showOutputField($this->fields["statut_intervention"], $this->rowid, $this->statut_intervention, '', '', '', 0).'</span>';
+		$label .= ' '.'<span class="badge  badge-status'.$status.' badge-status">'.$this->showOutputField($this->fields["statut_intervention"], 'statut_intervention', $this->statut_intervention).'</span>';
 		$label .= '<br>';
 
 		if($this->intervention_type == 1)
@@ -1199,26 +1193,20 @@ class Interventions extends CommonObject
 
 		$label .= '<b>'.$langs->trans('TypeIntervention').':</b> '.$phrase_type_intervention.'<br>';
 
-		//Récupération de la machine associée
-		/*dol_include_once('/gestionnaireparc/class/machines.class.php');
-		$machines = new Machines($this->db);
-		$machine = $machines->fetchAll('','',0,0,array('rowid'=>$this->fk_machine))[$this->fk_machine];
+		//Récupération de la machine
+		dol_include_once('/gestionnaireparc/class/machines.class.php');
+		$machine = new Machines($this->db);
+		$machine->fetch($this->fk_machine);
 
-		$label .= '<b>'.$langs->trans('Machine').':</b> '.$machine->ref.' - '.$machine->label.'<br>';*/
-		$label .= '<b>'.$langs->trans('DateIntervention').':</b> '.$this->showOutputField($this->fields["date_intervention"], $this->rowid, $this->date_intervention, '', '', '', 0).'<br>';
-
-		/*error_reporting(E_ALL);
-		ini_set("display_errors", 1);*/
+		$label .= '<b>'.$langs->trans('Machine').':</b> '.$machine->ref.' - '.$machine->label.'<br>';
+		$label .= '<b>'.$langs->trans('DateIntervention').':</b> '.$this->showOutputField($this->fields["date_intervention"], 'date_intervention', $this->date_intervention).'<br>';
 
 		//Récupération du nom de l'agent
-		/*$user_concerne = new User($this->db);
-		$user_concerne_fetch = $user_concerne->fetchAll('','',0,0,array('rowid'=>$this->agent_concerne));
+		dol_include_once('../user/class/user.class.php');
+		$user = new User($this->db);
+		$user->fetch($this->agent);
 
-		var_dump($this->agent);
-		var_dump($user_concerne_fetch);
-		//die();*/
-
-		//$label .= '<b>'.$langs->trans('AgentConcerne').':</b> '.$user->lastname.'<br>';
+		$label .= '<b>'.$langs->trans('AgentConcerne').':</b> '.$user->firstname." ".$user->lastname.'<br>';
 
 		$url = dol_buildpath('/gestionnaireparc/interventions_card.php', 1).'?id='.$this->id;
 
