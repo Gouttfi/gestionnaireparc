@@ -195,6 +195,20 @@ FormModifierOperation = Modifier une opération
 
 NomOperation = Nom de l'opération
 NombreRealisation = Nombre de réalisations
+ChampAssocieMachine = Champ lié à la machine
+
+type_huile_moteur = Type d'huile moteur
+type_huile_hydrau = Type d'huile hydraulique
+type_huile_pont = Type d'huile pont
+ref_filtre_air = Référence filtre à air
+ref_filtre_carburant = Référence filtre à carburant
+ref_filtre_huile_moteur = Référence filtre à huile moteur
+ref_filtre_huile_hydrau = Référence filtre à huile hydraulique
+type_bougies = Type bougies
+ref_lames = Référence lame
+ref_courroie_lame = Référence courroie lame
+ref_courroie_moteur = Référence courroie moteur
+ref_plateau_tondeuse = Référence plateau tondeuse
 
 
 #

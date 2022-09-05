@@ -195,7 +195,20 @@ FormModifierOperation = █FormModifierOperation
 
 NomOperation = █NomOperation
 NombreRealisation = █NombreRealisation
+ChampAssocieMachine = █ChampAssocieMachine
 
+type_huile_moteur = █type_huile_moteur
+type_huile_hydrau = █type_huile_hydrau
+type_huile_pont = █type_huile_pont
+ref_filtre_air = █ref_filtre_air
+ref_filtre_carburant = █ref_filtre_carburant
+ref_filtre_huile_moteur = █ref_filtre_huile_moteur
+ref_filtre_huile_hydrau = █ref_filtre_huile_hydrau
+type_bougies = █type_bougies
+ref_lames = █ref_lames
+ref_courroie_lame = █ref_courroie_lame
+ref_courroie_moteur = █ref_courroie_moteur
+ref_plateau_tondeuse = █ref_plateau_tondeuse
 
 #
 # Sample widget

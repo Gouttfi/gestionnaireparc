@@ -24,6 +24,6 @@ CREATE TABLE llx_gestionnaireparc_operations(
 	nb_real integer NOT NULL, 
 	label varchar(128) NOT NULL, 
 	ref varchar(64) NOT NULL, 
-	champ_machine varchar(32)
+	champ_machine integer
 	-- END MODULEBUILDER FIELDS
 ) ENGINE=innodb;

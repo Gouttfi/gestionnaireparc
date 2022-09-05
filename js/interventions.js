@@ -91,9 +91,12 @@ function reloadFields()
     if(op1_value != -1)
     {
         document.querySelector('.field_operation2').classList.remove('hideobject');
-        fk_operation = document.querySelector('#operation1').value;
-        fk_machine = document.querySelector('#fk_machine').value;
-        getReferenceRecommandee('#ref_operation1',fk_operation,fk_machine);
+        if(urlParams.get("action") == "create" || urlParams.get("action") == "edit" || urlParams.get("action") == "edit_avant_realiser")
+        {
+            fk_operation = document.querySelector('#operation1').value;
+            fk_machine = document.querySelector('#fk_machine').value;
+            getReferenceRecommandee('#ref_operation1',fk_operation,fk_machine);
+        }
     }
     else
     {
@@ -103,9 +106,12 @@ function reloadFields()
     if(op2_value != -1)
     {
         document.querySelector('.field_operation3').classList.remove('hideobject');
-        fk_operation = document.querySelector('#operation2').value;
-        fk_machine = document.querySelector('#fk_machine').value;
-        getReferenceRecommandee('#ref_operation2',fk_operation,fk_machine);
+        if(urlParams.get("action") == "create" || urlParams.get("action") == "edit" || urlParams.get("action") == "edit_avant_realiser")
+        {
+            fk_operation = document.querySelector('#operation2').value;
+            fk_machine = document.querySelector('#fk_machine').value;
+            getReferenceRecommandee('#ref_operation2',fk_operation,fk_machine);
+        }
     }
     else
     {
@@ -115,9 +121,12 @@ function reloadFields()
     if(op3_value != -1)
     {
         document.querySelector('.field_operation4').classList.remove('hideobject');
-        fk_operation = document.querySelector('#operation3').value;
-        fk_machine = document.querySelector('#fk_machine').value;
-        getReferenceRecommandee('#ref_operation3',fk_operation,fk_machine);
+        if(urlParams.get("action") == "create" || urlParams.get("action") == "edit" || urlParams.get("action") == "edit_avant_realiser")
+        {
+            fk_operation = document.querySelector('#operation3').value;
+            fk_machine = document.querySelector('#fk_machine').value;
+            getReferenceRecommandee('#ref_operation3',fk_operation,fk_machine);
+        }
     }
     else
     {
@@ -127,9 +136,12 @@ function reloadFields()
     if(op4_value != -1)
     {
         document.querySelector('.field_operation5').classList.remove('hideobject');
-        fk_operation = document.querySelector('#operation4').value;
-        fk_machine = document.querySelector('#fk_machine').value;
-        getReferenceRecommandee('#ref_operation4',fk_operation,fk_machine);
+        if(urlParams.get("action") == "create" || urlParams.get("action") == "edit" || urlParams.get("action") == "edit_avant_realiser")
+        {
+            fk_operation = document.querySelector('#operation4').value;
+            fk_machine = document.querySelector('#fk_machine').value;
+            getReferenceRecommandee('#ref_operation4',fk_operation,fk_machine);
+        }
     }
     else
     {
@@ -139,9 +151,12 @@ function reloadFields()
     if(op5_value != -1)
     {
         document.querySelector('.field_operation6').classList.remove('hideobject');
-        fk_operation = document.querySelector('#operation5').value;
-        fk_machine = document.querySelector('#fk_machine').value;
-        getReferenceRecommandee('#ref_operation5',fk_operation,fk_machine);
+        if(urlParams.get("action") == "create" || urlParams.get("action") == "edit" || urlParams.get("action") == "edit_avant_realiser")
+        {
+            fk_operation = document.querySelector('#operation5').value;
+            fk_machine = document.querySelector('#fk_machine').value;
+            getReferenceRecommandee('#ref_operation5',fk_operation,fk_machine);
+        }
     }
     else
     {
@@ -151,9 +166,12 @@ function reloadFields()
     if(op6_value != -1)
     {
         document.querySelector('.field_operation7').classList.remove('hideobject');
-        fk_operation = document.querySelector('#operation6').value;
-        fk_machine = document.querySelector('#fk_machine').value;
-        getReferenceRecommandee('#ref_operation6',fk_operation,fk_machine);
+        if(urlParams.get("action") == "create" || urlParams.get("action") == "edit" || urlParams.get("action") == "edit_avant_realiser")
+        {
+            fk_operation = document.querySelector('#operation6').value;
+            fk_machine = document.querySelector('#fk_machine').value;
+            getReferenceRecommandee('#ref_operation6',fk_operation,fk_machine);
+        }
     }
     else
     {
@@ -163,9 +181,12 @@ function reloadFields()
     if(op7_value != -1)
     {
         document.querySelector('.field_operation8').classList.remove('hideobject');
-        fk_operation = document.querySelector('#operation7').value;
-        fk_machine = document.querySelector('#fk_machine').value;
-        getReferenceRecommandee('#ref_operation7',fk_operation,fk_machine);
+        if(urlParams.get("action") == "create" || urlParams.get("action") == "edit" || urlParams.get("action") == "edit_avant_realiser")
+        {
+            fk_operation = document.querySelector('#operation7').value;
+            fk_machine = document.querySelector('#fk_machine').value;
+            getReferenceRecommandee('#ref_operation7',fk_operation,fk_machine);
+        }
     }
     else
     {
@@ -175,9 +196,12 @@ function reloadFields()
     if(op8_value != -1)
     {
         document.querySelector('.field_operation9').classList.remove('hideobject');
-        fk_operation = document.querySelector('#operation8').value;
-        fk_machine = document.querySelector('#fk_machine').value;
-        getReferenceRecommandee('#ref_operation8',fk_operation,fk_machine);
+        if(urlParams.get("action") == "create" || urlParams.get("action") == "edit" || urlParams.get("action") == "edit_avant_realiser")
+        {
+            fk_operation = document.querySelector('#operation8').value;
+            fk_machine = document.querySelector('#fk_machine').value;
+            getReferenceRecommandee('#ref_operation8',fk_operation,fk_machine);
+        }
     }
     else
     {
@@ -187,9 +211,12 @@ function reloadFields()
     if(op9_value != -1)
     {
         document.querySelector('.field_operation10').classList.remove('hideobject');
-        fk_operation = document.querySelector('#operation9').value;
-        fk_machine = document.querySelector('#fk_machine').value;
-        getReferenceRecommandee('#ref_operation9',fk_operation,fk_machine);
+        if(urlParams.get("action") == "create" || urlParams.get("action") == "edit" || urlParams.get("action") == "edit_avant_realiser")
+        {
+            fk_operation = document.querySelector('#operation9').value;
+            fk_machine = document.querySelector('#fk_machine').value;
+            getReferenceRecommandee('#ref_operation9',fk_operation,fk_machine);
+        }
     }
     else
     {
@@ -198,9 +225,12 @@ function reloadFields()
 
     if(op10_value != -1)
     {
-        fk_operation = document.querySelector('#operation10').value;
-        fk_machine = document.querySelector('#fk_machine').value;
-        getReferenceRecommandee('#ref_operation10',fk_operation,fk_machine);
+        if(urlParams.get("action") == "create" || urlParams.get("action") == "edit" || urlParams.get("action") == "edit_avant_realiser")
+        {
+            fk_operation = document.querySelector('#operation10').value;
+            fk_machine = document.querySelector('#fk_machine').value;
+            getReferenceRecommandee('#ref_operation10',fk_operation,fk_machine);
+        }
     }
 }
 

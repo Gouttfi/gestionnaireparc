@@ -110,6 +110,7 @@ class Operations extends CommonObject
 		'nb_real' => array('type'=>'integer', 'label'=>'NombreRealisation', 'enabled'=>'1', 'position'=>100, 'notnull'=>1, 'visible'=>5, 'default'=>'0',),
 		'label' => array('type'=>'varchar(128)', 'label'=>'NomOperation', 'enabled'=>'1', 'position'=>3, 'notnull'=>1, 'visible'=>3, 'showoncombobox'=>'2',),
 		'ref' => array('type'=>'varchar(64)', 'label'=>'Ref', 'enabled'=>'1', 'position'=>2, 'notnull'=>1, 'visible'=>5,),
+		'champ_machine' => array('type'=>'integer', 'label'=>'ChampAssocieMachine', 'enabled'=>'1', 'position'=>4, 'notnull'=>0, 'visible'=>3, 'arrayofkeyval'=>array(1=>'ref_filtre_air',2=>'ref_filtre_carburant',3=>'ref_filtre_huile_moteur',4=>'ref_filtre_huile_hydrau',5=>'ref_lames',6=>'ref_courroie_lame',7=>'ref_courroie_moteur',8=>'ref_plateau_tondeuse',9=>'type_huile_moteur',10=>'type_huile_hydrau',11=>'type_huile_pont',12=>'type_bougies')),
 	);
 	public $rowid;
 	public $date_creation;
@@ -119,6 +120,7 @@ class Operations extends CommonObject
 	public $nb_real;
 	public $label;
 	public $ref;
+	public $champ_machine;
 	// END MODULEBUILDER PROPERTIES
 
 
