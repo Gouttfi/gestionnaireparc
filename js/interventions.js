@@ -1,30 +1,18 @@
 const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
+const operations_possibles = 15;
+var op_value = [];
 
 //If reading element
 if(urlParams.get("id") !== null && urlParams.get("action") !== "edit" && urlParams.get("action") !== "edit_avant_realiser")
 {
     type = document.querySelector('td.fieldname_intervention_type:nth-child(2)').innerHTML;
-    op1_value = document.querySelector('td.fieldname_operation1:nth-child(2)').innerHTML;
-    if(op1_value==""){op1_value=-1};
-    op2_value = document.querySelector('td.fieldname_operation2:nth-child(2)').innerHTML;
-    if(op2_value==""){op1_value=-1};
-    op3_value = document.querySelector('td.fieldname_operation3:nth-child(2)').innerHTML;
-    if(op3_value==""){op2_value=-1};
-    op4_value = document.querySelector('td.fieldname_operation4:nth-child(2)').innerHTML;
-    if(op4_value==""){op3_value=-1};
-    op5_value = document.querySelector('td.fieldname_operation5:nth-child(2)').innerHTML;
-    if(op5_value==""){op4_value=-1};
-    op6_value = document.querySelector('td.fieldname_operation6:nth-child(2)').innerHTML;
-    if(op6_value==""){op5_value=-1};
-    op7_value = document.querySelector('td.fieldname_operation7:nth-child(2)').innerHTML;
-    if(op7_value==""){op6_value=-1};
-    op8_value = document.querySelector('td.fieldname_operation8:nth-child(2)').innerHTML;
-    if(op8_value==""){op7_value=-1};
-    op9_value = document.querySelector('td.fieldname_operation9:nth-child(2)').innerHTML;
-    if(op9_value==""){op8_value=-1};
-    op10_value = document.querySelector('td.fieldname_operation10:nth-child(2)').innerHTML;
-    if(op10_value==""){op9_value=-1};
+
+    for(i = 1; i<=operations_possibles ; i++)
+    {
+        op_value[i] = document.querySelector('td.fieldname_operation'+i+':nth-child(2)').innerHTML;
+        if(op_value[i]==""){op_value[i-1]=-1};
+    }
 }
 reloadFields();
 
@@ -52,16 +40,10 @@ function reloadFields()
     if(urlParams.get("action") == "create" || urlParams.get("action") == "edit" || urlParams.get("action") == "edit_avant_realiser")
     {
         type = document.querySelector('#intervention_type').value;
-        op1_value = document.querySelector('#operation1').value;
-        op2_value = document.querySelector('#operation2').value;
-        op3_value = document.querySelector('#operation3').value;
-        op4_value = document.querySelector('#operation4').value;
-        op5_value = document.querySelector('#operation5').value;
-        op6_value = document.querySelector('#operation6').value;
-        op7_value = document.querySelector('#operation7').value;
-        op8_value = document.querySelector('#operation8').value;
-        op9_value = document.querySelector('#operation9').value;
-        op10_value = document.querySelector('#operation10').value;
+        for(i = 1; i<=operations_possibles ; i++)
+        {
+            op_value[i] = document.querySelector('#operation'+i).value;
+        }
     }
 
     if(type == 0 || type == "Maintenance" && urlParams.get("action") != "edit_avant_realiser")
@@ -88,148 +70,27 @@ function reloadFields()
 
 
     //Affichage des opérations remplies
-    if(op1_value != -1)
+    for(i = 1; i<=operations_possibles ; i++)
     {
-        document.querySelector('.field_operation2').classList.remove('hideobject');
-        if(urlParams.get("action") == "create" || urlParams.get("action") == "edit" || urlParams.get("action") == "edit_avant_realiser")
+        if(op_value[i] != -1)
         {
-            fk_operation = document.querySelector('#operation1').value;
-            fk_machine = document.querySelector('#fk_machine').value;
-            getReferenceRecommandee('#ref_operation1',fk_operation,fk_machine);
+            if(i != operations_possibles)
+            {
+                document.querySelector('.field_operation'+(i+1)).classList.remove('hideobject');
+            }
+            if(urlParams.get("action") == "create" || urlParams.get("action") == "edit" || urlParams.get("action") == "edit_avant_realiser")
+            {
+                fk_operation = document.querySelector('#operation'+i).value;
+                fk_machine = document.querySelector('#fk_machine').value;
+                getReferenceRecommandee('#ref_operation'+i,fk_operation,fk_machine);
+            }
         }
-    }
-    else
-    {
-        document.querySelector('.field_operation2').classList.add('hideobject');
-    }
-
-    if(op2_value != -1)
-    {
-        document.querySelector('.field_operation3').classList.remove('hideobject');
-        if(urlParams.get("action") == "create" || urlParams.get("action") == "edit" || urlParams.get("action") == "edit_avant_realiser")
+        else
         {
-            fk_operation = document.querySelector('#operation2').value;
-            fk_machine = document.querySelector('#fk_machine').value;
-            getReferenceRecommandee('#ref_operation2',fk_operation,fk_machine);
-        }
-    }
-    else
-    {
-        document.querySelector('.field_operation3').classList.add('hideobject');
-    }
-
-    if(op3_value != -1)
-    {
-        document.querySelector('.field_operation4').classList.remove('hideobject');
-        if(urlParams.get("action") == "create" || urlParams.get("action") == "edit" || urlParams.get("action") == "edit_avant_realiser")
-        {
-            fk_operation = document.querySelector('#operation3').value;
-            fk_machine = document.querySelector('#fk_machine').value;
-            getReferenceRecommandee('#ref_operation3',fk_operation,fk_machine);
-        }
-    }
-    else
-    {
-        document.querySelector('.field_operation4').classList.add('hideobject');
-    }
-
-    if(op4_value != -1)
-    {
-        document.querySelector('.field_operation5').classList.remove('hideobject');
-        if(urlParams.get("action") == "create" || urlParams.get("action") == "edit" || urlParams.get("action") == "edit_avant_realiser")
-        {
-            fk_operation = document.querySelector('#operation4').value;
-            fk_machine = document.querySelector('#fk_machine').value;
-            getReferenceRecommandee('#ref_operation4',fk_operation,fk_machine);
-        }
-    }
-    else
-    {
-        document.querySelector('.field_operation5').classList.add('hideobject');
-    }
-
-    if(op5_value != -1)
-    {
-        document.querySelector('.field_operation6').classList.remove('hideobject');
-        if(urlParams.get("action") == "create" || urlParams.get("action") == "edit" || urlParams.get("action") == "edit_avant_realiser")
-        {
-            fk_operation = document.querySelector('#operation5').value;
-            fk_machine = document.querySelector('#fk_machine').value;
-            getReferenceRecommandee('#ref_operation5',fk_operation,fk_machine);
-        }
-    }
-    else
-    {
-        document.querySelector('.field_operation6').classList.add('hideobject');
-    }
-
-    if(op6_value != -1)
-    {
-        document.querySelector('.field_operation7').classList.remove('hideobject');
-        if(urlParams.get("action") == "create" || urlParams.get("action") == "edit" || urlParams.get("action") == "edit_avant_realiser")
-        {
-            fk_operation = document.querySelector('#operation6').value;
-            fk_machine = document.querySelector('#fk_machine').value;
-            getReferenceRecommandee('#ref_operation6',fk_operation,fk_machine);
-        }
-    }
-    else
-    {
-        document.querySelector('.field_operation7').classList.add('hideobject');
-    }
-
-    if(op7_value != -1)
-    {
-        document.querySelector('.field_operation8').classList.remove('hideobject');
-        if(urlParams.get("action") == "create" || urlParams.get("action") == "edit" || urlParams.get("action") == "edit_avant_realiser")
-        {
-            fk_operation = document.querySelector('#operation7').value;
-            fk_machine = document.querySelector('#fk_machine').value;
-            getReferenceRecommandee('#ref_operation7',fk_operation,fk_machine);
-        }
-    }
-    else
-    {
-        document.querySelector('.field_operation8').classList.add('hideobject');
-    }
-
-    if(op8_value != -1)
-    {
-        document.querySelector('.field_operation9').classList.remove('hideobject');
-        if(urlParams.get("action") == "create" || urlParams.get("action") == "edit" || urlParams.get("action") == "edit_avant_realiser")
-        {
-            fk_operation = document.querySelector('#operation8').value;
-            fk_machine = document.querySelector('#fk_machine').value;
-            getReferenceRecommandee('#ref_operation8',fk_operation,fk_machine);
-        }
-    }
-    else
-    {
-        document.querySelector('.field_operation9').classList.add('hideobject');
-    }
-
-    if(op9_value != -1)
-    {
-        document.querySelector('.field_operation10').classList.remove('hideobject');
-        if(urlParams.get("action") == "create" || urlParams.get("action") == "edit" || urlParams.get("action") == "edit_avant_realiser")
-        {
-            fk_operation = document.querySelector('#operation9').value;
-            fk_machine = document.querySelector('#fk_machine').value;
-            getReferenceRecommandee('#ref_operation9',fk_operation,fk_machine);
-        }
-    }
-    else
-    {
-        document.querySelector('.field_operation10').classList.add('hideobject');
-    }
-
-    if(op10_value != -1)
-    {
-        if(urlParams.get("action") == "create" || urlParams.get("action") == "edit" || urlParams.get("action") == "edit_avant_realiser")
-        {
-            fk_operation = document.querySelector('#operation10').value;
-            fk_machine = document.querySelector('#fk_machine').value;
-            getReferenceRecommandee('#ref_operation10',fk_operation,fk_machine);
+            if(i != operations_possibles)
+            {
+                document.querySelector('.field_operation'+(i+1)).classList.add('hideobject');
+            }
         }
     }
 }

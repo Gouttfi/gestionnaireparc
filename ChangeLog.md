@@ -1,5 +1,9 @@
 # CHANGELOG GESTIONNAIREPARC FOR [DOLIBARR ERP CRM](https://www.dolibarr.org)
 
+## 1.0.4
+
+- Passage de 10 à 15 opérations sélectionnables pour les interventions
+
 ## 1.0.3
 
 - Corrections mineures de bugs supplémentaires
