@@ -16,14 +16,14 @@
 
 CREATE TABLE llx_gestionnaireparc_operations(
 	-- BEGIN MODULEBUILDER FIELDS
-	rowid integer AUTO_INCREMENT PRIMARY KEY NOT NULL, 
-	date_creation datetime NOT NULL, 
-	tms timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, 
-	fk_user_creat integer NOT NULL, 
-	fk_user_modif integer, 
-	nb_real integer NOT NULL, 
-	label varchar(128) NOT NULL, 
-	ref varchar(64) NOT NULL, 
-	champ_machine integer
+	rowid integer AUTO_INCREMENT PRIMARY KEY NOT NULL,
+	date_creation datetime NOT NULL,
+	tms timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	fk_user_creat integer NOT NULL,
+	fk_user_modif integer,
+	nb_real integer NOT NULL,
+	label varchar(128) NOT NULL,
+	ref varchar(64) NOT NULL,
+	champ_machine varchar(64)
 	-- END MODULEBUILDER FIELDS
 ) ENGINE=innodb;

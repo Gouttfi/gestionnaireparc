@@ -1,5 +1,9 @@
 # CHANGELOG GESTIONNAIREPARC FOR [DOLIBARR ERP CRM](https://www.dolibarr.org)
 
+## 1.0.3
+
+- Corrections mineures de bugs supplémentaires
+
 ## 1.0.2
 
 - Corrections mineures de problèmes d'affichage et de traduction manquante

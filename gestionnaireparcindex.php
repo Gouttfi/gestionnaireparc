@@ -271,10 +271,6 @@ if (! empty($conf->gestionnaireparc->enabled) && $user->rights->gestionnaireparc
 
 print '</div><div class="fichetwothirdright">';
 
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
 // Classement des agents déclarant le plus de pannes
 if (! empty($conf->gestionnaireparc->enabled) && $user->rights->gestionnaireparc->statistiques->read)
 {

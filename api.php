@@ -57,12 +57,11 @@ if($action == 'getReferenceRecommandee')
     dol_include_once('/gestionnaireparc/class/operations.class.php');
     $operation = new Operations($db);
     $operation->fetch($fk_operation);
-    $champ_associe = $operation->showOutputField($operation->fields["champ_machine"], 'champ_machine', $operation->champ_machine);
 
     //Récupération de la machine
     dol_include_once('/gestionnaireparc/class/machines.class.php');
     $machine = new Machines($db);
     $machine->fetch($fk_machine);
 
-    echo $machine->{$champ_associe};
+    echo $machine->{$operation->champ_machine};
 }
